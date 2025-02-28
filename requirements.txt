@@ -1,0 +1,18 @@
+# Web scraping
+scrapy
+requests
+beautifulsoup4
+pyppeteer
+aiohttp
+
+# Machine Learning / NLP para detección semántica
+sentence-transformers
+torch
+transformers
+
+# Manejo de datos
+pandas
+scikit-learn
+
+# Utilidades
+tqdm

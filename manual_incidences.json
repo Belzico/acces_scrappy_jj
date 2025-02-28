@@ -1,0 +1,1208 @@
+[
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://www.facebook.com/tr?id=932713844622440&ev=PageView&noscript=1'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla pueden anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T00:07:31.434832"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/alpha-legion-alpharius-primarch-of-the-xxth-legion\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/06/photo/FAlphaLegion1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T00:07:31.434832"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/tmnt-captain-zorax-adjutant-zork-triceraton-infantryman?VariantsId=10400\">\n<img alt=\"\" class=\"\" src=\"https://img.joytoy.com/u_file/2502/20/photo/FCaptainZorax1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T00:07:31.434832"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/stormcast-eternalsthe-blacktalons\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/16/photo/FStormcastEternalsTheBlacktalons.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T00:07:31.434832"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/shadow-jaeger-squad\">\n<img alt=\"\" class=\"\" src=\"https://img.joytoy.com/u_file/2501/09/photo/FShadowJaegersquad1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T00:07:31.434832"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://img.joytoy.com/u_file/2502/20/photo/FTMNT-CaseyJones.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_890'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla pueden anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T00:07:31.434832"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c01.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T00:07:31.434832"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c02.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T00:07:31.434832"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c03.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T00:07:31.434832"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c04.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T00:07:31.434832"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://www.facebook.com/tr?id=932713844622440&ev=PageView&noscript=1'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla pueden anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T01:01:01.452716"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/alpha-legion-alpharius-primarch-of-the-xxth-legion\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/06/photo/FAlphaLegion1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:01:01.452716"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/tmnt-captain-zorax-adjutant-zork-triceraton-infantryman?VariantsId=10400\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/20/photo/FCaptainZorax1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:01:01.452716"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/stormcast-eternalsthe-blacktalons\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/16/photo/FStormcastEternalsTheBlacktalons.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:01:01.452716"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/shadow-jaeger-squad\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/09/photo/FShadowJaegersquad1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:01:01.452716"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://img.joytoy.com/u_file/2502/20/photo/FTMNT-CaseyJones.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_890'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla pueden anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T01:01:01.452716"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c01.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:01:01.452716"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c02.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:01:01.452716"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c03.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:01:01.452716"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c04.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:01:01.452716"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://www.facebook.com/tr?id=932713844622440&ev=PageView&noscript=1'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla pueden anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T01:07:38.758843"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/alpha-legion-alpharius-primarch-of-the-xxth-legion\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/06/photo/FAlphaLegion1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:07:38.758843"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/tmnt-captain-zorax-adjutant-zork-triceraton-infantryman?VariantsId=10400\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/20/photo/FCaptainZorax1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:07:38.758843"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/stormcast-eternalsthe-blacktalons\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/16/photo/FStormcastEternalsTheBlacktalons.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:07:38.758843"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/shadow-jaeger-squad\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/09/photo/FShadowJaegersquad1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:07:38.758843"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://img.joytoy.com/u_file/2502/20/photo/FTMNT-CaseyJones.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_890'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla pueden anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T01:07:38.758843"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c01.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:07:38.758843"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c02.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:07:38.758843"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c03.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:07:38.758843"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c04.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:07:38.758843"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://www.facebook.com/tr?id=932713844622440&ev=PageView&noscript=1'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla pueden anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T01:11:33.614326"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/alpha-legion-alpharius-primarch-of-the-xxth-legion\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/06/photo/FAlphaLegion1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:11:33.614326"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/tmnt-captain-zorax-adjutant-zork-triceraton-infantryman?VariantsId=10400\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/20/photo/FCaptainZorax1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:11:33.614326"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/stormcast-eternalsthe-blacktalons\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/16/photo/FStormcastEternalsTheBlacktalons.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:11:33.614326"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/shadow-jaeger-squad\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/09/photo/FShadowJaegersquad1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:11:33.614326"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://img.joytoy.com/u_file/2502/20/photo/FTMNT-CaseyJones.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_890'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla pueden anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T01:11:33.614326"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c01.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:11:33.614326"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c02.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:11:33.614326"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c03.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:11:33.614326"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c04.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:11:33.614326"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://www.facebook.com/tr?id=932713844622440&ev=PageView&noscript=1'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla pueden anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T01:15:47.205044"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/alpha-legion-alpharius-primarch-of-the-xxth-legion\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/06/photo/FAlphaLegion1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:15:47.205044"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/tmnt-captain-zorax-adjutant-zork-triceraton-infantryman?VariantsId=10400\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/20/photo/FCaptainZorax1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:15:47.205044"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/stormcast-eternalsthe-blacktalons\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/16/photo/FStormcastEternalsTheBlacktalons.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:15:47.205044"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/shadow-jaeger-squad\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/09/photo/FShadowJaegersquad1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:15:47.205044"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://img.joytoy.com/u_file/2502/20/photo/FTMNT-CaseyJones.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_890'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla pueden anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T01:15:47.205044"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c01.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:15:47.205044"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c02.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:15:47.205044"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c03.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:15:47.205044"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c04.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:15:47.205044"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "C:\\Users\\namic\\OneDrive\\Documentos\\GitHub\\acces_scrappy_jj\\html_samples\\error_link_with_img_no_text_case1.html",
+        "element": "<a href=\"https://example.com\">\n<img alt=\"\" src=\"icono.png\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:19:20.648115"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "C:\\Users\\namic\\OneDrive\\Documentos\\GitHub\\acces_scrappy_jj\\html_samples\\error_missing_alt_case1.html",
+        "element": "<img src='imagen_sin_alt.jpg'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla pueden anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T01:19:20.648115"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://www.facebook.com/tr?id=932713844622440&ev=PageView&noscript=1'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla pueden anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T01:42:09.951182"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/alpha-legion-alpharius-primarch-of-the-xxth-legion\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/06/photo/FAlphaLegion1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:42:09.951182"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/tmnt-captain-zorax-adjutant-zork-triceraton-infantryman?VariantsId=10400\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/20/photo/FCaptainZorax1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:42:09.951182"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/stormcast-eternalsthe-blacktalons\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/16/photo/FStormcastEternalsTheBlacktalons.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:42:09.951182"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/shadow-jaeger-squad\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/09/photo/FShadowJaegersquad1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:42:09.951182"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://img.joytoy.com/u_file/2502/20/photo/FTMNT-CaseyJones.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_890'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla pueden anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T01:42:09.951182"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c01.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:42:09.951182"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c02.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:42:09.951182"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c03.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:42:09.951182"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c04.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T01:42:09.951182"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://www.facebook.com/tr?id=932713844622440&ev=PageView&noscript=1'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T02:48:31.286095"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/alpha-legion-alpharius-primarch-of-the-xxth-legion\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/06/photo/FAlphaLegion1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:48:31.286095"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/tmnt-captain-zorax-adjutant-zork-triceraton-infantryman?VariantsId=10400\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/20/photo/FCaptainZorax1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:48:31.286095"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/stormcast-eternalsthe-blacktalons\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/16/photo/FStormcastEternalsTheBlacktalons.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:48:31.286095"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/shadow-jaeger-squad\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/09/photo/FShadowJaegersquad1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:48:31.286095"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://img.joytoy.com/u_file/2502/20/photo/FTMNT-CaseyJones.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_890'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T02:48:31.286095"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c01.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:48:31.286095"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c02.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:48:31.286095"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c03.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:48:31.286095"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c04.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:48:31.286095"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://www.facebook.com/tr?id=932713844622440&ev=PageView&noscript=1'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T02:59:10.227396"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/alpha-legion-alpharius-primarch-of-the-xxth-legion\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/06/photo/FAlphaLegion1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:59:10.227396"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/tmnt-captain-zorax-adjutant-zork-triceraton-infantryman?VariantsId=10400\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/20/photo/FCaptainZorax1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:59:10.227396"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/stormcast-eternalsthe-blacktalons\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/16/photo/FStormcastEternalsTheBlacktalons.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:59:10.227396"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/shadow-jaeger-squad\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/09/photo/FShadowJaegersquad1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:59:10.227396"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src=''>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T02:59:10.227396"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c01.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:59:10.227396"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c02.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:59:10.227396"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c03.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:59:10.227396"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c04.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T02:59:10.227396"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://www.facebook.com/tr?id=932713844622440&ev=PageView&noscript=1'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T03:08:44.244803"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/alpha-legion-alpharius-primarch-of-the-xxth-legion\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/06/photo/FAlphaLegion1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:08:44.244803"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/tmnt-captain-zorax-adjutant-zork-triceraton-infantryman?VariantsId=10400\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/20/photo/FCaptainZorax1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:08:44.244803"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/stormcast-eternalsthe-blacktalons\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/16/photo/FStormcastEternalsTheBlacktalons.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:08:44.244803"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/shadow-jaeger-squad\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/09/photo/FShadowJaegersquad1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:08:44.244803"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://img.joytoy.com/u_file/2502/20/photo/FTMNT-CaseyJones.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_890'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T03:08:44.244803"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c01.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:08:44.244803"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c02.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:08:44.244803"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c03.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:08:44.244803"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c04.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:08:44.244803"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://www.facebook.com/tr?id=932713844622440&ev=PageView&noscript=1'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T03:14:23.779389"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/alpha-legion-alpharius-primarch-of-the-xxth-legion\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/06/photo/FAlphaLegion1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:14:23.779389"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/tmnt-captain-zorax-adjutant-zork-triceraton-infantryman?VariantsId=10400\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/20/photo/FCaptainZorax1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:14:23.779389"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/stormcast-eternalsthe-blacktalons\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/16/photo/FStormcastEternalsTheBlacktalons.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:14:23.779389"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/shadow-jaeger-squad\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/09/photo/FShadowJaegersquad1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:14:23.779389"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://img.joytoy.com/u_file/2502/20/photo/FTMNT-CaseyJones.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_890'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T03:14:23.779389"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c01.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:14:23.779389"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c02.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:14:23.779389"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c03.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:14:23.779389"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c04.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:14:23.779389"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "C:\\Users\\namic\\OneDrive\\Documentos\\GitHub\\acces_scrappy_jj\\html_samples\\error_link_with_img_no_text_case1.html",
+        "element": "<a href=\"https://example.com\">\n<img alt=\"\" src=\"icono.png\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:16:00.858532"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "C:\\Users\\namic\\OneDrive\\Documentos\\GitHub\\acces_scrappy_jj\\html_samples\\error_missing_alt_case1.html",
+        "element": "<img src='imagen_sin_alt.jpg'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T03:16:00.858532"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://www.facebook.com/tr?id=932713844622440&ev=PageView&noscript=1'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T03:22:24.826735"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/alpha-legion-alpharius-primarch-of-the-xxth-legion\">\n<img alt=\"\" class=\"\" src=\"https://img.joytoy.com/u_file/2502/06/photo/FAlphaLegion1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:22:24.826735"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/tmnt-captain-zorax-adjutant-zork-triceraton-infantryman?VariantsId=10400\">\n<img alt=\"\" class=\"\" src=\"https://img.joytoy.com/u_file/2502/20/photo/FCaptainZorax1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:22:24.826735"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/stormcast-eternalsthe-blacktalons\">\n<img alt=\"\" class=\"\" src=\"https://img.joytoy.com/u_file/2501/16/photo/FStormcastEternalsTheBlacktalons.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:22:24.826735"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/shadow-jaeger-squad\">\n<img alt=\"\" class=\"\" src=\"https://img.joytoy.com/u_file/2501/09/photo/FShadowJaegersquad1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:22:24.826735"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://img.joytoy.com/u_file/2502/20/photo/FTMNT-CaseyJones.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_890'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T03:22:24.826735"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c01.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:22:24.826735"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c02.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:22:24.826735"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c03.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:22:24.826735"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c04.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:22:24.826735"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://www.facebook.com/tr?id=932713844622440&ev=PageView&noscript=1'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T03:24:32.152073"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/alpha-legion-alpharius-primarch-of-the-xxth-legion\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/06/photo/FAlphaLegion1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:24:32.152073"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/tmnt-captain-zorax-adjutant-zork-triceraton-infantryman?VariantsId=10400\">\n<img alt=\"\" class=\"\" src=\"https://img.joytoy.com/u_file/2502/20/photo/FCaptainZorax1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:24:32.152073"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/stormcast-eternalsthe-blacktalons\">\n<img alt=\"\" class=\"\" src=\"https://img.joytoy.com/u_file/2501/16/photo/FStormcastEternalsTheBlacktalons.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:24:32.152073"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/shadow-jaeger-squad\">\n<img alt=\"\" class=\"\" src=\"https://img.joytoy.com/u_file/2501/09/photo/FShadowJaegersquad1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:24:32.152073"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://img.joytoy.com/u_file/2502/20/photo/FTMNT-CaseyJones.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_890'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T03:24:32.152073"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c01.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:24:32.152073"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c02.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:24:32.152073"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c03.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:24:32.152073"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c04.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:24:32.152073"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://www.facebook.com/tr?id=932713844622440&ev=PageView&noscript=1'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T03:26:32.619041"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/alpha-legion-alpharius-primarch-of-the-xxth-legion\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/06/photo/FAlphaLegion1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:26:32.619041"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/tmnt-captain-zorax-adjutant-zork-triceraton-infantryman?VariantsId=10400\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2502/20/photo/FCaptainZorax1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:26:32.619041"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/stormcast-eternalsthe-blacktalons\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/16/photo/FStormcastEternalsTheBlacktalons.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:26:32.619041"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"https://www.joytoy.com/products/shadow-jaeger-squad\">\n<img alt=\"\" class=\"img_loading\" src=\"https://img.joytoy.com/u_file/2501/09/photo/FShadowJaegersquad1.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_1920\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;width:100%;height:100%;object-fit:cover;object-position:center center\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:26:32.619041"
+    },
+    {
+        "title": "Imagen sin atributo alt",
+        "page": "https://www.joytoy.com",
+        "element": "<img src='https://img.joytoy.com/u_file/2502/20/photo/FTMNT-CaseyJones.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_890'>",
+        "description": "Esta imagen no tiene atributo alt. Se desconoce si es decorativa o informativa. Los lectores de pantalla podrían anunciar el nombre de archivo.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar alt apropiado. Si es decorativa, usar alt='' y aria-hidden='true'. Si es informativa, describir su contenido en alt.",
+        "detected_at": "2025-02-28T03:26:32.619041"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c01.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:26:32.619041"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c02.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:26:32.619041"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c03.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:26:32.619041"
+    },
+    {
+        "title": "Enlace/Botón sin texto accesible",
+        "page": "https://www.joytoy.com",
+        "element": "<a href=\"javascript:;\">\n<img alt=\"\" class=\"lazyload img_loading\" data-srcset=\"https://img.joytoy.com/u_file/2307/05/photo/c04.jpg?x-oss-process=image/format,webp/resize,m_lfit,h_0,w_690\" style=\"top:0;left:0;right:0;bottom:0;margin:auto;\"/>\n</a>",
+        "description": "La imagen tiene alt='', indicando que es decorativa, pero es el único contenido de un enlace/botón sin texto ni aria-label. El usuario de lector de pantalla no sabrá la función del enlace.",
+        "wcag": "1.1.1",
+        "suggested_fix": "Agregar un texto accesible. Ej: aria-label='Ir a inicio' o un texto dentro del enlace.",
+        "detected_at": "2025-02-28T03:26:32.619041"
+    }
+]
