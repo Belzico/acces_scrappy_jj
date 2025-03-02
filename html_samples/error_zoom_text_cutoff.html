@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Zoom al 200%</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        .container {
+            width: 80%;
+            height: 100px; /* ❌ Error: altura fija */
+            overflow: hidden; /* ❌ Puede ocultar texto */
+            background: lightgray;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Prueba de Zoom al 200%</h1>
+    <p>Haz zoom al 200% y observa si el texto es accesible.</p>
+
+    <div class="container">
+        <p>Este es un texto largo que puede cortarse si el contenedor no se ajusta correctamente.</p>
+    </div>
+
+</body>
+</html>

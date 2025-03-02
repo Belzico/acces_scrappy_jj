@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prueba de Truncado de Texto a 200% Zoom</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      width: 80%;
+      margin: auto;
+    }
+
+    /* Forzamos truncado con CSS */
+    .truncate {
+      display: inline-block;
+      white-space: nowrap;       /* ❌ Propiedad típica de truncado */
+      text-overflow: ellipsis;  /* ❌ Oculta texto con '...' */
+      overflow: hidden;         /* ❌ Oculta el contenido sobrante */
+      width: 250px;
+      border: 1px solid black;
+      padding: 5px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Prueba de Texto Truncado a 200% Zoom</h1>
+    <p>Este contenido se debe visualizar correctamente al 200% de zoom.</p>
+
+    <!-- Div que usa la clase truncate -->
+    <div class="truncate">
+      Este texto es demasiado largo y se truncará con puntos suspensivos si el contenedor no se expande correctamente al hacer zoom.
+    </div>
+
+    <!-- Otro ejemplo con inline style que fuerza truncado -->
+    <div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden; width: 300px; border: 1px solid red; padding: 5px;">
+      Texto inline-style con truncado: se mostrará con '...' al hacer zoom si no se expande.
+    </div>
+  </div>
+
+</body>
+</html>
