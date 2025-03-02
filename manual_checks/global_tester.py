@@ -13,6 +13,7 @@ from manual_checks.check_images_of_text import check_images_of_text
 from manual_checks.check_overlay_timeout import check_overlay_timeout
 from manual_checks.check_toast_errors import check_toast_errors
 from manual_checks.check_session_timeout import check_session_timeout
+from manual_checks.check_reflow_320px import check_reflow_320px
 # ... otros testers
 
 # Lista de testers manuales disponibles
@@ -25,6 +26,7 @@ TESTERS = [
      check_overlay_timeout,
      check_toast_errors,
      check_session_timeout,
+     check_reflow_320px,
     # ...
 ]
 
