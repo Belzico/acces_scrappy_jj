@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Botón Expandible</title>
+</head>
+<body>
+
+    <!-- ❌ ERROR: Falta aria-expanded -->
+    <button>Ver más</button>
+
+    <!-- ❌ ERROR: Falta aria-expanded -->
+    <div role="button">Mostrar información</div>
+
+    <!-- ❌ ERROR: aria-expanded incorrecto -->
+    <span role="button" aria-expanded="">Opciones</span>
+
+    <!-- ✅ CORRECTO -->
+    <button aria-expanded="false">Menú principal</button>
+
+    <!-- ✅ CORRECTO -->
+    <div role="button" aria-expanded="true">Ubicación</div>
+
+</body>
+</html>
