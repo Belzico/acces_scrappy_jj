@@ -6,13 +6,25 @@ from datetime import datetime
 
 # Importa cada tester manual
 from manual_checks.check_alt_distinction import check_alt_distinction
-# from manual_checks.check_images_decorative import check_images_decorative
+from manual_checks.check_images_decorative import check_images_decorative
+from manual_checks.check_icons_informative import check_icons_informative
+from manual_checks.check_inaccurate_image_text import check_informative_images
+from manual_checks.check_images_of_text import check_images_of_text
+from manual_checks.check_overlay_timeout import check_overlay_timeout
+from manual_checks.check_toast_errors import check_toast_errors
+from manual_checks.check_session_timeout import check_session_timeout
 # ... otros testers
 
 # Lista de testers manuales disponibles
 TESTERS = [
     check_alt_distinction,
-    # check_images_decorative,
+     check_images_decorative,
+     check_icons_informative,
+     check_informative_images,
+     check_images_of_text,
+     check_overlay_timeout,
+     check_toast_errors,
+     check_session_timeout,
     # ...
 ]
 

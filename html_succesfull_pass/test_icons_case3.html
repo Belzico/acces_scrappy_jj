@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test de Iconos Informativos</title>
+    <style>
+        .sr-only { 
+            position: absolute; 
+            width: 1px; 
+            height: 1px; 
+            padding: 0; 
+            margin: -1px; 
+            overflow: hidden; 
+            clip: rect(0, 0, 0, 0); 
+            border: 0; 
+        }
+    </style>
+</head>
+<body>
+
+    <h3>Aug 11-15 Chef Shamy Butter</h3>
+    <span class="icon green-icon"></span>  <!-- ❌ Error: No accesible -->
+    <p class="sr-only">Active</p>  <!-- ✅ Correcto: Texto oculto para screen readers -->
+
+    <h3>Sep 1-5 Chef Shamy Butter</h3>
+    <span class="icon grey-icon"></span>  <!-- ❌ Error: No accesible -->
+
+    <img src="error.png">  <!-- ❌ Error: No tiene alt -->
+
+    <svg width="50" height="50">
+        <circle cx="25" cy="25" r="20" fill="green"></circle>
+    </svg>  <!-- ❌ Error: No tiene title o aria-labelledby -->
+
+</body>
+</html>

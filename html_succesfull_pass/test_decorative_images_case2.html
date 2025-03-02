@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Imágenes Decorativas</title>
+</head>
+<body>
+    <h1>Prueba de Imágenes Decorativas</h1>
+
+    <p>Esta es una imagen correctamente marcada como decorativa:</p>
+    <img src="decorative-image.jpg" alt="">
+
+    <p>Esta imagen no tiene atributo alt (debería ser detectada como un error):</p>
+    <img src="missing-alt.jpg">
+
+    <p>Esta imagen tiene un alt incorrecto (debería ser detectada como un error):</p>
+    <img src="incorrect-alt.jpg" alt="Una imagen decorativa con alt incorrecto">
+
+    <p>Imagen con alt correcto, no debe generar incidencia:</p>
+    <img src="descriptive-image.jpg" alt="Un perro corriendo en el parque">
+
+</body>
+</html>

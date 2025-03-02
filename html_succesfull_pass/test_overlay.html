@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overlay Timeout Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Test de Overlay con Timeout</h1>
+    <p>Haz clic en cualquier botón y observa si el overlay desaparece demasiado rápido.</p>
+
+    <button class="button" onclick="showOverlay('overlay1')">Abrir Overlay 1</button>
+    <button class="button" onclick="showOverlay('overlay2')">Abrir Overlay 2</button>
+    <button class="button" onclick="showOverlay('overlay3')">Abrir Overlay 3</button>
+
+    <div id="overlay1" class="overlay">Overlay 1 - Desaparece en 3s</div>
+    <div id="overlay2" class="overlay">Overlay 2 - Desaparece en 3s</div>
+    <div id="overlay3" class="overlay">Overlay 3 - Desaparece en 3s</div>
+
+    <script>
+        function showOverlay(id) {
+            let overlay = document.getElementById(id);
+            overlay.style.display = "block";
+
+            // 🔥 Error: el overlay desaparece automáticamente después de 3s
+            setTimeout(() => {
+                overlay.style.display = "none";
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Toast Error</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .input-field { padding: 10px; width: 250px; margin-bottom: 10px; }
+        .button { padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+        .toast { 
+            display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: red; color: white; padding: 10px 20px; border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Verificación de Email</h1>
+    <input type="email" id="email" class="input-field" placeholder="Ingrese su email">
+    <button class="button" onclick="showError()">Verificar Email</button>
+
+    <div id="error-toast" class="toast">⚠️ Por favor, ingresa un email válido.</div>
+
+    <script>
+        function showError() {
+            let emailField = document.getElementById("email").value;
+            let toast = document.getElementById("error-toast");
+
+            if (!emailField) {
+                toast.style.display = "block";
+
+                // ❌ Error: el mensaje desaparece automáticamente en 2s
+                setTimeout(() => {
+                    toast.style.display = "none";
+                }, 2000);
+            }
+        }
+    </script>
+
+</body>
+</html>
