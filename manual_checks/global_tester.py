@@ -19,6 +19,7 @@ from manual_checks.check_text_spacing_cropping import check_text_spacing_croppin
 from manual_checks.check_menu_text_spacing import check_menu_text_spacing
 from manual_checks.check_page_title_site_name import check_page_title_site_name_auto_minimal
 from manual_checks.check_page_title_language import check_page_title_language
+from manual_checks.check_tab_aria_selected import check_tab_aria_selected
 # ... otros testers
 
 # Lista de testers manuales disponibles
@@ -37,6 +38,7 @@ TESTERS = [
      check_menu_text_spacing,
      check_page_title_site_name_auto_minimal,
      check_page_title_language,
+     check_tab_aria_selected,
     # ...
 ]
 
