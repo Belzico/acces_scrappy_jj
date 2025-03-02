@@ -18,6 +18,7 @@ from manual_checks.check_zoom_text_cutoff import check_zoom_text_cutoff
 from manual_checks.check_text_spacing_cropping import check_text_spacing_cropping
 from manual_checks.check_menu_text_spacing import check_menu_text_spacing
 from manual_checks.check_page_title_site_name import check_page_title_site_name_auto_minimal
+from manual_checks.check_page_title_language import check_page_title_language
 # ... otros testers
 
 # Lista de testers manuales disponibles
@@ -35,6 +36,7 @@ TESTERS = [
      check_text_spacing_cropping,
      check_menu_text_spacing,
      check_page_title_site_name_auto_minimal,
+     check_page_title_language,
     # ...
 ]
 
