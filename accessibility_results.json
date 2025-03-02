@@ -63,7 +63,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -97,7 +97,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -131,7 +131,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -165,7 +165,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -199,7 +199,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -233,7 +233,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -267,7 +267,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -301,7 +301,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -335,7 +335,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -369,7 +369,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -403,7 +403,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -437,7 +437,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -471,7 +471,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -505,7 +505,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -539,7 +539,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -573,7 +573,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -607,7 +607,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -641,7 +641,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -675,7 +675,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -709,7 +709,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -743,7 +743,7 @@
                                 },
                                 "relatedNodes": [
                                     {
-                                        "html": "<body class=\"lang_en index\">",
+                                        "html": "<body class=\"lang_en index\" style=\"position: relative; min-height: 100%; top: 0px;\">",
                                         "target": [
                                             "body"
                                         ]
@@ -888,7 +888,7 @@
                         ],
                         "none": [],
                         "impact": "moderate",
-                        "html": "<html lang=\"en\">",
+                        "html": "<html lang=\"en\" style=\"height: 100%;\">",
                         "target": [
                             "html"
                         ],
@@ -1256,9 +1256,9 @@
                             }
                         ],
                         "impact": "serious",
-                        "html": "<a href=\"javascript:;\" class=\"tab_btn tab_mouse tab_line\"></a>",
+                        "html": "<a href=\"javascript:;\" class=\"tab_btn tab_mouse tab_line activity\"></a>",
                         "target": [
-                            ".tab_btn.tab_mouse.tab_line:nth-child(1)"
+                            ".activity"
                         ],
                         "failureSummary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
                     },
@@ -1306,9 +1306,9 @@
                             }
                         ],
                         "impact": "serious",
-                        "html": "<a href=\"javascript:;\" class=\"tab_btn tab_mouse tab_line activity\"></a>",
+                        "html": "<a href=\"javascript:;\" class=\"tab_btn tab_mouse tab_line\"></a>",
                         "target": [
-                            ".activity"
+                            ".tab_btn.tab_mouse.tab_line:nth-child(2)"
                         ],
                         "failureSummary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
                     },

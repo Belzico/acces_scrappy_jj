@@ -21,6 +21,7 @@ from manual_checks.check_page_title_site_name import check_page_title_site_name_
 from manual_checks.check_page_title_language import check_page_title_language
 from manual_checks.check_tab_aria_selected import check_tab_aria_selected
 from manual_checks.check_button_aria_pressed import check_button_aria_pressed
+from manual_checks.check_accordion_aria_expanded import check_accordion_aria_expanded
 # ... otros testers
 
 # Lista de testers manuales disponibles
@@ -41,6 +42,7 @@ TESTERS = [
      check_page_title_language,
      check_tab_aria_selected,
      check_button_aria_pressed,
+     check_accordion_aria_expanded,
     # ...
 ]
 
