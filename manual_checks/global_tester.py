@@ -15,6 +15,9 @@ from manual_checks.check_toast_errors import check_toast_errors
 from manual_checks.check_session_timeout import check_session_timeout
 from manual_checks.check_reflow_320px import check_reflow_320px
 from manual_checks.check_zoom_text_cutoff import check_zoom_text_cutoff
+from manual_checks.check_text_spacing_cropping import check_text_spacing_cropping
+from manual_checks.check_menu_text_spacing import check_menu_text_spacing
+from manual_checks.check_page_title_site_name import check_page_title_site_name_auto_minimal
 # ... otros testers
 
 # Lista de testers manuales disponibles
@@ -29,6 +32,9 @@ TESTERS = [
      check_session_timeout,
      check_reflow_320px,
      check_zoom_text_cutoff,
+     check_text_spacing_cropping,
+     check_menu_text_spacing,
+     check_page_title_site_name_auto_minimal,
     # ...
 ]
 

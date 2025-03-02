@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Menú con Espaciado de Texto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .menu {
+            background: #007bff;
+            padding: 10px;
+            width: 250px;
+            margin: auto;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: white;
+            padding: 10px;
+            margin: 5px;
+            white-space: nowrap; /* ❌ Evita que el texto se ajuste correctamente */
+            overflow: hidden; /* ❌ Puede cortar texto con mayor espaciado */
+            max-height: 40px; /* ❌ Puede hacer que el contenido se recorte */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Menú con Problema de Espaciado</h1>
+    <p>Ajusta el espaciado del texto en tu navegador para ver si el contenido se corta.</p>
+
+    <nav class="menu">
+        <ul>
+            <li>Inicio</li>
+            <li>Servicios de Consultoría</li> <!-- Texto largo que podría salirse -->
+            <li>Contacto</li>
+        </ul>
+    </nav>
+
+</body>
+</html>
