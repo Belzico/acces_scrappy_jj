@@ -1,6 +1,1 @@
-url,impact,description,help_url
-https://www.joytoy.com,serious,Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds,https://dequeuniversity.com/rules/axe/4.4/color-contrast?application=axeAPI
-https://www.joytoy.com,critical,Ensures <img> elements have alternate text or a role of none or presentation,https://dequeuniversity.com/rules/axe/4.4/image-alt?application=axeAPI
-https://www.joytoy.com,moderate,Ensures the document has a main landmark,https://dequeuniversity.com/rules/axe/4.4/landmark-one-main?application=axeAPI
-https://www.joytoy.com,serious,Ensures links have discernible text,https://dequeuniversity.com/rules/axe/4.4/link-name?application=axeAPI
-https://www.joytoy.com,moderate,Ensures all page content is contained by landmarks,https://dequeuniversity.com/rules/axe/4.4/region?application=axeAPI
+
