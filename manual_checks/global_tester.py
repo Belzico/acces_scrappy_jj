@@ -25,6 +25,7 @@ from manual_checks.check_accordion_aria_expanded import check_accordion_aria_exp
 from manual_checks.check_mobile_button_aria_expanded import check_mobile_button_aria_expanded
 from manual_checks.check_button_aria_expanded import check_button_aria_expanded
 from manual_checks.check_combobox_aria_expanded import check_combobox_aria_expanded
+from manual_checks.check_duplicate_ids import check_duplicate_ids
 # ... otros testers
 
 # Lista de testers manuales disponibles
@@ -49,6 +50,7 @@ TESTERS = [
      check_mobile_button_aria_expanded,
      check_button_aria_expanded,
      check_combobox_aria_expanded,
+     check_duplicate_ids,
     # ...
 ]
 
