@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Combobox de Búsqueda</title>
+</head>
+<body>
+
+    <!-- ❌ ERROR: aria-expanded se queda en "false" aunque el combobox se expanda -->
+    <label for="search">Search for an article:</label>
+    <input id="search" role="combobox" aria-expanded="false" type="text" placeholder="Search...">
+    
+    <!-- ❌ ERROR: aria-expanded faltante en div con role="combobox" -->
+    <div role="combobox">Search here...</div>
+
+    <!-- ❌ ERROR: aria-expanded vacío en un select -->
+    <select aria-expanded="">
+        <option>How to order online</option>
+        <option>Return policy</option>
+        <option>Shipping details</option>
+    </select>
+
+</body>
+</html>
