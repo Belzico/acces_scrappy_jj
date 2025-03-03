@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Prueba de Dropdown</title>
+</head>
+<body>
+
+    <label for="documentType">Tipo de documento:</label>
+    <select id="documentType">
+        <option value="dni">DNI</option>
+        <!-- ❌ ERROR: Texto gris claro con fondo blanco -->
+        <option value="nie" selected style="color: #BAC7CB; background-color: #FFFFFF;">NIE</option>
+        <option value="passport">Pasaporte</option>
+    </select>
+
+    <label for="paymentMethod">Método de pago:</label>
+    <select id="paymentMethod">
+        <option value="credit">Tarjeta de crédito</option>
+        <!-- ❌ ERROR: Texto gris claro sobre fondo blanco -->
+        <option value="paypal" selected style="color: #BBBBBB; background-color: #FFFFFF;">PayPal</option>
+        <option value="crypto">Criptomonedas</option>
+    </select>
+
+</body>
+</html>
