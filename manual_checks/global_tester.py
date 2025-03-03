@@ -5,31 +5,32 @@ import json
 from datetime import datetime
 
 # Importa cada tester manual
-from manual_checks.check_alt_distinction import check_alt_distinction
-from manual_checks.check_images_decorative import check_images_decorative
-from manual_checks.check_icons_informative import check_icons_informative
-from manual_checks.check_inaccurate_image_text import check_informative_images
-from manual_checks.check_images_of_text import check_images_of_text
-from manual_checks.check_overlay_timeout import check_overlay_timeout
-from manual_checks.check_toast_errors import check_toast_errors
-from manual_checks.check_session_timeout import check_session_timeout
-from manual_checks.check_reflow_320px import check_reflow_320px
-from manual_checks.check_zoom_text_cutoff import check_zoom_text_cutoff
-from manual_checks.check_text_spacing_cropping import check_text_spacing_cropping
-from manual_checks.check_menu_text_spacing import check_menu_text_spacing
-from manual_checks.check_page_title_site_name import check_page_title_site_name_auto_minimal
-from manual_checks.check_page_title_language import check_page_title_language
-from manual_checks.check_tab_aria_selected import check_tab_aria_selected
-from manual_checks.check_button_aria_pressed import check_button_aria_pressed
-from manual_checks.check_accordion_aria_expanded import check_accordion_aria_expanded
-from manual_checks.check_mobile_button_aria_expanded import check_mobile_button_aria_expanded
-from manual_checks.check_button_aria_expanded import check_button_aria_expanded
-from manual_checks.check_combobox_aria_expanded import check_combobox_aria_expanded
-from manual_checks.check_duplicate_ids import check_duplicate_ids
-from manual_checks.check_invalid_elements_in_list import check_invalid_elements_in_list
-from manual_checks.check_aria_label_in_div import check_aria_label_in_div
-from manual_checks.check_buttons_only_by_color import check_buttons_only_by_color
-from manual_checks.check_dropdown_contrast import check_dropdown_contrast
+# from manual_checks.check_alt_distinction import check_alt_distinction
+# from manual_checks.check_images_decorative import check_images_decorative
+# from manual_checks.check_icons_informative import check_icons_informative
+# from manual_checks.check_inaccurate_image_text import check_informative_images
+# from manual_checks.check_images_of_text import check_images_of_text
+# from manual_checks.check_overlay_timeout import check_overlay_timeout
+# from manual_checks.check_toast_errors import check_toast_errors
+# from manual_checks.check_session_timeout import check_session_timeout
+# from manual_checks.check_reflow_320px import check_reflow_320px
+# from manual_checks.check_zoom_text_cutoff import check_zoom_text_cutoff
+# from manual_checks.check_text_spacing_cropping import check_text_spacing_cropping
+# from manual_checks.check_menu_text_spacing import check_menu_text_spacing
+# from manual_checks.check_page_title_site_name import check_page_title_site_name_auto_minimal
+# from manual_checks.check_page_title_language import check_page_title_language
+# from manual_checks.check_tab_aria_selected import check_tab_aria_selected
+# from manual_checks.check_button_aria_pressed import check_button_aria_pressed
+# from manual_checks.check_accordion_aria_expanded import check_accordion_aria_expanded
+# from manual_checks.check_mobile_button_aria_expanded import check_mobile_button_aria_expanded
+# from manual_checks.check_button_aria_expanded import check_button_aria_expanded
+# from manual_checks.check_combobox_aria_expanded import check_combobox_aria_expanded
+# from manual_checks.check_duplicate_ids import check_duplicate_ids
+# from manual_checks.check_invalid_elements_in_list import check_invalid_elements_in_list
+# from manual_checks.check_aria_label_in_div import check_aria_label_in_div
+# from manual_checks.check_buttons_only_by_color import check_buttons_only_by_color
+# from manual_checks.check_dropdown_contrast import check_dropdown_contrast
+# from manual_checks.check_placeholder_contrast import check_placeholder_contrast
 # ... otros testers
 
 # Lista de testers manuales disponibles
@@ -59,6 +60,7 @@ TESTERS = [
      check_aria_label_in_div,
      check_buttons_only_by_color,
      check_dropdown_contrast,
+     check_placeholder_contrast,
     # ...
 ]
 
