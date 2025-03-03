@@ -28,6 +28,7 @@ from manual_checks.check_combobox_aria_expanded import check_combobox_aria_expan
 from manual_checks.check_duplicate_ids import check_duplicate_ids
 from manual_checks.check_invalid_elements_in_list import check_invalid_elements_in_list
 from manual_checks.check_aria_label_in_div import check_aria_label_in_div
+from manual_checks.check_buttons_only_by_color import check_buttons_only_by_color
 # ... otros testers
 
 # Lista de testers manuales disponibles
@@ -54,7 +55,8 @@ TESTERS = [
      check_combobox_aria_expanded,
      check_duplicate_ids,
      check_invalid_elements_in_list,
-     check_aria_label_in_div
+     check_aria_label_in_div,
+     check_buttons_only_by_color,
     # ...
 ]
 
