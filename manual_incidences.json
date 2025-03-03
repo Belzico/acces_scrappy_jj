@@ -11752,5 +11752,17 @@
         "page_url": "C:\\Users\\namic\\OneDrive\\Documentos\\GitHub\\acces_scrappy_jj\\html_samples\\test_placeholder_contrast_error.html",
         "affected_element": "<input id=\"documentNumber\" placeholder=\"Introduce tu número de documento\" style=\"color: #BFCAD1; background-color: #FFFFFF;\" type=\"text\"/>",
         "detected_at": "2025-03-03T15:30:05.614136"
+    },
+    {
+        "title": "Dropdown selected/hovered option fails color contrast requirements",
+        "type": "Color Contrast",
+        "severity": "High",
+        "description": "La opción (estado selected) en el dropdown tiene un contraste de 1.00:1, por debajo del mínimo 3:1 recomendado para estados activos.",
+        "remediation": "Usar un color más oscuro para el fondo o un color de texto más claro. Por ejemplo: background-color: #939393;",
+        "wcag_reference": "1.4.11",
+        "impact": "Los usuarios con baja visión pueden no notar qué opción está seleccionada o enfocada si el contraste es insuficiente.",
+        "page_url": "C:\\Users\\namic\\OneDrive\\Documentos\\GitHub\\acces_scrappy_jj\\html_samples\\test_dropdown_focus_contrast_error.html",
+        "affected_element": "<option selected=\"\">DNI</option>",
+        "detected_at": "2025-03-03T16:37:29.511336"
     }
 ]
