@@ -1,7 +1,7 @@
-import json
 import pandas as pd
+import os
 
-# Mapeo de los campos del JSON con los del Excel
+# Campos originales del Excel con su mapeo al JSON
 FIELD_MAPPING = {
     "To review": None,
     "Total": None,
@@ -10,40 +10,40 @@ FIELD_MAPPING = {
     "Sol.": None,
     "SS": None,
     "CP": None,
-    "Comments": "comments",
+    "Comments": "description",
     "Issue Title [Page section - Title]": "title",
-    "Bug Type": "bug_type",
-    "Priority": "priority",
+    "Bug Type": "type",
+    "Priority": "severity",
     "Action Performed [Steps]": "steps",
     "Expected Result": "expected_result",
-    "Actual Result": "actual_result",
-    "Suggested resolution(s)": "suggested_resolutions",
-    "Evidence [SS or Video]": "evidence",
-    "Failed checkpoint": "failed_checkpoint",
-    "User Impact": "user_impact",
+    "Actual Result": "element_info",
+    "Suggested resolution(s)": "remediation",
+    "Evidence [SS or Video]": "resolution",
+    "Page url":"page_url",
+    "Failed checkpoint": "wcag_reference",
+    "User Impact": "impact",
 }
 
-def transform_json_to_excel(json_file, excel_file, output_excel):
+def transform_json_to_excel(json_data, excel_file):
     """
-    Transforma un archivo JSON en un Excel con los campos mapeados.
+    Agrega datos de un JSON ya cargado a un archivo Excel existente, sin sobrescribirlo.
+    Si hay campos en JSON que no existen en el Excel, se agregarán como nuevas columnas.
 
-    :param json_file: Ruta al archivo JSON de entrada.
-    :param excel_file: Ruta al archivo Excel de entrada.
-    :param output_excel: Ruta donde se guardará el nuevo archivo Excel.
+    :param json_data: Lista de objetos JSON ya cargada en memoria.
+    :param excel_file: Ruta al archivo Excel donde se agregarán las filas.
     """
 
-    # 1️⃣ Leer el JSON
-    with open(json_file, "r", encoding="utf-8") as f:
-        json_data = json.load(f)
-
-    # Asegurar que el JSON es una lista de objetos
+    # 1️⃣ Asegurar que el JSON es una lista de objetos
     if not isinstance(json_data, list):
         json_data = [json_data]
 
-    # 2️⃣ Leer el Excel de entrada
-    df_excel = pd.read_excel(excel_file)
+    # 2️⃣ Verificar si el archivo Excel ya existe
+    if os.path.exists(excel_file):
+        df_excel = pd.read_excel(excel_file)  # Cargar el archivo existente
+    else:
+        df_excel = pd.DataFrame(columns=FIELD_MAPPING.keys())  # Crear un DataFrame con columnas originales si no existe
 
-    # 3️⃣ Crear una lista para almacenar las filas transformadas
+    # 3️⃣ Crear una lista para almacenar las nuevas filas transformadas
     transformed_rows = []
 
     for item in json_data:
@@ -67,13 +67,22 @@ def transform_json_to_excel(json_file, excel_file, output_excel):
 
         transformed_rows.append(row_data)
 
-    # 6️⃣ Crear un DataFrame con los datos transformados
-    df_transformed = pd.DataFrame(transformed_rows)
+    # 6️⃣ Crear un DataFrame con los nuevos datos
+    df_new_data = pd.DataFrame(transformed_rows)
 
-    # 7️⃣ Guardar el resultado en un nuevo Excel
-    df_transformed.to_excel(output_excel, index=False)
+    # 7️⃣ Verificar si hay nuevas columnas que no existen en el Excel
+    for column in df_new_data.columns:
+        if column not in df_excel.columns:
+            df_excel[column] = ""  # Agregar columna vacía en el Excel original
 
-    print(f"✅ Transformación completada. Archivo guardado en: {output_excel}")
+    # 8️⃣ Concatenar los nuevos datos con el Excel existente
+    df_final = pd.concat([df_excel, df_new_data], ignore_index=True)
+
+    # 9️⃣ Guardar el resultado en el mismo archivo Excel
+    df_final.to_excel(excel_file, index=False)
+
+    print(f"✅ Datos agregados a: {excel_file}")
 
 # 📌 Ejemplo de uso
-# transform_json_to_excel("input.json", "template.xlsx", "output.xlsx")
+# json_data = [{"title": "Missing heading", "severity": "High", "element_info": "Line 23"}]
+# transform_json_to_excel(json_data, "accessibility_report.xlsx")

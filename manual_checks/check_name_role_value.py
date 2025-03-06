@@ -1,60 +1,77 @@
 from bs4 import BeautifulSoup
+from transform_json_to_excel import transform_json_to_excel  
 
-def check_name_role_value(html_content, page_url):
+def check_name_role_value(html_content, page_url,excel="issue_report.xlsx"):
     """
-    Analiza el HTML en busca de componentes de interfaz que no tengan nombre, rol o valor accesible.
-    Basado en WCAG 4.1.2 (Name, Role, Value, Nivel A).
+    Analyzes the HTML for UI components missing accessible name, role, or value.
+    Based on WCAG 4.1.2 (Name, Role, Value, Level A).
 
-    Parámetros:
-    - html_content (str): Código HTML de la página.
-    - page_url (str): URL o ruta del archivo analizado.
+    Parameters:
+    - html_content (str): HTML code of the page.
+    - page_url (str): URL or file path of the analyzed document.
 
-    Retorna:
-    - Lista de incidencias detectadas.
+    Returns:
+    - List of detected issues.
     """
 
     soup = BeautifulSoup(html_content, 'html.parser')
-    incidencias = []
+    incidences = []
 
-    # Buscar elementos interactivos sin accesibilidad adecuada
+    # Find interactive elements without proper accessibility attributes
     interactive_elements = soup.find_all(["button", "input", "textarea", "select", "a", "div", "span"])
 
     for element in interactive_elements:
-        element_id = element.get("id") or element.get("name") or "elemento sin ID"
+        element_id = element.get("id") or element.get("name") or "element without ID"
+        element_info = {"tag": element.name, "id": element_id}
 
-        # 1️⃣ Verificar si tiene un nombre accesible
+        # 1️⃣ Check if it has an accessible name
         has_name = element.get_text(strip=True) or element.get("aria-label") or element.get("aria-labelledby")
         if not has_name:
-            incidencias.append({
+            incidences.append({
+                "title": "Missing accessible name",
+                "type": "Name, Role, Value",
+                "severity": "High",
+                "description": f"The element '{element.name}' with ID '{element_id}' does not have an accessible name.",
+                "remediation": "Add an 'aria-label', 'aria-labelledby', or provide textual content.",
+                "wcag_reference": "4.1.2",
+                "impact": "Screen reader users may not understand the purpose of this element.",
                 "page_url": page_url,
-                "issue": "Falta de nombre accesible",
-                "description": f"El elemento '{element.name}' con ID '{element_id}' no tiene un nombre accesible.",
-                "wcag_reference": "4.1.2 (Name, Role, Value, Nivel A)",
-                "severity": "high",
-                "suggested_fix": "Agregar un 'aria-label' o 'aria-labelledby' o contenido textual."
+                "resolution": "check_name_role_value.md",
+                "element_info": element_info
             })
 
-        # 2️⃣ Verificar si tiene un rol definido cuando es necesario
+        # 2️⃣ Check if it has a defined role when necessary
         if element.name in ["div", "span"] and not element.get("role"):
-            incidencias.append({
+            incidences.append({
+                "title": "Missing accessible role",
+                "type": "Name, Role, Value",
+                "severity": "Medium",
+                "description": f"The element '{element.name}' with ID '{element_id}' does not have a defined role.",
+                "remediation": "Add an appropriate 'role' attribute (e.g., role='button').",
+                "wcag_reference": "4.1.2",
+                "impact": "Assistive technologies may not recognize the intended function of this element.",
                 "page_url": page_url,
-                "issue": "Falta de rol accesible",
-                "description": f"El elemento '{element.name}' con ID '{element_id}' no tiene un rol definido.",
-                "wcag_reference": "4.1.2 (Name, Role, Value, Nivel A)",
-                "severity": "medium",
-                "suggested_fix": "Añadir un atributo 'role' adecuado (ejemplo: role='button')."
+                "resolution": "check_name_role_value.md",
+                "element_info": element_info
             })
 
-        # 3️⃣ Verificar si tiene estado/valor programático
+        # 3️⃣ Check if it has a programmatically determined state/value
         if element.name == "input" and element.get("type") in ["checkbox", "radio"]:
             if "aria-checked" not in element.attrs and "checked" not in element.attrs:
-                incidencias.append({
+                incidences.append({
+                    "title": "Missing programmatic value",
+                    "type": "Name, Role, Value",
+                    "severity": "High",
+                    "description": f"The checkbox/radio '{element_id}' does not have a programmatically determined state.",
+                    "remediation": "Add 'aria-checked' to indicate the state of the checkbox/radio.",
+                    "wcag_reference": "4.1.2",
+                    "impact": "Users relying on assistive technologies may not know the selected state.",
                     "page_url": page_url,
-                    "issue": "Falta de valor accesible",
-                    "description": f"El checkbox/radio '{element_id}' no tiene un estado programáticamente determinado.",
-                    "wcag_reference": "4.1.2 (Name, Role, Value, Nivel A)",
-                    "severity": "high",
-                    "suggested_fix": "Agregar 'aria-checked' para indicar el estado del checkbox/radio."
+                    "resolution": "check_name_role_value.md",
+                    "element_info": element_info
                 })
 
-    return incidencias
+    #Convertimos las incidencias directamente a Excel antes de retornar**
+    transform_json_to_excel(incidences, excel)
+    
+    return incidences

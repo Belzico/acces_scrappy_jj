@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import re
+from transform_json_to_excel import transform_json_to_excel  
 
 def get_element_info(element):
     """Obtiene información útil de un elemento HTML para facilitar la localización del error."""
@@ -11,7 +12,7 @@ def get_element_info(element):
         "line_number": element.sourceline if hasattr(element, 'sourceline') else "N/A"  # Obtiene el número de línea si es posible
     }
 
-def check_keyboard_accessibility(html_content, page_url):
+def check_keyboard_accessibility(html_content, page_url,excel="issue_report.xlsx"):
     """
     Tester para WCAG 2.1.1 - Keyboard Accessibility.
     Detecta eventos de mouse sin equivalentes de teclado en HTML y JavaScript.
@@ -48,6 +49,7 @@ def check_keyboard_accessibility(html_content, page_url):
                 "wcag_reference": "2.1.1",
                 "impact": "Usuarios sin mouse no pueden interactuar con este elemento.",
                 "page_url": page_url,
+                "resolution": "check_keyboard_accessibility.md",
                 "element_info": element_info
             })
 
@@ -79,6 +81,7 @@ def check_keyboard_accessibility(html_content, page_url):
                 "wcag_reference": "2.1.1",
                 "impact": "Usuarios que navegan con teclado no podrán activar la función.",
                 "page_url": page_url,
+                "resolution": "check_keyboard_accessibility.md",
                 "element_info": script_info
             })
 
@@ -93,6 +96,7 @@ def check_keyboard_accessibility(html_content, page_url):
                 "wcag_reference": "2.1.1",
                 "impact": "Usuarios sin mouse no pueden interactuar con el contenido.",
                 "page_url": page_url,
+                "resolution": "check_keyboard_accessibility.md",
                 "element_info": script_info
             })
 
@@ -107,6 +111,7 @@ def check_keyboard_accessibility(html_content, page_url):
                 "wcag_reference": "2.1.1",
                 "impact": "Usuarios sin mouse no pueden interactuar con el contenido.",
                 "page_url": page_url,
+                "resolution": "check_keyboard_accessibility.md",
                 "element_info": script_info
             })
 
@@ -121,6 +126,7 @@ def check_keyboard_accessibility(html_content, page_url):
                 "wcag_reference": "2.1.1",
                 "impact": "Usuarios de lectores de pantalla podrían no ser informados sobre cambios de visibilidad.",
                 "page_url": page_url,
+                "resolution": "check_keyboard_accessibility.md",
                 "element_info": script_info
             })
 
@@ -139,7 +145,11 @@ def check_keyboard_accessibility(html_content, page_url):
                 "wcag_reference": "2.1.1",
                 "impact": "Usuarios sin mouse no podrán activar el evento con el teclado.",
                 "page_url": page_url,
+                "resolution": "check_keyboard_accessibility.md",
                 "element_info": element_info
             })
+    
+    #Convertimos las incidencias directamente a Excel antes de retornar**
+    transform_json_to_excel(incidences, excel)
 
     return incidences
