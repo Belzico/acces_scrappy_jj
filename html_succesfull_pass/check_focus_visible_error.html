@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Visibility Test</title>
+    <style>
+        /* ERROR: Se oculta el contorno del foco */
+        .bad-focus {
+            outline: none;
+        }
+
+        /* ERROR: Se elimina la visibilidad del foco en botones */
+        button {
+            border: none;
+            background-color: transparent;
+        }
+
+        /* ERROR: Elemento interactivo sin tabindex */
+        .clickable {
+            cursor: pointer;
+        }
+
+        /* ERROR: Elemento con tabindex -1 */
+        .removed-focus {
+            tabindex: -1;
+        }
+
+        /* ERROR: Elemento desaparece al recibir foco */
+        .disappearing:focus {
+            display: none;
+        }
+
+        /* CORRECTO: El foco es visible */
+        .good-focus:focus {
+            outline: 2px solid blue;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Prueba de Visibilidad de Foco</h1>
+
+    <!-- ERROR: Este enlace no tiene indicador de foco -->
+    <a href="#" class="bad-focus">Enlace sin foco visible</a>
+
+    <!-- ERROR: Este botón no muestra foco visible -->
+    <button>Botón sin foco visible</button>
+
+    <!-- ERROR: Elemento sin tabindex aunque es interactivo -->
+    <div class="clickable" onclick="alert('Click!')">Div interactivo sin tabindex</div>
+
+    <!-- ERROR: Elemento con tabindex=-1 -->
+    <a href="#" class="removed-focus">Enlace con tabindex=-1</a>
+
+    <!-- ERROR: Elemento desaparece cuando recibe foco -->
+    <input type="text" class="disappearing" placeholder="Este campo desaparece al enfocar">
+
+    <!-- CORRECTO: Este enlace tiene un foco visible -->
+    <a href="#" class="good-focus">Enlace con foco visible</a>
+
+</body>
+</html>

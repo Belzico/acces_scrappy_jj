@@ -1,0 +1,653 @@
+[
+    {
+        "id": "accesskeys",
+        "title": "`[accesskey]` values are unique",
+        "description": "Access keys let users quickly focus a part of the page. For proper navigation, each access key must be unique. [Learn more about access keys](https://dequeuniversity.com/rules/axe/4.10/accesskeys).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "aria-allowed-attr",
+        "title": "`[aria-*]` attributes do not match their roles",
+        "description": "Each ARIA `role` supports a specific subset of `aria-*` attributes. Mismatching these invalidates the `aria-*` attributes. [Learn how to match ARIA attributes to their roles](https://dequeuniversity.com/rules/axe/4.10/aria-allowed-attr).",
+        "help_url": null,
+        "nodes": [
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-0-DIV",
+                    "path": "1,HTML,1,BODY,6,FOOTER,0,DIV,0,DIV,0,DIV,2,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,SECTION,0,DIV,1,DIV",
+                    "selector": "div.v-menu > section#us_en_us_modules_footer_jcr_content_root_generic_container_responsivegrid_generic_container_responsivegrid_v_menu_1309983234_co > div > div.c-dropdown",
+                    "boundingRect": {
+                        "top": 9111,
+                        "bottom": 9111,
+                        "left": 15,
+                        "right": 397,
+                        "width": 382,
+                        "height": 0
+                    },
+                    "snippet": "<div class=\"c-dropdown\" aria-expanded=\"false\">",
+                    "nodeLabel": "Barceló Group\nBarceló Foundation\nVacaciones Barceló\nBarceló People\nWhistleblowi…",
+                    "explanation": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"false\""
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-1-DIV",
+                    "path": "1,HTML,1,BODY,6,FOOTER,0,DIV,0,DIV,0,DIV,2,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,0,DIV,1,DIV,1,DIV,0,DIV,0,DIV,0,SECTION,0,DIV,1,DIV",
+                    "selector": "div.v-menu > section#us_en_us_modules_footer_jcr_content_root_generic_container_responsivegrid_generic_container_responsivegrid_market_targeting_cop_2107433293_item_1593601538306_v_menu_copy_copy > div > div.c-dropdown",
+                    "boundingRect": {
+                        "top": 9150,
+                        "bottom": 9150,
+                        "left": 15,
+                        "right": 397,
+                        "width": 382,
+                        "height": 0
+                    },
+                    "snippet": "<div class=\"c-dropdown\" aria-expanded=\"false\">",
+                    "nodeLabel": "Affiliates\nPartners\nDorint Hotels and Resorts\n- Discount voucher",
+                    "explanation": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"false\""
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-2-DIV",
+                    "path": "1,HTML,1,BODY,6,FOOTER,0,DIV,0,DIV,0,DIV,2,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,0,DIV,1,DIV,2,DIV,0,DIV,0,DIV,0,SECTION,0,DIV,1,DIV",
+                    "selector": "div.v-menu > section#us_en_us_modules_footer_jcr_content_root_generic_container_responsivegrid_generic_container_responsivegrid_market_targeting_cop_item_1593601539029_v_menu_1831055412 > div > div.c-dropdown",
+                    "boundingRect": {
+                        "top": 9189,
+                        "bottom": 9189,
+                        "left": 15,
+                        "right": 397,
+                        "width": 382,
+                        "height": 0
+                    },
+                    "snippet": "<div class=\"c-dropdown\" aria-expanded=\"false\">",
+                    "nodeLabel": "Frequently Asked Questions and Help\nBook by phone\nContact us",
+                    "explanation": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"false\""
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-3-DIV",
+                    "path": "1,HTML,1,BODY,6,FOOTER,0,DIV,0,DIV,0,DIV,2,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,0,DIV,1,DIV,3,DIV,0,DIV,0,DIV,0,SECTION,0,DIV,1,DIV",
+                    "selector": "div.v-menu > section#us_en_us_modules_footer_jcr_content_root_generic_container_responsivegrid_generic_container_responsivegrid_market_targeting_item_1642427621050_v_menu_copy > div > div.c-dropdown",
+                    "boundingRect": {
+                        "top": 9228,
+                        "bottom": 9228,
+                        "left": 15,
+                        "right": 397,
+                        "width": 382,
+                        "height": 0
+                    },
+                    "snippet": "<div class=\"c-dropdown\" aria-expanded=\"false\">",
+                    "nodeLabel": "div.v-menu > section#us_en_us_modules_footer_jcr_content_root_generic_container_responsivegrid_generic_container_responsivegrid_market_targeting_item_1642427621050_v_menu_copy > div > div.c-dropdown",
+                    "explanation": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"false\""
+                }
+            }
+        ]
+    },
+    {
+        "id": "aria-input-field-name",
+        "title": "ARIA input fields have accessible names",
+        "description": "When an input field doesn't have an accessible name, screen readers announce it with a generic name, making it unusable for users who rely on screen readers. [Learn more about input field labels](https://dequeuniversity.com/rules/axe/4.10/aria-input-field-name).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "aria-meter-name",
+        "title": "ARIA `meter` elements have accessible names",
+        "description": "When a meter element doesn't have an accessible name, screen readers announce it with a generic name, making it unusable for users who rely on screen readers. [Learn how to name `meter` elements](https://dequeuniversity.com/rules/axe/4.10/aria-meter-name).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "aria-progressbar-name",
+        "title": "ARIA `progressbar` elements have accessible names",
+        "description": "When a `progressbar` element doesn't have an accessible name, screen readers announce it with a generic name, making it unusable for users who rely on screen readers. [Learn how to label `progressbar` elements](https://dequeuniversity.com/rules/axe/4.10/aria-progressbar-name).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "aria-text",
+        "title": "Elements with the `role=text` attribute do not have focusable descendents.",
+        "description": "Adding `role=text` around a text node split by markup enables VoiceOver to treat it as one phrase, but the element's focusable descendents will not be announced. [Learn more about the `role=text` attribute](https://dequeuniversity.com/rules/axe/4.10/aria-text).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "aria-toggle-field-name",
+        "title": "ARIA toggle fields have accessible names",
+        "description": "When a toggle field doesn't have an accessible name, screen readers announce it with a generic name, making it unusable for users who rely on screen readers. [Learn more about toggle fields](https://dequeuniversity.com/rules/axe/4.10/aria-toggle-field-name).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "aria-tooltip-name",
+        "title": "ARIA `tooltip` elements have accessible names",
+        "description": "When a tooltip element doesn't have an accessible name, screen readers announce it with a generic name, making it unusable for users who rely on screen readers. [Learn how to name `tooltip` elements](https://dequeuniversity.com/rules/axe/4.10/aria-tooltip-name).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "aria-treeitem-name",
+        "title": "ARIA `treeitem` elements have accessible names",
+        "description": "When a `treeitem` element doesn't have an accessible name, screen readers announce it with a generic name, making it unusable for users who rely on screen readers. [Learn more about labeling `treeitem` elements](https://dequeuniversity.com/rules/axe/4.10/aria-treeitem-name).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "bypass",
+        "title": "The page contains a heading, skip link, or landmark region",
+        "description": "Adding ways to bypass repetitive content lets keyboard users navigate the page more efficiently. [Learn more about bypass blocks](https://dequeuniversity.com/rules/axe/4.10/bypass).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "color-contrast",
+        "title": "Background and foreground colors do not have a sufficient contrast ratio.",
+        "description": "Low-contrast text is difficult or impossible for many users to read. [Learn how to provide sufficient color contrast](https://dequeuniversity.com/rules/axe/4.10/color-contrast).",
+        "help_url": null,
+        "nodes": [
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-4-DIV",
+                    "path": "1,HTML,1,BODY,5,MAIN,0,DIV,2,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,1,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,1,DIV",
+                    "selector": "div#us_en_us_jcr_content_root_responsivegrid_generic_container_responsivegrid_market_targeting_cop_item_1644476650841_campaign_list_card1 > div.c-card__image > div.c-card__image-overlay > div.c-label",
+                    "boundingRect": {
+                        "top": 739,
+                        "bottom": 767,
+                        "left": 316,
+                        "right": 393,
+                        "width": 77,
+                        "height": 28
+                    },
+                    "snippet": "<div class=\"c-label text-mobile-JS\">",
+                    "nodeLabel": "Up to 40%",
+                    "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.77 (foreground color: #2b8536, background color: #ddecd4, font size: 9.8pt (13px), font weight: bold). Expected contrast ratio of 4.5:1"
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-5-DIV",
+                    "path": "1,HTML,1,BODY,5,MAIN,0,DIV,2,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,1,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,1,DIV,0,DIV,0,DIV,1,DIV",
+                    "selector": "div#us_en_us_jcr_content_root_responsivegrid_generic_container_responsivegrid_market_targeting_cop_item_1644476650841_campaign_list_card2 > div.c-card__image > div.c-card__image-overlay > div.c-label",
+                    "boundingRect": {
+                        "top": 1133,
+                        "bottom": 1161,
+                        "left": 238,
+                        "right": 393,
+                        "width": 155,
+                        "height": 28
+                    },
+                    "snippet": "<div class=\"c-label text-mobile-JS\">",
+                    "nodeLabel": "10% exclusive discount",
+                    "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.77 (foreground color: #2b8536, background color: #ddecd4, font size: 9.8pt (13px), font weight: bold). Expected contrast ratio of 4.5:1"
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-6-DIV",
+                    "path": "1,HTML,1,BODY,5,MAIN,0,DIV,2,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,1,DIV,0,DIV,0,DIV,0,DIV,1,DIV,1,DIV,1,DIV,0,DIV,0,DIV,1,DIV",
+                    "selector": "div#us_en_us_jcr_content_root_responsivegrid_generic_container_responsivegrid_market_targeting_cop_item_1644476650841_campaign_list_card3 > div.c-card__image > div.c-card__image-overlay > div.c-label",
+                    "boundingRect": {
+                        "top": 1336,
+                        "bottom": 1364,
+                        "left": 249,
+                        "right": 393,
+                        "width": 144,
+                        "height": 28
+                    },
+                    "snippet": "<div class=\"c-label text-mobile-JS\">",
+                    "nodeLabel": "Up to a 40% discount",
+                    "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.77 (foreground color: #2b8536, background color: #ddecd4, font size: 9.8pt (13px), font weight: bold). Expected contrast ratio of 4.5:1"
+                }
+            }
+        ]
+    },
+    {
+        "id": "definition-list",
+        "title": "`<dl>`'s contain only properly-ordered `<dt>` and `<dd>` groups, `<script>`, `<template>` or `<div>` elements.",
+        "description": "When definition lists are not properly marked up, screen readers may produce confusing or inaccurate output. [Learn how to structure definition lists correctly](https://dequeuniversity.com/rules/axe/4.10/definition-list).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "dlitem",
+        "title": "Definition list items are wrapped in `<dl>` elements",
+        "description": "Definition list items (`<dt>` and `<dd>`) must be wrapped in a parent `<dl>` element to ensure that screen readers can properly announce them. [Learn how to structure definition lists correctly](https://dequeuniversity.com/rules/axe/4.10/dlitem).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "duplicate-id-aria",
+        "title": "ARIA IDs are unique",
+        "description": "The value of an ARIA ID must be unique to prevent other instances from being overlooked by assistive technologies. [Learn how to fix duplicate ARIA IDs](https://dequeuniversity.com/rules/axe/4.10/duplicate-id-aria).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "form-field-multiple-labels",
+        "title": "No form fields have multiple labels",
+        "description": "Form fields with multiple labels can be confusingly announced by assistive technologies like screen readers which use either the first, the last, or all of the labels. [Learn how to use form labels](https://dequeuniversity.com/rules/axe/4.10/form-field-multiple-labels).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "frame-title",
+        "title": "`<frame>` or `<iframe>` elements have a title",
+        "description": "Screen reader users rely on frame titles to describe the contents of frames. [Learn more about frame titles](https://dequeuniversity.com/rules/axe/4.10/frame-title).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "html-xml-lang-mismatch",
+        "title": "`<html>` element has an `[xml:lang]` attribute with the same base language as the `[lang]` attribute.",
+        "description": "If the webpage does not specify a consistent language, then the screen reader might not announce the page's text correctly. [Learn more about the `lang` attribute](https://dequeuniversity.com/rules/axe/4.10/html-xml-lang-mismatch).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "input-button-name",
+        "title": "Input buttons have discernible text.",
+        "description": "Adding discernable and accessible text to input buttons may help screen reader users understand the purpose of the input button. [Learn more about input buttons](https://dequeuniversity.com/rules/axe/4.10/input-button-name).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "input-image-alt",
+        "title": "`<input type=\"image\">` elements have `[alt]` text",
+        "description": "When an image is being used as an `<input>` button, providing alternative text can help screen reader users understand the purpose of the button. [Learn about input image alt text](https://dequeuniversity.com/rules/axe/4.10/input-image-alt).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "meta-refresh",
+        "title": "The document does not use `<meta http-equiv=\"refresh\">`",
+        "description": "Users do not expect a page to refresh automatically, and doing so will move focus back to the top of the page. This may create a frustrating or confusing experience. [Learn more about the refresh meta tag](https://dequeuniversity.com/rules/axe/4.10/meta-refresh).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "object-alt",
+        "title": "`<object>` elements have alternate text",
+        "description": "Screen readers cannot translate non-text content. Adding alternate text to `<object>` elements helps screen readers convey meaning to users. [Learn more about alt text for `object` elements](https://dequeuniversity.com/rules/axe/4.10/object-alt).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "select-name",
+        "title": "Select elements have associated label elements.",
+        "description": "Form elements without effective labels can create frustrating experiences for screen reader users. [Learn more about the `select` element](https://dequeuniversity.com/rules/axe/4.10/select-name).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "skip-link",
+        "title": "Skip links are focusable.",
+        "description": "Including a skip link can help users skip to the main content to save time. [Learn more about skip links](https://dequeuniversity.com/rules/axe/4.10/skip-link).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "table-duplicate-name",
+        "title": "Tables have different content in the summary attribute and `<caption>`.",
+        "description": "The summary attribute should describe the table structure, while `<caption>` should have the onscreen title. Accurate table mark-up helps users of screen readers. [Learn more about summary and caption](https://dequeuniversity.com/rules/axe/4.10/table-duplicate-name).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "td-headers-attr",
+        "title": "Cells in a `<table>` element that use the `[headers]` attribute refer to table cells within the same table.",
+        "description": "Screen readers have features to make navigating tables easier. Ensuring `<td>` cells using the `[headers]` attribute only refer to other cells in the same table may improve the experience for screen reader users. [Learn more about the `headers` attribute](https://dequeuniversity.com/rules/axe/4.10/td-headers-attr).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "th-has-data-cells",
+        "title": "`<th>` elements and elements with `[role=\"columnheader\"/\"rowheader\"]` have data cells they describe.",
+        "description": "Screen readers have features to make navigating tables easier. Ensuring table headers always refer to some set of cells may improve the experience for screen reader users. [Learn more about table headers](https://dequeuniversity.com/rules/axe/4.10/th-has-data-cells).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "focusable-controls",
+        "title": "Interactive controls are keyboard focusable",
+        "description": "Custom interactive controls are keyboard focusable and display a focus indicator. [Learn how to make custom controls focusable](https://developer.chrome.com/docs/lighthouse/accessibility/focusable-controls/).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "interactive-element-affordance",
+        "title": "Interactive elements indicate their purpose and state",
+        "description": "Interactive elements, such as links and buttons, should indicate their state and be distinguishable from non-interactive elements. [Learn how to decorate interactive elements with affordance hints](https://developer.chrome.com/docs/lighthouse/accessibility/interactive-element-affordance/).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "logical-tab-order",
+        "title": "The page has a logical tab order",
+        "description": "Tabbing through the page follows the visual layout. Users cannot focus elements that are offscreen. [Learn more about logical tab ordering](https://developer.chrome.com/docs/lighthouse/accessibility/logical-tab-order/).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "visual-order-follows-dom",
+        "title": "Visual order on the page follows DOM order",
+        "description": "DOM order matches the visual order, improving navigation for assistive technology. [Learn more about DOM and visual ordering](https://developer.chrome.com/docs/lighthouse/accessibility/visual-order-follows-dom/).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "focus-traps",
+        "title": "User focus is not accidentally trapped in a region",
+        "description": "A user can tab into and out of any control or region without accidentally trapping their focus. [Learn how to avoid focus traps](https://developer.chrome.com/docs/lighthouse/accessibility/focus-traps/).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "managed-focus",
+        "title": "The user's focus is directed to new content added to the page",
+        "description": "If new content, such as a dialog, is added to the page, the user's focus is directed to it. [Learn how to direct focus to new content](https://developer.chrome.com/docs/lighthouse/accessibility/managed-focus/).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "use-landmarks",
+        "title": "HTML5 landmark elements are used to improve navigation",
+        "description": "Landmark elements (`<main>`, `<nav>`, etc.) are used to improve the keyboard navigation of the page for assistive technology. [Learn more about landmark elements](https://developer.chrome.com/docs/lighthouse/accessibility/use-landmarks/).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "offscreen-content-hidden",
+        "title": "Offscreen content is hidden from assistive technology",
+        "description": "Offscreen content is hidden with display: none or aria-hidden=true. [Learn how to properly hide offscreen content](https://developer.chrome.com/docs/lighthouse/accessibility/offscreen-content-hidden/).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "custom-controls-labels",
+        "title": "Custom controls have associated labels",
+        "description": "Custom interactive controls have associated labels, provided by aria-label or aria-labelledby. [Learn more about custom controls and labels](https://developer.chrome.com/docs/lighthouse/accessibility/custom-controls-labels/).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "custom-controls-roles",
+        "title": "Custom controls have ARIA roles",
+        "description": "Custom interactive controls have appropriate ARIA roles. [Learn how to add roles to custom controls](https://developer.chrome.com/docs/lighthouse/accessibility/custom-control-roles/).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "empty-heading",
+        "title": "All heading elements contain content.",
+        "description": "A heading with no content or inaccessible text prevent screen reader users from accessing information on the page's structure. [Learn more about headings](https://dequeuniversity.com/rules/axe/4.10/empty-heading).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "landmark-one-main",
+        "title": "Document has a main landmark.",
+        "description": "One main landmark helps screen reader users navigate a web page. [Learn more about landmarks](https://dequeuniversity.com/rules/axe/4.10/landmark-one-main).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "label-content-name-mismatch",
+        "title": "Elements with visible text labels do not have matching accessible names.",
+        "description": "Visible text labels that do not match the accessible name can result in a confusing experience for screen reader users. [Learn more about accessible names](https://dequeuniversity.com/rules/axe/4.10/label-content-name-mismatch).",
+        "help_url": null,
+        "nodes": [
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-7-BUTTON",
+                    "path": "1,HTML,1,BODY,1,DIV,0,DIV,0,DIV,1,DIV,0,DIV,1,DIV,1,DIV,0,BUTTON",
+                    "selector": "div.didomi-popup-container > div.didomi-popup-view > div#buttons > button#didomi-notice-learn-more-button",
+                    "boundingRect": {
+                        "top": 695,
+                        "bottom": 752,
+                        "left": 32,
+                        "right": 380,
+                        "width": 349,
+                        "height": 57
+                    },
+                    "snippet": "<button id=\"didomi-notice-learn-more-button\" class=\"didomi-components-button didomi-button didomi-learn-more-button didomi-but…\" aria-label=\"Learn More: Configure your consents\" style=\"color: rgb(68, 68, 68); background-color: rgb(238, 238, 238);\">",
+                    "nodeLabel": "SETTINGS",
+                    "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-8-BUTTON",
+                    "path": "1,HTML,1,BODY,4,HEADER,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,4,DIV,1,DIV,1,DIV,0,UL,0,LI,0,BUTTON",
+                    "selector": "div.c-aside-menu > ul.c-aside-menu-user > li.c-aside-menu-user-item > button.c-aside-menu-user-item-anchor",
+                    "boundingRect": {
+                        "top": 8,
+                        "bottom": 51,
+                        "left": 235,
+                        "right": 276,
+                        "width": 42,
+                        "height": 43
+                    },
+                    "snippet": "<button class=\"c-aside-menu-user-item-anchor c-call-btn\" data-href=\"https://www.barcelo.com/en-us/modals/help/\" data-urlheader=\"/bin/barcelo/header.html?cms_store=/content/barcelo/us/en-us\" data-jsonheader=\"/content/barcelo/us/en-us/modules/header/_jcr_content/root/generic_contain…\" aria-label=\"Booking\">",
+                    "nodeLabel": "Booking",
+                    "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-9-BUTTON",
+                    "path": "1,HTML,1,BODY,4,HEADER,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,4,DIV,1,DIV,1,DIV,0,UL,2,LI,0,BUTTON",
+                    "selector": "div.c-aside-menu > ul.c-aside-menu-user > li.c-aside-menu-user-item > button.c-aside-menu-user-item-anchor",
+                    "boundingRect": {
+                        "top": 8,
+                        "bottom": 51,
+                        "left": 291,
+                        "right": 348,
+                        "width": 57,
+                        "height": 43
+                    },
+                    "snippet": "<button class=\"c-aside-menu-user-item-anchor noUser aside-number-notification-JS\" data-href=\"https://www.barcelo.com/en-us/modules/header/mybarcelo-no-logged/\" aria-label=\"my Barceló\">",
+                    "nodeLabel": "1\n\nmy Barceló",
+                    "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-10-BUTTON",
+                    "path": "1,HTML,1,BODY,5,MAIN,0,DIV,1,DIV,1,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,3,DIV,1,BUTTON",
+                    "selector": "div.fastbooking > div#us_en_us_modules_fastbooking_jcr_content_root_generic_container_responsivegrid_fastbooking > div.c-fastbooking__links > button.c-fastbooking__links-custom",
+                    "boundingRect": {
+                        "top": 602,
+                        "bottom": 616,
+                        "left": 126,
+                        "right": 286,
+                        "width": 160,
+                        "height": 14
+                    },
+                    "snippet": "<button class=\"c-fastbooking__links-custom c-modal mod--cta-with-icon mod--cta-sm mod--ct…\" data-href=\"https://www.barcelo.com/en-us/modals/best-guaranteed-plus-price/\" aria-label=\"Best Price Guaranteed Plus\">",
+                    "nodeLabel": "Best Rate Guaranteed",
+                    "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-11-A",
+                    "path": "1,HTML,1,BODY,5,MAIN,0,DIV,2,DIV,0,DIV,6,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,2,SECTION,0,DIV,0,DIV,0,DIV,0,A",
+                    "selector": "div.swiper-wrapper > div.swiper-slide > div.launcher > a#us_en_us_modules_hoteles_por_destinos_jcr_content_root_market_targeting_cop_130737751_item_1602770966372_generic_container_37_responsivegrid_swiper_launcher",
+                    "boundingRect": {
+                        "top": 5789,
+                        "bottom": 5866,
+                        "left": 15,
+                        "right": 165,
+                        "width": 150,
+                        "height": 77
+                    },
+                    "snippet": "<a class=\"JS-c-launcher-link c-launcher dynamicLoading visibleComponent\" id=\"us_en_us_modules_hoteles_por_destinos_jcr_content_root_market_targeting_co…\" href=\"https://www.barcelo.com/en-us/hotels/urban/\" target=\"_self\" aria-label=\"launcher\" rel=\"\">",
+                    "nodeLabel": "City Hotels",
+                    "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-12-A",
+                    "path": "1,HTML,1,BODY,5,MAIN,0,DIV,2,DIV,0,DIV,6,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,2,SECTION,0,DIV,1,DIV,0,DIV,0,A",
+                    "selector": "div.swiper-wrapper > div.swiper-slide > div.launcher > a#us_en_us_modules_hoteles_por_destinos_jcr_content_root_market_targeting_cop_130737751_item_1602770966372_generic_container_37_responsivegrid_swiper_launcher_1430633024",
+                    "boundingRect": {
+                        "top": 5789,
+                        "bottom": 5866,
+                        "left": 167,
+                        "right": 317,
+                        "width": 150,
+                        "height": 77
+                    },
+                    "snippet": "<a class=\"JS-c-launcher-link c-launcher dynamicLoading visibleComponent\" id=\"us_en_us_modules_hoteles_por_destinos_jcr_content_root_market_targeting_co…\" href=\"https://www.barcelo.com/en-us/hotels/all-inclusive/\" target=\"_self\" aria-label=\"launcher\" rel=\"\">",
+                    "nodeLabel": "Hotels with Everything Included",
+                    "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-13-A",
+                    "path": "1,HTML,1,BODY,5,MAIN,0,DIV,2,DIV,0,DIV,6,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,2,SECTION,0,DIV,2,DIV,0,DIV,0,A",
+                    "selector": "div.swiper-wrapper > div.swiper-slide > div.launcher > a#us_en_us_modules_hoteles_por_destinos_jcr_content_root_market_targeting_cop_130737751_item_1602770966372_generic_container_37_responsivegrid_swiper_launcher_1400729447",
+                    "boundingRect": {
+                        "top": 5789,
+                        "bottom": 5866,
+                        "left": 319,
+                        "right": 469,
+                        "width": 150,
+                        "height": 77
+                    },
+                    "snippet": "<a class=\"JS-c-launcher-link c-launcher dynamicLoading visibleComponent\" id=\"us_en_us_modules_hoteles_por_destinos_jcr_content_root_market_targeting_co…\" href=\"https://www.barcelo.com/en-us/hotels/diving/\" target=\"_self\" aria-label=\"launcher\" rel=\"\">",
+                    "nodeLabel": "Scuba Diving Hotels",
+                    "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-14-A",
+                    "path": "1,HTML,1,BODY,5,MAIN,0,DIV,2,DIV,0,DIV,8,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,2,DIV,0,A",
+                    "selector": "div.c-container__grid-wrapper > div.aem-Grid > div.launcher > a#us_en_us_modules_experiencias_home_jcr_content_root_generic_container_263255689_responsivegrid_market_targeting_item_1588236526939_generic_container_11_responsivegrid_launcher_copy",
+                    "boundingRect": {
+                        "top": 6026,
+                        "bottom": 6123,
+                        "left": 15,
+                        "right": 206,
+                        "width": 191,
+                        "height": 98
+                    },
+                    "snippet": "<a class=\"JS-c-launcher-link c-launcher dynamicLoading visibleComponent\" id=\"us_en_us_modules_experiencias_home_jcr_content_root_generic_container_2632…\" href=\"https://www.barcelo.com/en-us/hotels/riviera-maya/\" target=\"_blank\" aria-label=\"launcher\" rel=\" noreferrer\">",
+                    "nodeLabel": "Riviera Maya (Mexico)",
+                    "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-15-A",
+                    "path": "1,HTML,1,BODY,5,MAIN,0,DIV,2,DIV,0,DIV,8,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,3,DIV,0,A",
+                    "selector": "div.c-container__grid-wrapper > div.aem-Grid > div.launcher > a#us_en_us_modules_experiencias_home_jcr_content_root_generic_container_263255689_responsivegrid_market_targeting_item_1588236526939_generic_container_11_responsivegrid_launcher_copy_copy",
+                    "boundingRect": {
+                        "top": 6026,
+                        "bottom": 6076,
+                        "left": 206,
+                        "right": 302,
+                        "width": 96,
+                        "height": 50
+                    },
+                    "snippet": "<a class=\"JS-c-launcher-link c-launcher dynamicLoading visibleComponent\" id=\"us_en_us_modules_experiencias_home_jcr_content_root_generic_container_2632…\" href=\"https://www.barcelo.com/en-us/hotels/costa-rica/\" target=\"_blank\" aria-label=\"launcher\" rel=\" noreferrer\">",
+                    "nodeLabel": "Costa Rica",
+                    "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-16-A",
+                    "path": "1,HTML,1,BODY,5,MAIN,0,DIV,2,DIV,0,DIV,8,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,4,DIV,0,A",
+                    "selector": "div.c-container__grid-wrapper > div.aem-Grid > div.launcher > a#us_en_us_modules_experiencias_home_jcr_content_root_generic_container_263255689_responsivegrid_market_targeting_item_1588236526939_generic_container_11_responsivegrid_launcher_copy_copy_c",
+                    "boundingRect": {
+                        "top": 6026,
+                        "bottom": 6076,
+                        "left": 302,
+                        "right": 397,
+                        "width": 96,
+                        "height": 50
+                    },
+                    "snippet": "<a class=\"JS-c-launcher-link c-launcher dynamicLoading visibleComponent\" id=\"us_en_us_modules_experiencias_home_jcr_content_root_generic_container_2632…\" href=\"https://www.barcelo.com/en-us/hotels/cuba/\" target=\"_blank\" aria-label=\"launcher\" rel=\" noreferrer\">",
+                    "nodeLabel": "Cuba",
+                    "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-17-A",
+                    "path": "1,HTML,1,BODY,5,MAIN,0,DIV,2,DIV,0,DIV,8,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,5,DIV,0,A",
+                    "selector": "div.c-container__grid-wrapper > div.aem-Grid > div.launcher > a#us_en_us_modules_experiencias_home_jcr_content_root_generic_container_263255689_responsivegrid_market_targeting_item_1588236526939_generic_container_11_responsivegrid_launcher_copy_copy_2",
+                    "boundingRect": {
+                        "top": 6076,
+                        "bottom": 6125,
+                        "left": 206,
+                        "right": 302,
+                        "width": 96,
+                        "height": 50
+                    },
+                    "snippet": "<a class=\"JS-c-launcher-link c-launcher dynamicLoading visibleComponent\" id=\"us_en_us_modules_experiencias_home_jcr_content_root_generic_container_2632…\" href=\"https://www.barcelo.com/en-us/hotels/aruba/\" target=\"_blank\" aria-label=\"launcher\" rel=\" noreferrer\">",
+                    "nodeLabel": "Aruba",
+                    "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+                }
+            },
+            {
+                "node": {
+                    "type": "node",
+                    "lhId": "1-18-A",
+                    "path": "1,HTML,1,BODY,5,MAIN,0,DIV,2,DIV,0,DIV,8,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,0,DIV,0,DIV,0,DIV,0,DIV,0,DIV,1,DIV,6,DIV,0,A",
+                    "selector": "div.c-container__grid-wrapper > div.aem-Grid > div.launcher > a#us_en_us_modules_experiencias_home_jcr_content_root_generic_container_263255689_responsivegrid_market_targeting_item_1588236526939_generic_container_11_responsivegrid_launcher_copy_copy_4",
+                    "boundingRect": {
+                        "top": 6076,
+                        "bottom": 6125,
+                        "left": 302,
+                        "right": 397,
+                        "width": 96,
+                        "height": 50
+                    },
+                    "snippet": "<a class=\"JS-c-launcher-link c-launcher dynamicLoading visibleComponent\" id=\"us_en_us_modules_experiencias_home_jcr_content_root_generic_container_2632…\" href=\"https://www.barcelo.com/en-us/hotels/dominican-republic/\" target=\"_blank\" aria-label=\"launcher\" rel=\" noreferrer\">",
+                    "nodeLabel": "The Dominican Republic",
+                    "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+                }
+            }
+        ]
+    },
+    {
+        "id": "table-fake-caption",
+        "title": "Tables use `<caption>` instead of cells with the `[colspan]` attribute to indicate a caption.",
+        "description": "Screen readers have features to make navigating tables easier. Ensuring that tables use the actual caption element instead of cells with the `[colspan]` attribute may improve the experience for screen reader users. [Learn more about captions](https://dequeuniversity.com/rules/axe/4.10/table-fake-caption).",
+        "help_url": null,
+        "nodes": []
+    },
+    {
+        "id": "td-has-header",
+        "title": "`<td>` elements in a large `<table>` have one or more table headers.",
+        "description": "Screen readers have features to make navigating tables easier. Ensuring that `<td>` elements in a large table (3 or more cells in width and height) have an associated table header may improve the experience for screen reader users. [Learn more about table headers](https://dequeuniversity.com/rules/axe/4.10/td-has-header).",
+        "help_url": null,
+        "nodes": []
+    }
+]

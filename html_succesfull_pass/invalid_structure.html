@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Prueba</title>
+</head>
+<body>
+
+    <!-- ❌ ERROR: Falta de encabezados semánticos -->
+    <div style="font-size: 24px; font-weight: bold;">Título Importante</div>
+    <p>Este es un texto sin un encabezado semántico adecuado.</p>
+
+    <!-- ❌ ERROR: Tabla de datos sin encabezados <th> ni atributos 'scope' o 'headers' -->
+    <table border="1">
+        <tr>
+            <td>Nombre</td>
+            <td>Edad</td>
+        </tr>
+        <tr>
+            <td>Ana</td>
+            <td>25</td>
+        </tr>
+        <tr>
+            <td>Pedro</td>
+            <td>30</td>
+        </tr>
+    </table>
+
+    <!-- ❌ ERROR: Formulario sin etiquetas <label> o atributos ARIA -->
+    <form>
+        <input type="text" placeholder="Escribe tu nombre">
+        <input type="email" placeholder="Correo electrónico">
+        <button type="submit">Enviar</button>
+    </form>
+
+</body>
+</html>

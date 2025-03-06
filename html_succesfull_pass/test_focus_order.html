@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Focus Order</title>
+</head>
+<body>
+
+    <h1>Prueba de Focus Order</h1>
+
+    <!-- ❌ tabindex > 0 (Error: Puede romper el orden de foco) -->
+    <input type="text" placeholder="Nombre" tabindex="5">
+    <input type="text" placeholder="Correo" tabindex="3">
+
+    <!-- ❌ tabindex="-1" en un botón (Error: Inaccesible con teclado) -->
+    <button tabindex="-1">No me puedes alcanzar con Tab</button>
+
+    <!-- ❌ Enlace sin href ni tabindex (Error: No es enfocable con Tab) -->
+    <a>Enlace sin href</a>
+
+    <!-- ❌ Modal sin 'open' (Error: No maneja bien el foco) -->
+    <dialog>
+        <p>Este es un modal sin el atributo 'open'.</p>
+    </dialog>
+
+</body>
+</html>

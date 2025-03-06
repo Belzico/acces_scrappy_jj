@@ -31,7 +31,14 @@ from datetime import datetime
 # from manual_checks.check_buttons_only_by_color import check_buttons_only_by_color
 # from manual_checks.check_dropdown_contrast import check_dropdown_contrast
 # from manual_checks.check_placeholder_contrast import check_placeholder_contrast
-from manual_checks.check_dropdown_focus_contrast import check_dropdown_focus_contrast
+# from manual_checks.check_dropdown_focus_contrast import check_dropdown_focus_contrast
+#----------------------------------exam------------------------------------------------
+from manual_checks.check_info_and_relationships import check_info_and_relationships
+from manual_checks.check_keyboard_accessibility import check_keyboard_accessibility
+from manual_checks.check_focus_order import check_focus_order
+from manual_checks.check_focus_visible import check_focus_visible
+from manual_checks.check_form_error_identification import check_form_error_identification
+from manual_checks.check_name_role_value import check_name_role_value
 # ... otros testers
 
 # Lista de testers manuales disponibles
@@ -62,7 +69,14 @@ TESTERS = [
     #  check_buttons_only_by_color,
     #  check_dropdown_contrast,
     #  check_placeholder_contrast,
-     check_dropdown_focus_contrast,
+    # check_dropdown_focus_contrast,
+    #---------------------------------------------------
+    check_info_and_relationships, 
+    check_keyboard_accessibility,
+    check_focus_order,
+    check_focus_visible,
+    check_form_error_identification,
+    check_name_role_value
     # ...
 ]
 
