@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Espaciado de Texto</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .problematic-text {
+            height: 50px;  /* ❌ Altura fija que puede recortar texto */
+            overflow: hidden;  /* ❌ Puede ocultar texto al aplicar espaciado */
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background: lightgray;
+        }
+
+        .ok-text {
+            min-height: auto;  /* ✅ Permite crecimiento dinámico */
+            overflow: visible;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Prueba de Espaciado de Texto</h1>
+    <p>Este texto debe ser completamente visible con cualquier ajuste de espaciado.</p>
+
+    <div class="container">
+        <p class="problematic-text">❌ Este texto puede ser cortado si el usuario aumenta el espaciado.</p>
+        <p class="ok-text">✅ Este texto se ajusta dinámicamente.</p>
+    </div>
+
+</body>
+</html>

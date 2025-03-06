@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test: Image of Text</title>
+    <style>
+        .text-over-image {
+            position: relative;
+            display: inline-block;
+        }
+
+        .text-over-image img {
+            display: block;
+            width: 400px;
+        }
+
+        .text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Testing Image of Text</h1>
+
+    <!-- ❌ Caso incorrecto: Imagen con texto embebido -->
+    <p>This image contains embedded text, which should be real HTML text instead.</p>
+    <img src="downloaded_images/image_with_text.png" alt="Promotional banner">
+
+    <!-- ✅ Caso correcto: Texto sobre imagen usando CSS -->
+    <p>This version correctly places real text over an image.</p>
+    <div class="text-over-image">
+        <img src="downloaded_images/plain_background.png" alt="Background image">
+        <span class="text-overlay">Special Discount 50% OFF</span>
+    </div>
+
+</body>
+</html>

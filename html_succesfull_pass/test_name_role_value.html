@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Prueba de Name, Role, Value</title>
+</head>
+<body>
+    <h1>Prueba de Accesibilidad</h1>
+
+    <!-- ❌ ERROR: Botón sin nombre accesible -->
+    <button></button>
+
+    <!-- ❌ ERROR: Enlace sin texto ni aria-label -->
+    <a href="#"></a>
+
+    <!-- ❌ ERROR: Div actuando como botón sin rol ni nombre -->
+    <div onclick="enviar()">Enviar</div>
+
+    <!-- ❌ ERROR: Checkbox sin valor accesible -->
+    <input type="checkbox">
+
+    <!-- ✅ CORRECTO: Elemento con nombre y rol accesible -->
+    <button aria-label="Enviar mensaje"></button>
+</body>
+</html>

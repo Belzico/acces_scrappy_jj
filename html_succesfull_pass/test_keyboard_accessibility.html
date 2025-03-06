@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard Accessibility Test</title>
+    <script>
+        function showAlert() {
+            alert("Elemento activado con onclick, pero no con teclado.");
+        }
+
+        function showTooltip() {
+            document.getElementById('tooltip').style.display = 'block';
+        }
+
+        function hideTooltip() {
+            document.getElementById('tooltip').style.display = 'none';
+        }
+
+        function openModal() {
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+    <style>
+        #tooltip {
+            display: none;
+            background-color: yellow;
+            padding: 5px;
+            position: absolute;
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 2px solid black;
+        }
+
+        #modal button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Test de Accesibilidad con Teclado (WCAG 2.1.1)</h1>
+
+    <!-- ❌ ERROR 1: Elemento con onclick sin onkeydown -->
+    <div onclick="showAlert()">Haz clic aquí</div>
+
+    <!-- ❌ ERROR 2: Elemento con onmouseover sin onfocus -->
+    <div onmouseover="showTooltip()" onmouseout="hideTooltip()">Pasa el mouse aquí</div>
+    <div id="tooltip">Tooltip solo visible con mouse</div>
+
+    <!-- ❌ ERROR 3: Botón falso sin tabindex ni role="button" -->
+    <span onclick="showAlert()">Soy un botón pero no accesible con teclado</span>
+
+    <!-- ❌ ERROR 4: Modal sin opción de cierre con Escape -->
+    <button onclick="openModal()">Abrir Modal</button>
+    <div id="modal">
+        <p>Este es un modal que solo se cierra con mouse.</p>
+        <button onclick="closeModal()">Cerrar</button>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acordeón de Prueba</title>
+</head>
+<body>
+    <div class="accordion">
+        <button class="accordion-toggle">Sección 1</button> <!-- ❌ Falta aria-expanded -->
+        <div class="accordion-content">Contenido de la sección 1</div>
+    </div>
+
+    <div class="accordion">
+        <div role="button" class="accordion-toggle">Sección 2</div> <!-- ❌ Falta aria-expanded -->
+        <div class="accordion-content">Contenido de la sección 2</div>
+    </div>
+
+    <div class="accordion">
+        <a href="#" class="accordion-toggle">Sección 3</a> <!-- ❌ No recomendado -->
+        <div class="accordion-content">Contenido de la sección 3</div>
+    </div>
+</body>
+</html>

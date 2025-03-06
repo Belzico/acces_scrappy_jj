@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Reflow Incorrecto</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        .container {
+            width: 600px; /* ❌ Error: Ancho fijo */
+            background: lightgray;
+            padding: 20px;
+        }
+        .text {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Prueba de Reflow Incorrecto</h1>
+    <p>Este contenido no se ajusta correctamente en pantallas pequeñas.</p>
+
+    <div class="container">
+        <p class="text">Este contenido tiene un ancho de 600px y provocará un desbordamiento.</p>
+    </div>
+
+</body>
+</html>

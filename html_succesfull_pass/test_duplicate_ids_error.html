@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Login</title>
+</head>
+<body>
+
+    <label for="documentType">Tipo de documento:</label>
+    <select id="documentType">
+        <option value="dni">DNI</option>
+        <option value="nie">NIE</option>
+    </select>
+
+    <label for="documentNumber">Número de documento:</label>
+    <input type="text" id="documentNumber">
+
+    <button id="passwordPositions">Continuar</button>
+
+    <!-- ❌ ERROR: ID DUPLICADO en otro botón -->
+    <button id="passwordPositions">Reenviar Código</button>
+
+    <!-- ❌ ERROR: ID DUPLICADO en un <div> -->
+    <div id="passwordPositions">Este es un mensaje oculto</div>
+
+    <!-- ❌ ERROR: ID DUPLICADO en un <span> -->
+    <span id="documentNumber">Texto con ID repetido</span>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+    "page_url": "https://www.barcelo.com/en-us/",
+    "issue": "Falta identificación de error en modal",
+    "description": "Se detectó un modal de error (`.modal-login-error`), pero no contiene un mensaje de error en texto visible que informe al usuario sobre el problema.",
+    "wcag_reference": "3.3.1 (Error Identification, Nivel A)",
+    "severity": "high",
+    "suggested_fix": "Asegurar que el modal contenga un mensaje de error en texto visible que describa el problema y cómo solucionarlo. También se puede usar `aria-describedby` para asociar el mensaje a elementos de asistencia."
+}
