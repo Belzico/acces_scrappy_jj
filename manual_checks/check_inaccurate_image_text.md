@@ -1,158 +1,109 @@
-# 🏷️ `check_informative_images.py` - Evaluador de Imágenes Informativas y su Texto Alternativo
+# 🏷️ Check for Informative Images Accessibility  
 
-## 📌 Descripción
+## 📌 Overview  
+This script detects accessibility issues with informative images in an HTML document. It ensures that images conveying information have appropriate `alt` attributes and, optionally, compares the image text (via OCR) with the `alt` text to detect discrepancies.  
 
-Este script analiza un documento HTML para detectar **imágenes informativas mal configuradas** y **compara su texto alternativo (`alt`) con el texto real de la imagen mediante OCR**.  
-Verifica que las imágenes tengan un `alt` descriptivo y que no sean genéricas o incorrectas.
+## ✅ What It Does  
+This tester scans an HTML document and identifies issues with:  
+- **Informative images (`<img>`)** missing an `alt` attribute.  
+- **Images with generic `alt` text** (e.g., "image", "photo", "icon") that do not provide meaningful descriptions.  
+- **Images with mismatched `alt` text and actual image text** using Optical Character Recognition (OCR).  
+- **Exports the findings to Excel (`issue_report.xlsx`).**  
 
-📚 **Referencias oficiales**:
-- **WCAG 2.1 - 1.1.1:** [Non-text Content](https://www.w3.org/WAI/WCAG21/quickref/#non-text-content)
-- **W3C Informative Images Guide:** [https://www.w3.org/WAI/tutorials/images/informative/](https://www.w3.org/WAI/tutorials/images/informative/)
+## 🚀 Installation  
+Make sure you have the required dependencies installed:  
 
----
+```sh
+pip install beautifulsoup4 pytesseract pillow openpyxl
+🔧 Additional Setup
+You need to install Tesseract OCR to enable text extraction from images:
 
-## 🔍 **Errores detectados**
+Windows: Download and install from Tesseract OCR.
+Linux/macOS: Install via package manager (sudo apt install tesseract-ocr or brew install tesseract).
+After installation, update the script's pytesseract.pytesseract.tesseract_cmd path if necessary.
 
-### **1️⃣ Imágenes informativas sin `alt` (Error crítico)**
-🔴 **Problema:**  
-Las imágenes que contienen información visual **deben tener un `alt` descriptivo** para que los lectores de pantalla puedan interpretarlas.
-
-✅ **Solución:**  
-- Agregar un `alt` que describa la información clave de la imagen.
-
-📌 **Ejemplo incorrecto:**
-```html
-<img src="instructions.png">
-📌 Ejemplo corregido:
-
-html
-Copy
-Edit
-<img src="instructions.png" alt="Push the cap down and turn it counter-clockwise.">
-2️⃣ Imágenes con alt genérico
-🔴 Problema:
-Los textos alternativos como "image", "photo", "icon" no proporcionan información útil a los lectores de pantalla.
-
-✅ Solución:
-
-Reemplazar el alt genérico por una descripción clara del contenido visual.
-📌 Ejemplo incorrecto:
-
-html
-Copy
-Edit
-<img src="dog.jpg" alt="Photo">
-📌 Ejemplo corregido:
-
-html
-Copy
-Edit
-<img src="dog.jpg" alt="Dog with a bell attached to its collar.">
-3️⃣ Comparación con OCR: alt no coincide con el texto en la imagen
-🔴 Problema:
-Si una imagen contiene texto, el alt debe reflejar su contenido de manera precisa.
-
-✅ Solución:
-
-Utilizar OCR para extraer el texto de la imagen y comparar con el alt.
-📌 Ejemplo incorrecto (OCR detecta texto diferente al alt)
-
-html
-Copy
-Edit
-<img src="banner.jpg" alt="Special offer">
-📌 Texto detectado en la imagen por OCR:
-
-pgsql
-Copy
-Edit
-Get 50% off on all summer products!
-📌 Ejemplo corregido:
-
-html
-Copy
-Edit
-<img src="banner.jpg" alt="Get 50% off on all summer products!">
-⚙️ Instalación
-Este script requiere Python 3.7+, BeautifulSoup4, pytesseract y Pillow:
-
-bash
-Copy
-Edit
-pip install beautifulsoup4 pytesseract pillow
-Además, debes instalar Tesseract OCR y configurarlo en tu sistema:
-
-Windows: Descarga e instala desde https://github.com/UB-Mannheim/tesseract/wiki.
-Luego, configura la ruta en el script:
+🖥️ Usage
+To run the script, provide an HTML string and a page URL:
 
 python
 Copy
 Edit
-pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
-Linux/macOS:
+from check_informative_images import check_informative_images
 
-bash
-Copy
-Edit
-sudo apt install tesseract-ocr  # Ubuntu/Debian
-brew install tesseract          # macOS (Homebrew)
-🚀 Cómo usar este tester
-Ejecuta el script pasando un documento HTML como entrada:
-
-python
-Copy
-Edit
-from manual_checks.check_informative_images import check_informative_images
-
-html_test = """
-<!DOCTYPE html>
+html_content = """
 <html>
-<body>
-    <h1>Ejemplo de imágenes informativas</h1>
-    
-    <!-- Imagen sin alt -->
-    <img src="missing-alt.jpg">
-    
-    <!-- Imagen con alt genérico -->
-    <img src="warning.png" alt="Image">
-    
-    <!-- Imagen que contiene texto -->
-    <img src="promotion.jpg" alt="Great sale">
-</body>
+    <body>
+        <img src="informative.png" alt="">
+        <img src="warning.png" alt="Warning sign">
+    </body>
 </html>
 """
 
-errors = check_informative_images(html_test, "https://example.com")
-
-for err in errors:
-    print(f"🔴 {err['title']}")
-    print(f"📌 {err['description']}")
-    print(f"🛠 Solución sugerida: {err['remediation']}\n")
-🛠 Salida esperada en consola
-vbnet
+issues = check_informative_images(html_content, "https://example.com")
+print(issues)
+🔍 Example Output
+json
 Copy
 Edit
-🔴 Informative image with missing or empty alt
-📌 The image 'missing-alt.jpg' has no or empty alt.
-🛠 Solución sugerida: Add a short, meaningful alt text.
+[
+    {
+        "title": "Informative image with missing or empty alt",
+        "type": "Screen Reader",
+        "severity": "High",
+        "description": "The image 'informative.png' (informative) has no or empty alt. Screen reader users won't perceive the information.",
+        "remediation": "Add a short, meaningful alt text that conveys the message.",
+        "wcag_reference": "1.1.1",
+        "impact": "Essential information is lost for screen reader users.",
+        "page_url": "https://example.com",
+        "resolution": "check_informative_images.md"
+    },
+    {
+        "title": "Informative image has a generic alt text",
+        "type": "Screen Reader",
+        "severity": "Medium",
+        "description": "The image 'warning.png' uses a generic alt 'Warning sign', which doesn't fully describe the image content.",
+        "remediation": "Use a short phrase describing the specific meaning of the image.",
+        "wcag_reference": "1.1.1",
+        "impact": "Screen reader users receive a non-informative label instead of actual content.",
+        "page_url": "https://example.com",
+        "resolution": "check_informative_images.md"
+    }
+]
+📂 How It Works
+1️⃣ Parses the HTML using BeautifulSoup.
+2️⃣ Identifies missing, empty, or generic alt attributes for informative images.
+3️⃣ OCR Comparison: If the image exists in the downloaded_images/ folder, extracts text using Tesseract OCR and compares it to the alt text.
+4️⃣ Flags mismatches between extracted text and alt text based on a 30% similarity threshold.
+5️⃣ Exports the results to Excel (issue_report.xlsx) for further analysis.
 
-🔴 Informative image has a generic alt text
-📌 The image 'warning.png' uses a generic alt 'Image', which doesn't convey meaning.
-🛠 Solución sugerida: Use a descriptive alt, like "Warning: Invalid credentials".
+🛠️ Fixing the Issue
+❌ Incorrect:
 
-🔴 Alt text may be inaccurate compared to image text
-📌 Image: 'promotion.jpg'
-   OCR text: 'Limited time offer: Buy 1 get 1 free...'
-   Alt: 'Great sale'
-   Overlap: 15.0%
-🛠 Solución sugerida: Update the alt to match the text in the image.
-📌 Resumen
-✅ Este tester evalúa la accesibilidad de imágenes informativas en HTML:
-
-🚨 Errores críticos: alt ausente o genérico.
-🛠 Comparación OCR: alt inexacto respecto al texto en la imagen.
-📖 Cumple con WCAG 2.1: Mejora la accesibilidad para usuarios de lectores de pantalla.
-🔥 Ideal para validar imágenes en aplicaciones web y mejorar la accesibilidad! 🚀
-
+html
 Copy
 Edit
+<img src="informative.png" alt="">
+<img src="warning.png" alt="image">
+✅ Corrected:
+
+html
+Copy
+Edit
+<img src="informative.png" alt="Step-by-step guide on how to assemble the product.">
+<img src="warning.png" alt="Triangle warning sign indicating a hazard.">
+📚 WCAG Reference
+Success Criterion 1.1.1 - Non-text Content
+→ Ensure that all informative images have meaningful alt attributes to provide accessibility for screen readers.
+
+📊 Report Generation
+This script automatically exports results to Excel (issue_report.xlsx), making it easy to review and track accessibility issues.
+
+📢 Contributing
+Found a bug? Open an issue or create a pull request.
+Suggestions? Feel free to contribute to improve this tester!
+
+🔗 References
+🌍 WCAG 2.2 Guidelines
+📖 HTML Specification
+🏗 BeautifulSoup Documentation
+📖 Tesseract OCR Documentation

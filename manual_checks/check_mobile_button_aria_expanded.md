@@ -1,73 +1,90 @@
-📌 README.md
-md
-Copy
-Edit
-# 🔍 Mobile Button Accessibility Checker
+# 🏷️ Check for Missing `aria-expanded` in Expandable Buttons  
 
-Este script verifica si los **botones expandibles** en dispositivos móviles tienen el atributo `aria-expanded` correctamente configurado.  
-Si **ningún botón expandible tiene `aria-expanded="true"` o `aria-expanded="false"`**, se genera una incidencia.
+## 📌 Overview  
+This script detects accessibility issues related to **expandable buttons missing the `aria-expanded` attribute**.  
+Ensuring that **expandable buttons correctly indicate their state** helps screen reader users understand whether a section is expanded or collapsed.  
 
-## 📌 ¿Por qué es importante?
-Los usuarios que navegan con el teclado o lectores de pantalla **no pueden ver visualmente si un botón ha expandido su contenido**, por lo que necesitan que el estado expandido/colapsado sea **anunciado correctamente**.
+## ✅ What It Does  
+This tester scans an HTML document and identifies issues with:  
+- **Buttons (`<button>`, `role="button"`, or any element with `aria-expanded`) missing `aria-expanded="true"` or `aria-expanded="false"`.**  
+- **Ensuring that expandable buttons provide state information for assistive technology users.**  
+- **Exports the findings to Excel (`issue_report.xlsx`).**  
 
-## ⚠️ Problema Detectado
-- **Los botones expandibles deben indicar su estado con `aria-expanded="true"` o `aria-expanded="false"`**.
-- **Si falta este atributo**, el usuario no sabrá si hay contenido visible o colapsado.
-- **Al hacer doble tap en el botón, el lector de pantalla debería anunciar el cambio de estado.**
+## 🚀 Installation  
+Make sure you have the required dependencies installed:  
 
-### ❌ **Ejemplo Incorrecto**
-```html
-<button>Ver más</button> <!-- ❌ Falta aria-expanded -->
-<div role="button">Mostrar información</div> <!-- ❌ Falta aria-expanded -->
-<span role="button" aria-expanded="">Opciones</span> <!-- ❌ Estado incorrecto -->
-<a href="#" role="button" class="expandable">Ubicación</a> <!-- ❌ Sin aria-expanded -->
-✅ Ejemplo Correcto
-html
-Copy
-Edit
-<button aria-expanded="false">Ver más</button> <!-- ✅ Correcto -->
-<div role="button" aria-expanded="true">Mostrar información</div> <!-- ✅ Correcto -->
-<span role="button" aria-expanded="false">Opciones</span> <!-- ✅ Correcto -->
-<a href="#" role="button" aria-expanded="true">Ubicación</a> <!-- ✅ Correcto -->
-⚡ Instalación
-Asegúrate de tener BeautifulSoup instalado:
+```sh
+pip install beautifulsoup4 openpyxl
+🖥️ Usage
+To run the script, provide an HTML string and a page URL:
 
-bash
-Copy
-Edit
-pip install beautifulsoup4
-🚀 Uso del Tester
 python
 Copy
 Edit
 from check_mobile_button_aria_expanded import check_mobile_button_aria_expanded
 
-with open("test_mobile_button_aria_expanded.html", "r", encoding="utf-8") as f:
-    html_content = f.read()
+html_content = """
+<html>
+    <body>
+        <button>Menu</button>
+        <div role="button">Expand Section</div>
+    </body>
+</html>
+"""
 
-page_url = "https://example.com"
-incidencias = check_mobile_button_aria_expanded(html_content, page_url)
-
-for inc in incidencias:
-    print(inc)
-📄 Ejemplo de Incidencia Detectada
-Si ningún botón expandible tiene aria-expanded, el tester reportará:
-
+issues = check_mobile_button_aria_expanded(html_content, "https://example.com")
+print(issues)
+🔍 Example Output
 json
 Copy
 Edit
-{
-    "title": "Button has no expanded/collapsed state announced on mobile",
-    "type": "Screen Readers",
-    "severity": "Medium",
-    "description": "Uno o más botones con estados expandibles no tienen el atributo `aria-expanded`. Esto significa que los usuarios con lectores de pantalla en dispositivos móviles no sabrán si el botón está expandido o colapsado.",
-    "remediation": "Añadir `aria-expanded=\"true\"` o `aria-expanded=\"false\"` al botón expandible. Ejemplo: `<button aria-expanded=\"false\">Ver más</button>`.",
-    "wcag_reference": "4.1.2",
-    "impact": "Los usuarios con lectores de pantalla en dispositivos móviles no recibirán información sobre el estado del botón.",
-    "page_url": "https://example.com"
-}
-✅ Beneficios del Tester
-Mejora la accesibilidad para usuarios con lectores de pantalla en dispositivos móviles.
-Detecta automáticamente si falta aria-expanded en botones expandibles.
-Puede ejecutarse de forma independiente o integrarse en global_tester.py.
-💡 ¡Con este tester, garantizas una mejor experiencia accesible en botones expandibles en móviles! 🚀
+[
+    {
+        "title": "Button has no expanded/collapsed state announced on mobile",
+        "type": "Screen Readers",
+        "severity": "Medium",
+        "description": "One or more expandable buttons are missing the `aria-expanded` attribute. This means that screen reader users on mobile devices will not know whether the button is expanded or collapsed.",
+        "remediation": "Add `aria-expanded=\"true\"` or `aria-expanded=\"false\"` to the expandable button. Example: `<button aria-expanded=\"false\">See more</button>`.",
+        "wcag_reference": "4.1.2",
+        "impact": "Screen reader users on mobile devices will not receive information about the button's state.",
+        "page_url": "https://example.com",
+        "resolution": "check_mobile_button_aria_expanded.md"
+    }
+]
+📂 How It Works
+1️⃣ Parses the HTML using BeautifulSoup.
+2️⃣ Extracts all expandable buttons (<button>, role="button", or elements with aria-expanded).
+3️⃣ Checks if at least one button has aria-expanded="true" or aria-expanded="false".
+4️⃣ If missing, flags an issue with severity, impact, and remediation.
+5️⃣ Exports the results to Excel (issue_report.xlsx) for further analysis.
+
+🛠️ Fixing the Issue
+❌ Incorrect:
+
+html
+Copy
+Edit
+<button>Menu</button>
+<div role="button">Expand Section</div>
+✅ Corrected:
+
+html
+Copy
+Edit
+<button aria-expanded="false">Menu</button>
+<div role="button" aria-expanded="true">Expand Section</div>
+📚 WCAG Reference
+Success Criterion 4.1.2 - Name, Role, Value
+→ Ensure that interactive components provide the correct roles, states, and properties for assistive technologies.
+
+📊 Report Generation
+This script automatically exports results to Excel (issue_report.xlsx), making it easy to review and track accessibility issues.
+
+📢 Contributing
+Found a bug? Open an issue or create a pull request.
+Suggestions? Feel free to contribute to improve this tester!
+
+🔗 References
+🌍 WCAG 2.2 Guidelines
+📖 HTML Specification
+🏗 BeautifulSoup Documentation

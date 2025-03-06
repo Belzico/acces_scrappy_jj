@@ -1,96 +1,94 @@
-README - Check Toast Errors
-Descripción
-El tester check_toast_errors.py detecta si los mensajes de error tipo toast (notificaciones flotantes) desaparecen demasiado rápido antes de que el usuario pueda leerlos o interactuar con ellos.
+# 🏷️ Check for Toast Error Message Accessibility  
 
-Este problema es crítico en términos de accesibilidad, ya que los usuarios con baja visión, dificultades cognitivas o discapacidades motoras pueden necesitar más tiempo para leer y procesar la información.
+## 📌 Overview  
+This script detects accessibility issues related to **error messages that disappear too quickly** in an HTML document. It ensures that users have enough time to read and understand error messages before they disappear, in accordance with WCAG guidelines.  
 
-Este problema está cubierto por la WCAG 2.2.1 - Tiempo Ajustable, que establece que los usuarios deben poder controlar el tiempo de visualización de los mensajes críticos.
-🔗 WCAG 2.2.1 - Understanding Time Adjustable
+## ✅ What It Does  
+This tester scans an HTML document and identifies issues with:  
+- **Toast messages (`<div class="toast">`, `<div class="notification">`, `<div class="error-message">`)** that disappear too quickly.  
+- **Error messages that vanish in less than a specified duration (`min_duration`, default: 5 seconds).**  
+- **Exports the findings to Excel (`issue_report.xlsx`).**  
 
-🛠️ Cómo Funciona
-El tester analiza el código HTML y:
+## 🚀 Installation  
+Make sure you have the required dependencies installed:  
 
-Busca mensajes de error flotantes:
-Elementos con clases comunes como .toast, .notification, .alert, .error-message
-Verifica si desaparecen automáticamente en menos de min_duration segundos (valor por defecto: 5s).
-Reporta un problema si desaparecen demasiado rápido, indicando:
-Texto del mensaje de error.
-Tiempo en el que desaparece automáticamente.
-Impacto en usuarios con necesidades de accesibilidad.
-Sugerencias para mejorar la accesibilidad.
-🚨 Problema Detectado
-Si un mensaje de error desaparece automáticamente antes de que el usuario pueda leerlo, el tester lo reportará con la siguiente información:
+```sh
+pip install beautifulsoup4 openpyxl
+🖥️ Usage
+To run the script, provide an HTML string and a page URL:
 
-Título: "Error message disappears too quickly"
-Severidad: Alta (High)
-Impacto: Los usuarios pueden no darse cuenta del error y no comprender por qué no se envió el formulario.
-Sugerencia de solución: Mantener el mensaje en pantalla hasta que el usuario lo cierre manualmente o mostrarlo cerca del campo del formulario.
-📌 Ejemplo de Error en HTML
-El siguiente código HTML representa un problema de accesibilidad donde un mensaje de error tipo toast desaparece automáticamente después de 2 segundos.
-
-html
+python
 Copy
 Edit
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toast Error Test</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        .button { padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; }
-        .toast {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 15px;
-            background: red;
-            color: white;
-            border-radius: 5px;
-        }
-    </style>
-</head>
-<body>
+from check_toast_errors import check_toast_errors
 
-    <h1>Prueba de Mensaje de Error con Timeout</h1>
-    <button class="button" onclick="showToast()">Enviar formulario</button>
-
-    <div id="errorToast" class="toast">❌ Error: El campo email es obligatorio.</div>
-
-    <script>
-        function showToast() {
-            let toast = document.getElementById("errorToast");
-            toast.style.display = "block";
-
-            // ❌ Error: El mensaje desaparece automáticamente después de 2 segundos
-            setTimeout(() => {
-                toast.style.display = "none";
-            }, 2000);
-        }
-    </script>
-
-</body>
+html_content = """
+<html>
+    <body>
+        <div class="toast error-message">Invalid login credentials.</div>
+    </body>
 </html>
-✅ Solución Recomendada
-Para corregir el problema, el mensaje de error debe permanecer en pantalla hasta que el usuario lo cierre manualmente. En lugar de usar setTimeout, se puede agregar un botón de cierre explícito:
+"""
+
+issues = check_toast_errors(html_content, "https://example.com")
+print(issues)
+🔍 Example Output
+json
+Copy
+Edit
+[
+    {
+        "title": "Error message disappears too quickly",
+        "type": "Other A11y",
+        "severity": "High",
+        "description": "The error message 'Invalid login credentials.' automatically disappears in 2 seconds. This may prevent some users from reading or understanding the error.",
+        "remediation": "Ensure that error messages remain visible until the user manually dismisses them. Ideally, display the message near the form field causing the error.",
+        "wcag_reference": "2.2.1",
+        "impact": "Users may not notice the error and may not understand why the form was not submitted.",
+        "page_url": "https://example.com",
+        "resolution": "check_toast_errors.md"
+    }
+]
+📂 How It Works
+1️⃣ Parses the HTML using BeautifulSoup.
+2️⃣ Extracts all toast messages (.toast, .notification, .alert, .error-message).
+3️⃣ Checks if error messages disappear in less than the specified min_duration (default: 5s).
+4️⃣ If an error message disappears too quickly, an issue is flagged.
+5️⃣ Exports the results to Excel (issue_report.xlsx) for further analysis.
+
+🛠️ Fixing the Issue
+❌ Incorrect:
 
 html
 Copy
 Edit
-<button onclick="closeToast()">Cerrar</button>
-javascript
+<div class="toast error-message" style="animation: fadeOut 2s;">Invalid login credentials.</div>
+✅ Corrected:
+
+html
 Copy
 Edit
-function closeToast() {
-    document.getElementById("errorToast").style.display = "none";
-}
-Otra alternativa es mostrar el mensaje de error dentro del formulario, cerca del campo correspondiente.
+<div class="error-message" role="alert">
+    Invalid login credentials. Please try again.
+    <button onclick="closeMessage()">Dismiss</button>
+</div>
+<script>
+    function closeMessage() {
+        document.querySelector('.error-message').style.display = 'none';
+    }
+</script>
+📚 WCAG Reference
+Success Criterion 2.2.1 - Timing Adjustable
+→ Ensure that users have enough time to interact with time-sensitive content.
 
-📌 Conclusión
-Este tester ayuda a identificar errores de accesibilidad en mensajes tipo toast.
-Los mensajes de error deben permanecer visibles hasta que el usuario los cierre.
-No deben desaparecer automáticamente en menos de 5 segundos sin opción de ajuste.
-Este tester ahora se puede integrar con global_tester.py para ejecutar la verificación en múltiples páginas automáticamente. 🚀
+📊 Report Generation
+This script automatically exports results to Excel (issue_report.xlsx), making it easy to review and track accessibility issues.
+
+📢 Contributing
+Found a bug? Open an issue or create a pull request.
+Suggestions? Feel free to contribute to improve this tester!
+
+🔗 References
+🌍 WCAG 2.2 Guidelines
+📖 HTML Specification
+🏗 BeautifulSoup Documentation

@@ -1,69 +1,82 @@
-📌 README.md
-md
-Copy
-Edit
-# 🔍 Accordion Accessibility Checker
+# 🎛 Accordion ARIA Expanded Check - `check_accordion_aria_expanded.py`
 
-Este script verifica si los **botones de acordeón** (`accordion-toggle`) tienen el atributo `aria-expanded` correctamente configurado.  
-Si **ningún botón de acordeón tiene `aria-expanded="true"` o `aria-expanded="false"`**, se genera una incidencia.
+This script detects **accordion buttons that do not properly announce their state** using `aria-expanded`.  
+If an accordion does not have `aria-expanded="true"` or `aria-expanded="false"`, screen reader users will not know whether the content is expanded or collapsed.
 
-## 📌 ¿Por qué es importante?
-Los usuarios que navegan con el teclado o lectores de pantalla **no pueden ver visualmente si un acordeón está abierto o cerrado**, por lo que necesitan que el estado expandido sea **anunciado correctamente**.
+## 📌 Why is this important?
+According to **WCAG 4.1.2 (Name, Role, Value)**, interactive elements must provide programmatic access to their state.  
+Without `aria-expanded`, screen readers cannot announce whether an accordion section is open or closed, leading to:
 
-## ⚠️ Problema Detectado
-- **Los botones de acordeón deben indicar su estado con `aria-expanded="true"` o `aria-expanded="false"`**.
-- **Si falta este atributo**, el usuario no sabrá si hay contenido expandible disponible.
-- **Se recomienda usar `<button>` en lugar de `<a>` para controlar los acordeones**.
+- ❌ **Confusion for visually impaired users.**
+- ❌ **Navigation issues when content is dynamically shown or hidden.**
+- ❌ **Loss of accessibility compliance.**
 
-### ❌ **Ejemplo Incorrecto**
+---
+
+## ⚠️ **Detected Issue**
+This script scans the HTML for accordion buttons and verifies whether they have `aria-expanded` correctly set.
+
+### ❌ **Incorrect Example (Fails Accessibility)**
 ```html
-<button class="accordion-toggle">Sección 1</button> <!-- ❌ Falta aria-expanded -->
-<div class="accordion-content">Contenido de la sección 1</div>
-✅ Ejemplo Correcto
+<button class="accordion-toggle">Section 1</button>
+<button class="accordion-toggle" role="button">Section 2</button>
+✅ Correct Example (Accessible)
 html
 Copy
 Edit
-<button class="accordion-toggle" aria-expanded="false">Sección 1</button> <!-- ✅ Se anuncia correctamente -->
-<div class="accordion-content" hidden>Contenido de la sección 1</div>
-⚡ Instalación
-Asegúrate de tener BeautifulSoup instalado:
+<button class="accordion-toggle" aria-expanded="false">Section 1</button>
+<button class="accordion-toggle" role="button" aria-expanded="true">Section 2</button>
+🚀 How to Use the Tester
+📌 Installation
+Ensure BeautifulSoup and dependencies are installed:
 
-bash
+sh
 Copy
 Edit
-pip install beautifulsoup4
-🚀 Uso del Tester
+pip install beautifulsoup4 pandas openpyxl
+📌 Running the Tester on an HTML File
 python
 Copy
 Edit
 from check_accordion_aria_expanded import check_accordion_aria_expanded
 
-with open("test_accordion_aria_expanded.html", "r", encoding="utf-8") as f:
+with open("test_accordion.html", "r", encoding="utf-8") as f:
     html_content = f.read()
 
-page_url = "https://example.com"
-incidencias = check_accordion_aria_expanded(html_content, page_url)
+page_url = "file:///path/to/test_accordion.html"
+incidences = check_accordion_aria_expanded(html_content, page_url)
 
-for inc in incidencias:
+for inc in incidences:
     print(inc)
-📄 Ejemplo de Incidencia Detectada
-Si ningún acordeón tiene aria-expanded, el tester reportará:
+📄 Example of a Detected Issue
+If an accordion button is missing aria-expanded, the tester will generate the following JSON report:
 
 json
 Copy
 Edit
 {
-    "title": "Accordion items don’t announce state",
+    "title": "Accordion items do not announce their state",
     "type": "Screen Reader",
     "severity": "Medium",
-    "description": "Uno o más botones de acordeón no tienen el atributo `aria-expanded`. Esto significa que los usuarios con lectores de pantalla no sabrán si el acordeón está expandido o colapsado.",
-    "remediation": "Añadir `aria-expanded=\"true\"` o `aria-expanded=\"false\"` al botón de acordeón. Ejemplo: `<button aria-expanded=\"false\">Sección 1</button>`.",
+    "description": "One or more accordion buttons are missing the `aria-expanded` attribute. This prevents screen reader users from knowing whether the accordion is expanded or collapsed.",
+    "remediation": "Add `aria-expanded=\"true\"` or `aria-expanded=\"false\"` to the accordion button. Example: `<button aria-expanded=\"false\">Section 1</button>`.",
     "wcag_reference": "4.1.2",
-    "impact": "Los usuarios con lectores de pantalla podrían no saber que hay contenido expandible en la página.",
-    "page_url": "https://example.com"
+    "impact": "Screen reader users may not be aware of expandable content on the page.",
+    "page_url": "file:///path/to/test_accordion.html",
+    "resolution": "check_accordion_aria_expanded.md",
+    "element_info": {
+        "tag": "button",
+        "text": "Section 1",
+        "id": "N/A",
+        "class": "accordion-toggle",
+        "line_number": 12
+    }
 }
-✅ Beneficios del Tester
-Mejora la accesibilidad para usuarios con lectores de pantalla.
-Detecta automáticamente si falta aria-expanded en botones de acordeón.
-Puede ejecutarse de forma independiente o integrarse en global_tester.py.
-💡 ¡Con este tester, garantizas una mejor experiencia accesible en acordeones interactivos! 🚀
+✅ Benefits of Using This Tester
+✔ Detects missing aria-expanded attributes in accordions.
+✔ Ensures compliance with WCAG 4.1.2.
+✔ Provides detailed reports for debugging accessibility issues.
+✔ Can be integrated into automated testing workflows.
+
+📢 Contribute & Improve!
+If you have suggestions or want to enhance this tester, feel free to open a Pull Request or report an Issue. 🚀

@@ -1,42 +1,51 @@
 from bs4 import BeautifulSoup
+from transform_json_to_excel import transform_json_to_excel  
 
-def check_aria_label_in_div(html_content, page_url):
+def get_element_info(element):
+    """Retrieves useful information about an HTML element to facilitate issue identification."""
+    return {
+        "tag": element.name,
+        "text": element.get_text(strip=True)[:50],  # First 50 characters of the text
+        "id": element.get("id", "N/A"),
+        "class": " ".join(element.get("class", [])) if element.has_attr("class") else "N/A",
+        "line_number": element.sourceline if hasattr(element, 'sourceline') else "N/A"
+    }
+
+def check_aria_label_in_div(html_content, page_url, excel="issue_report.xlsx"):
     """
-    Verifica si existen `<div>` con `aria-label` sin un `role` definido.
+    Checks if there are `<div>` elements with `aria-label` but without a valid `role`.
 
-    - Busca todos los `<div>` que tienen el atributo `aria-label`.
-    - Verifica si tienen un `role` válido.
-    - Si falta el `role`, genera una incidencia.
+    - Finds all `<div>` elements with the `aria-label` attribute.
+    - Checks if they have a valid `role` attribute.
+    - If the `role` is missing, an issue is generated.
     """
 
-    # 1) Parsear el HTML
     soup = BeautifulSoup(html_content, "html.parser")
 
-    # 2) Buscar todos los <div> con aria-label
+    # Find all <div> elements with aria-label
     divs_with_aria_label = soup.find_all("div", attrs={"aria-label": True})
 
-    # 3) Filtrar los que no tienen un role definido
+    # Filter those without a defined role
     invalid_divs = [div for div in divs_with_aria_label if not div.has_attr("role")]
 
-    # 4) Generar incidencias si hay <div> con aria-label sin role
-    incidencias = []
-    if invalid_divs:
-        incidencias.append({
-            "title": "Aria-label attribute incorrectly used in div elements",
+    incidences = []
+    for div in invalid_divs:
+        incidences.append({
+            "title": "ARIA label used in <div> without a role",
             "type": "HTML Validator",
             "severity": "Low",
-            "description": (
-                "El atributo `aria-label` solo debe usarse en elementos que lo soporten. "
-                "Actualmente se encuentra en `<div>` sin un `role` definido, lo que no es válido."
-            ),
-            "remediation": (
-                "Asegurar que los `<div>` con `aria-label` tengan un `role` apropiado, como `role=\"button\"`, `role=\"option\"`, etc. "
-                "Si el `aria-label` no es necesario, usar un `<span>` o `<button>` en su lugar."
-            ),
+            "description": "The `aria-label` attribute should only be used on elements that support it. "
+                           "Currently, it is applied to a `<div>` without a defined `role`, which is not valid.",
+            "remediation": "Ensure that `<div>` elements with `aria-label` have an appropriate `role`, such as `role=\"button\"`, `role=\"option\"`, etc. "
+                           "If `aria-label` is not necessary, consider using a `<span>` or `<button>` instead.",
             "wcag_reference": "4.1.2",
-            "impact": "No hay impacto inmediato, pero puede causar problemas en validadores y tecnologías asistivas.",
+            "impact": "No immediate impact, but it may cause issues in validators and assistive technologies.",
             "page_url": page_url,
-            "affected_elements": [str(div) for div in invalid_divs]  # Lista los <div> con errores
+            "resolution": "check_aria_label_in_div.md",
+            "element_info": get_element_info(div)
         })
 
-    return incidencias
+    # Convert incidences directly to Excel before returning
+    transform_json_to_excel(incidences, excel)
+
+    return incidences

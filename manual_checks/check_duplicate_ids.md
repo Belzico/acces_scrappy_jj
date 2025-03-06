@@ -1,85 +1,93 @@
-📌 README.md
-md
+🆔 Check for Duplicate ID Attributes
+📌 Overview
+This script detects duplicate id attributes in an HTML document, which can cause accessibility issues and unexpected behavior in assistive technologies. Each id must be unique in the DOM to ensure proper functionality.
+
+✅ What It Does
+Scans the HTML for all elements with an id attribute.
+Identifies duplicate id values used in multiple elements.
+Generates a detailed report listing:
+The duplicated id.
+The HTML tags where it appears.
+Potential impact on users.
+A suggested remediation to fix the issue.
+Exports the findings to Excel (issue_report.xlsx).
+🚀 Installation
+Make sure you have the required dependencies installed:
+
+sh
 Copy
 Edit
-# 🔍 Duplicated ID Detector - `check_duplicate_ids.py`
+pip install beautifulsoup4 openpyxl
+🖥️ Usage
+To run the script, provide an HTML string and a page URL:
 
-Este script verifica si hay **identificadores (`id`) duplicados** en el código HTML.  
-Si **un mismo `id` aparece más de una vez**, puede causar problemas en **accesibilidad, compatibilidad con scripts y tecnologías asistivas**.
-
-## 📌 ¿Por qué es importante?
-Los **identificadores (`id`) deben ser únicos en el DOM**.  
-Cuando un `id` está duplicado, puede generar los siguientes problemas:
-
-- ❌ **Lectores de pantalla y tecnologías asistivas no podrán interpretar correctamente la página**.
-- ❌ **Los scripts de JavaScript pueden seleccionar el elemento incorrecto**, causando fallos en la funcionalidad.
-- ❌ **El HTML no será válido**, lo que puede generar incompatibilidades entre navegadores.
-
----
-
-## ⚠️ **Problema Detectado**
-El script busca elementos con `id` duplicados en el DOM.  
-Ejemplo de código problemático:
-
-### ❌ **Ejemplo Incorrecto (Con Duplicados)**
-```html
-<button id="passwordPositions">Continuar</button>
-<button id="passwordPositions">Reenviar Código</button>
-<div id="passwordPositions">Este es un mensaje oculto</div>
-✅ Ejemplo Correcto (IDs Únicos)
-html
-Copy
-Edit
-<button id="passwordPositions_1">Continuar</button>
-<button id="passwordPositions_2">Reenviar Código</button>
-<div id="messageContainer">Este es un mensaje oculto</div>
-🚀 Cómo Usar el Tester
-📌 Instalación
-Asegúrate de tener BeautifulSoup instalado:
-
-bash
-Copy
-Edit
-pip install beautifulsoup4
-📌 Ejecutar el Tester en un Archivo HTML
 python
 Copy
 Edit
 from check_duplicate_ids import check_duplicate_ids
 
-with open("test_duplicate_ids_error.html", "r", encoding="utf-8") as f:
-    html_content = f.read()
+html_content = """
+<html>
+    <body>
+        <div id="menu">Main Menu</div>
+        <span id="menu">Duplicate ID</span>
+    </body>
+</html>
+"""
 
-page_url = "file:///ruta/del/archivo/test_duplicate_ids_error.html"
-incidencias = check_duplicate_ids(html_content, page_url)
-
-for inc in incidencias:
-    print(inc)
-📄 Ejemplo de Incidencia Detectada
-Si hay id duplicados en la página, el tester reportará:
-
+issues = check_duplicate_ids(html_content, "https://example.com")
+print(issues)
+🔍 Example Output
 json
 Copy
 Edit
-{
-    "title": "Duplicated id in fields",
-    "type": "HTML Validator",
-    "severity": "High",
-    "description": "Uno o más elementos en la página tienen el mismo `id`, lo que puede causar problemas en tecnologías asistivas y scripts de la web. Cada `id` debe ser único en el DOM.",
-    "remediation": "Asegurar que cada `id` en la página sea único. Si necesitas múltiples instancias, usa `class` o añade un sufijo único, como `id=\"passwordPositions_1\"`.",
-    "wcag_reference": "4.1.1",
-    "impact": "Los usuarios que dependen de tecnologías asistivas pueden no recibir el contenido correctamente.",
-    "page_url": "file:///ruta/del/archivo/test_duplicate_ids_error.html",
-    "duplicated_ids": {
-        "passwordPositions": ["button", "button", "div"],
-        "documentNumber": ["input", "span"]
+[
+    {
+        "title": "Duplicated id in fields",
+        "type": "HTML Validator",
+        "severity": "High",
+        "description": "The id `menu` is used multiple times in 2 different elements (div, span). This can cause issues with assistive technologies and web scripts. Each `id` must be unique within the DOM.",
+        "remediation": "Ensure that each `id` in the page is unique. If multiple instances are needed, use `class` instead or add a unique suffix, e.g., `id='menu_1'`.",
+        "wcag_reference": "4.1.1",
+        "impact": "Users relying on assistive technologies may not receive the correct content.",
+        "page_url": "https://example.com",
+        "resolution": "check_duplicate_ids.md",
+        "element_info": "['div', 'span']//////menu"
     }
-}
-✅ Beneficios del Tester
-✔ Detecta TODOS los elementos con id, sin importar su tipo (button, div, span, input, etc.).
-✔ Muestra en qué etiquetas (tag) se repite cada id.
-✔ Genera un reporte detallado para corregir los problemas fácilmente.
-✔ Compatible con cualquier estructura de HTML y scripts dinámicos.
-✔ Fácil integración en global_tester.py.
+]
+📂 How It Works
+1️⃣ Parses the HTML using BeautifulSoup.
+2️⃣ Finds all elements with an id attribute.
+3️⃣ Identifies duplicate id values and lists the affected elements.
+4️⃣ Creates a structured report with severity, impact, and remediation.
+5️⃣ Exports the results to Excel for further analysis.
 
-💡 ¡Ahora garantizamos que TODOS los id sean únicos en la página! 🚀
+🛠️ Fixing the Issue
+❌ Incorrect:
+html
+Copy
+Edit
+<div id="menu">Main Menu</div>
+<span id="menu">Duplicate ID</span>
+✅ Corrected:
+html
+Copy
+Edit
+<div id="menu">Main Menu</div>
+<span id="menu_1">Unique ID</span>
+Alternative Fix: Use class instead of id when multiple elements share the same styling or behavior.
+
+📚 WCAG Reference
+Success Criterion 4.1.1 - Parsing
+→ Ensure elements have unique attributes to prevent errors in assistive technologies.
+🔗 More Info
+📊 Report Generation
+This script automatically exports results to Excel (issue_report.xlsx), making it easy to review and track accessibility issues.
+
+📢 Contributing
+Found a bug? Open an issue or create a pull request.
+Suggestions? Feel free to contribute to improve this tester!
+🔗 References
+🌍 WCAG 2.1 Guidelines
+📖 HTML Specification
+🏗 BeautifulSoup Documentation

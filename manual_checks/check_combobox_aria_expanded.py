@@ -1,55 +1,65 @@
 from bs4 import BeautifulSoup
+from transform_json_to_excel import transform_json_to_excel  
 
-def check_combobox_aria_expanded(html_content, page_url):
+def get_element_info(element):
+    """Retrieves useful information about an HTML element to facilitate issue identification."""
+    return {
+        "tag": element.name,
+        "text": element.get_text(strip=True)[:50],  # First 50 characters of the text
+        "id": element.get("id", "N/A"),
+        "class": " ".join(element.get("class", [])) if element.has_attr("class") else "N/A",
+        "line_number": element.sourceline if hasattr(element, 'sourceline') else "N/A"
+    }
+
+def check_combobox_aria_expanded(html_content, page_url, excel="issue_report.xlsx"):
     """
-    Verifica si los comboboxes de búsqueda tienen `aria-expanded` correctamente configurado.
+    Checks if search comboboxes have `aria-expanded` correctly configured.
 
-    - Busca inputs con `role="combobox"`, divs con `role="combobox"`, y selects.
-    - Verifica si tienen `aria-expanded="true"` o `aria-expanded="false"`.
-    - Si `aria-expanded` no cambia correctamente, se genera una incidencia.
+    - Looks for inputs with `role="combobox"`, divs with `role="combobox"`, and selects.
+    - Verifies if they have `aria-expanded="true"` or `aria-expanded="false"`.
+    - If `aria-expanded` does not change correctly, an issue is generated.
     """
 
-    # 1) Parsear el HTML
     soup = BeautifulSoup(html_content, "html.parser")
 
-    # 2) Buscar todos los posibles comboboxes
+    # Find all potential comboboxes
     comboboxes = []
     
-    # a) Inputs con role="combobox"
+    # a) Inputs with role="combobox"
     comboboxes += soup.find_all("input", attrs={"role": "combobox"})
     
-    # b) Divs con role="combobox"
+    # b) Divs with role="combobox"
     comboboxes += soup.find_all("div", attrs={"role": "combobox"})
     
-    # c) Selects con aria-expanded (no es común, pero algunos lo usan)
+    # c) Selects with aria-expanded (not common, but some use it)
     comboboxes += soup.find_all("select", attrs={"aria-expanded": True})
 
     if not comboboxes:
-        return []  # No hay comboboxes en la página
+        return []  # No comboboxes found
 
     incorrect_comboboxes = [
         cb for cb in comboboxes if cb.get("aria-expanded") not in ["true", "false"]
     ]
 
-    # 3) Si hay comboboxes sin aria-expanded válido, generamos incidencia
-    incidencias = []
-    if incorrect_comboboxes:
-        incidencias.append({
-            "title": "Aria-expanded attribute is not working correctly in Search combobox",
+    incidences = []
+    for cb in incorrect_comboboxes:
+        incidences.append({
+            "title": "Search combobox missing aria-expanded",
             "type": "Screen Reader",
             "severity": "Medium",
-            "description": (
-                "Uno o más comboboxes de búsqueda no cambian correctamente el atributo `aria-expanded`. "
-                "Cuando se expande el menú de búsqueda, `aria-expanded` debe cambiar a `true`, "
-                "y cuando se colapsa, debe cambiar a `false`."
-            ),
-            "remediation": (
-                "Actualizar el `aria-expanded` en el combobox de búsqueda para reflejar correctamente su estado. "
-                "Ejemplo: `<input role=\"combobox\" aria-expanded=\"true\">` cuando está expandido."
-            ),
+            "description": "One or more search comboboxes do not properly update the `aria-expanded` attribute. "
+                           "When the search menu expands, `aria-expanded` should change to `true`, "
+                           "and when collapsed, it should change to `false`.",
+            "remediation": "Ensure that the search combobox updates its `aria-expanded` attribute properly. "
+                           "Example: `<input role=\"combobox\" aria-expanded=\"true\">` when expanded.",
             "wcag_reference": "4.1.2",
-            "impact": "Los usuarios con lectores de pantalla pueden sentirse confundidos si `aria-expanded` no cambia correctamente en la búsqueda.",
+            "impact": "Screen reader users may be confused if `aria-expanded` does not correctly update on search elements.",
             "page_url": page_url,
+            "resolution": "check_combobox_aria_expanded.md",
+            "element_info": get_element_info(cb)
         })
 
-    return incidencias
+    # Convert incidences to Excel before returning
+    transform_json_to_excel(incidences, excel)
+
+    return incidences

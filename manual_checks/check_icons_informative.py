@@ -1,8 +1,19 @@
 # manual_checks/check_icons_informative.py
 
 from bs4 import BeautifulSoup
+from transform_json_to_excel import transform_json_to_excel  
 
-def check_icons_informative(html_content, page_url):
+def get_element_info(element):
+    """Obtiene información útil del elemento HTML para facilitar la localización del error."""
+    return {
+        "tag": element.name,
+        "text": element.get_text(strip=True)[:50],  # Primeros 50 caracteres del texto
+        "id": element.get("id", "N/A"),
+        "class": " ".join(element.get("class", [])) if element.has_attr("class") else "N/A",
+        "line_number": element.sourceline if hasattr(element, 'sourceline') else "N/A"
+    }
+
+def check_icons_informative(html_content, page_url, excel="issue_report.xlsx"):
     """
     Verifica si los íconos CSS, imágenes o SVGs que transmiten información
     son accesibles para los lectores de pantalla.
@@ -34,12 +45,13 @@ def check_icons_informative(html_content, page_url):
                     "wcag_reference": "1.1.1",
                     "impact": "Screen reader users will not perceive the information conveyed by the icon.",
                     "page_url": page_url,
+                    "resolution": "check_icons_informative.md",
+                    "element_info": get_element_info(icon)
                 })
 
     # 🚨 2. Detectar imágenes informativas sin alt
     for img in soup.find_all("img"):
         alt = img.get("alt")
-        role = img.get("role")
 
         if alt is None or alt.strip() == "":
             incidences.append({
@@ -57,13 +69,14 @@ def check_icons_informative(html_content, page_url):
                 "wcag_reference": "1.1.1",
                 "impact": "Screen readers will skip the image, preventing users from getting its information.",
                 "page_url": page_url,
+                "resolution": "check_icons_informative.md",
+                "element_info": get_element_info(img)
             })
 
     # 🚨 3. Detectar SVGs sin `title` o `aria-labelledby`
     for svg in soup.find_all("svg"):
         title = svg.find("title")
         aria_labelledby = svg.get("aria-labelledby")
-        role = svg.get("role")
 
         if not title and not aria_labelledby:
             incidences.append({
@@ -84,6 +97,11 @@ def check_icons_informative(html_content, page_url):
                 "wcag_reference": "1.1.1",
                 "impact": "Users with screen readers will miss the visual information conveyed by the SVG.",
                 "page_url": page_url,
+                "resolution": "check_icons_informative.md",
+                "element_info": get_element_info(svg)
             })
+
+    # Convertimos las incidencias directamente a Excel antes de retornar
+    transform_json_to_excel(incidences, excel)
 
     return incidences

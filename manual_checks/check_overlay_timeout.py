@@ -1,46 +1,48 @@
 import time
 from bs4 import BeautifulSoup
+from transform_json_to_excel import transform_json_to_excel  
 
-def check_overlay_timeout(html_content, page_url, min_duration=5):
+def check_overlay_timeout(html_content, page_url, min_duration=5, excel="issue_report.xlsx"):
     """
-    Detecta overlays que desaparecen demasiado rápido, antes de que el usuario pueda interactuar con ellos.
+    Detects overlays that disappear too quickly before users can interact with them.
 
-    🔹 Revisa todos los botones que abren overlays.
-    🔹 Verifica si el overlay desaparece automáticamente en menos de `min_duration` segundos.
-    🔹 Basado en WCAG 2.2.1: Tiempo Ajustable (https://www.w3.org/WAI/WCAG21/Understanding/time-adjustable.html).
+    🔹 Scans all buttons that trigger overlays.
+    🔹 Checks if the overlay disappears automatically in less than `min_duration` seconds.
+    🔹 Based on WCAG 2.2.1: Timing Adjustable (https://www.w3.org/WAI/WCAG21/Understanding/time-adjustable.html).
 
     Args:
-        html_content (str): Contenido HTML de la página.
-        page_url (str): URL (o identificador) de la página analizada.
-        min_duration (int): Tiempo mínimo en segundos que el overlay debe permanecer antes de desaparecer.
+        html_content (str): HTML content of the page.
+        page_url (str): URL (or identifier) of the analyzed page.
+        min_duration (int): Minimum time in seconds the overlay should remain visible before disappearing.
+        excel (str): Path to save the issue report in Excel format.
 
     Returns:
-        list[dict]: Lista de incidencias detectadas.
+        list[dict]: List of detected issues.
     """
 
     incidences = []
     soup = BeautifulSoup(html_content, "html.parser")
 
-    # 🔍 1) Buscar todos los botones que pueden abrir overlays
-    buttons = soup.find_all("button")  # Detecta <button>
-    buttons += soup.find_all("a", onclick=True)  # Detecta <a> con onclick
-    buttons += soup.find_all("div", onclick=True)  # Detecta <div> con onclick
-    buttons += soup.find_all(class_="button")  # Detecta cualquier elemento con class="button"
+    # 🔍 1) Search for all buttons that may trigger overlays
+    buttons = soup.find_all("button")  # Detects <button>
+    buttons += soup.find_all("a", onclick=True)  # Detects <a> with onclick
+    buttons += soup.find_all("div", onclick=True)  # Detects <div> with onclick
+    buttons += soup.find_all(class_="button")  # Detects any element with class="button"
 
-    # 🔍 2) Buscar posibles overlays en la página
+    # 🔍 2) Search for possible overlays in the page
     overlays = soup.find_all(["div", "dialog"], class_=["overlay", "popup", "modal"])
 
     if not buttons or not overlays:
-        return []  # No hay botones ni overlays detectados
+        return []  # No buttons or overlays detected
 
     for button in buttons:
-        button_text = button.get_text(strip=True) or "[Botón sin texto]"
+        button_text = button.get_text(strip=True) or "[Button without text]"
 
         for overlay in overlays:
-            overlay_id = overlay.get("id", "[sin id]")
+            overlay_id = overlay.get("id", "[no id]")
 
-            # 🔥 Simulación: El overlay desaparece en menos de `min_duration` segundos
-            timeout_value = 3  # Ejemplo de overlay con timeout de 3s
+            # 🔥 Simulation: Overlay disappears in less than `min_duration` seconds
+            timeout_value = 3  # Example overlay timeout of 3s
 
             if timeout_value < min_duration:
                 incidences.append({
@@ -48,20 +50,24 @@ def check_overlay_timeout(html_content, page_url, min_duration=5):
                     "type": "Other A11y",
                     "severity": "High",
                     "description": (
-                        f"El overlay '{overlay_id}' desaparece automáticamente en {timeout_value} segundos "
-                        f"después de hacer clic en el botón '{button_text}'. "
-                        f"Esto puede impedir que algunos usuarios interactúen con él correctamente."
+                        f"The overlay '{overlay_id}' automatically disappears in {timeout_value} seconds "
+                        f"after clicking the button '{button_text}'. "
+                        "This may prevent some users from properly interacting with it."
                     ),
                     "remediation": (
-                        "Asegurar que el overlay permanezca visible hasta que el usuario lo cierre manualmente, "
-                        "o permitir ajustar el tiempo con una opción en la configuración."
+                        "Ensure that the overlay remains visible until the user manually closes it, "
+                        "or provide an option in the settings to adjust the timing."
                     ),
                     "wcag_reference": "2.2.1",
                     "impact": (
-                        "Usuarios con discapacidades visuales, motoras o cognitivas pueden no tener suficiente tiempo "
-                        "para leer o interactuar con el contenido del overlay antes de que desaparezca."
+                        "Users with visual, motor, or cognitive disabilities may not have enough time "
+                        "to read or interact with the overlay content before it disappears."
                     ),
                     "page_url": page_url,
+                    "resolution": "check_overlay_timeout.md"
                 })
+
+    # Convert incidences directly to Excel before returning
+    transform_json_to_excel(incidences, excel)
 
     return incidences

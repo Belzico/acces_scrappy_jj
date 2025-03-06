@@ -1,26 +1,28 @@
 import time
 from bs4 import BeautifulSoup
+from transform_json_to_excel import transform_json_to_excel  
 
-def check_session_timeout(html_content, page_url):
+def check_session_timeout(html_content, page_url, excel="issue_report.xlsx"):
     """
-    Verifica si la página notifica adecuadamente sobre la expiración de la sesión.
+    Checks if the page properly notifies users about session expiration.
 
-    🔹 Revisa si existe una advertencia previa al cierre de sesión (modal, alert, etc.).
-    🔹 Comprueba si se usa `aria-live="assertive"` para comunicar el cierre a lectores de pantalla.
-    🔹 Basado en WCAG 2.2.1: Tiempo Ajustable.
-    
+    🔹 Detects if a session timeout warning (modal, alert, etc.) is present.
+    🔹 Checks if `aria-live="assertive"` is used to notify screen reader users.
+    🔹 Based on WCAG 2.2.1: Timing Adjustable.
+
     Args:
-        html_content (str): Contenido HTML de la página.
-        page_url (str): URL (o identificador) de la página analizada.
+        html_content (str): HTML content of the page.
+        page_url (str): URL (or identifier) of the analyzed page.
+        excel (str): Path to save the issue report in Excel format.
 
     Returns:
-        list[dict]: Lista de incidencias detectadas.
+        list[dict]: List of detected issues.
     """
 
     incidences = []
     soup = BeautifulSoup(html_content, "html.parser")
 
-    # 🔍 1) Buscar una advertencia de cierre de sesión
+    # 🔍 1) Check for a session timeout warning
     session_warnings = soup.find_all(class_=["session-warning", "timeout-alert", "modal-warning"])
 
     if not session_warnings:
@@ -29,19 +31,20 @@ def check_session_timeout(html_content, page_url):
             "type": "Screen Reader",
             "severity": "High",
             "description": (
-                "No se detectó un mensaje de advertencia antes de que la sesión expire. "
-                "Los usuarios de lectores de pantalla podrían ser desconectados sin previo aviso."
+                "No session timeout warning message was detected before expiration. "
+                "Screen reader users may be logged out without prior notice."
             ),
             "remediation": (
-                "Implementar un modal de advertencia antes del cierre de sesión con `aria-live='assertive'` "
-                "para que los usuarios sean notificados."
+                "Implement a warning modal before session expiration with `aria-live='assertive'` "
+                "so that users are properly notified."
             ),
             "wcag_reference": "2.2.1",
-            "impact": "Los usuarios pueden quedar bloqueados sin saber que han sido desconectados.",
+            "impact": "Users may be locked out without knowing they have been logged out.",
             "page_url": page_url,
+            "resolution": "check_session_timeout.md"
         })
 
-    # 🔍 2) Verificar si la advertencia usa `aria-live="assertive"`
+    # 🔍 2) Verify if the warning uses `aria-live="assertive"`
     for warning in session_warnings:
         aria_live = warning.get("aria-live", "").lower()
         if aria_live != "assertive":
@@ -50,15 +53,19 @@ def check_session_timeout(html_content, page_url):
                 "type": "Screen Reader",
                 "severity": "Medium",
                 "description": (
-                    "Se detectó una advertencia de cierre de sesión, pero no utiliza `aria-live='assertive'`, "
-                    "lo que impide que sea anunciada inmediatamente a usuarios de lectores de pantalla."
+                    "A session timeout warning was detected, but it does not use `aria-live='assertive'`, "
+                    "which prevents it from being immediately announced to screen reader users."
                 ),
                 "remediation": (
-                    "Añadir `aria-live='assertive'` al modal o alerta de advertencia."
+                    "Add `aria-live='assertive'` to the warning modal or alert."
                 ),
                 "wcag_reference": "2.2.1",
-                "impact": "Usuarios con discapacidades no serán notificados a tiempo sobre la expiración de la sesión.",
+                "impact": "Users with disabilities will not be notified in time about session expiration.",
                 "page_url": page_url,
+                "resolution": "check_session_timeout.md"
             })
+
+    # Convert incidences directly to Excel before returning
+    transform_json_to_excel(incidences, excel)
 
     return incidences

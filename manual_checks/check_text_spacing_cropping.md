@@ -1,69 +1,110 @@
-# **Tester de Contenido Recortado con Espaciado de Texto (check_text_spacing_cropping.py)**
+# 🏷️ Check for Text Spacing and Cropping Issues  
 
-Este tester analiza el contenido HTML para detectar si el texto queda **recortado** al aplicar espaciados de texto accesibles (WCAG 1.4.12). Identifica elementos con **overflow: hidden** (en sus variantes), alturas fijas en píxeles y otras configuraciones que pueden ocultar contenido cuando se incrementan line-height, word-spacing, letter-spacing, etc.
+## 📌 Overview  
+This script detects accessibility issues related to **content cropping when text spacing adjustments are applied**, in accordance with WCAG guidelines. It ensures that users who increase line height, letter spacing, or word spacing do not lose access to content.  
 
----
+## ✅ What It Does  
+This tester scans an HTML document and identifies issues with:  
+- **Containers using `overflow: hidden;`, `overflow-x: hidden;`, or `overflow-y: hidden;`**, which may cause text cropping.  
+- **Fixed-height containers (`height: Xpx;`)**, which may prevent text from expanding properly when spacing increases.  
+- **Exports the findings to Excel (`issue_report.xlsx`).**  
 
-## **¿Por qué es importante?**
+## 🚀 Installation  
+Make sure you have the required dependencies installed:  
 
-- **WCAG 1.4.12 – Text Spacing** establece que los usuarios deben poder **ajustar el espaciado de texto** (líneas, palabras, letras y párrafos) sin que el contenido se solape o se recorte.
-- **Usuarios con discapacidades visuales, cognitivas o de lectura** a menudo personalizan el espaciado para leer con mayor comodidad.
-- Cualquier contenedor que limite la expansión del texto (por ejemplo, con `overflow: hidden;` o `height: 100px;`) puede provocar que parte del contenido quede inaccesible.
+```sh
+pip install beautifulsoup4 openpyxl
+🖥️ Usage
+To run the script, provide an HTML string and a page URL:
 
----
-
-## **¿Qué hace este tester?**
-1. **Busca estilos inline** (`style="..."`) en contenedores de texto (`<p>`, `<div>`, `<span>`, `<section>`, `<article>`).
-2. **Usa expresiones regulares** para detectar:
-   - `overflow: hidden;`, `overflow-x: hidden;` o `overflow-y: hidden;`
-   - `height: Npx;` o `max-height: Npx;`
-3. **Genera incidencias** si halla configuraciones problemáticas:
-   - **"Content may be cropped with text spacing adjustments"** cuando `overflow: hidden;`.
-   - **"Fixed height detected, may crop text"** cuando hay una altura fija en píxeles.
-
----
-
-## **Ejemplo de Incidencia**
-```json
-{
-  "title": "Content may be cropped with text spacing adjustments",
-  "type": "Zoom",
-  "severity": "High",
-  "description": "Se detectó `overflow: hidden;` en un contenedor de texto. Esto puede hacer que el contenido se recorte al aumentar el espaciado.",
-  "remediation": "Evitar `overflow: hidden;` en contenedores de texto. Permitir que el contenido se expanda correctamente.",
-  "wcag_reference": "1.4.12",
-  "impact": "Usuarios que necesiten espaciado adicional podrían no ver todo el contenido.",
-  "page_url": "test_page.html"
-}
-Uso y Ejemplo
-Integrarlo en global_tester.py para ejecutarlo automáticamente.
-Probarlo manualmente:
 python
 Copy
 Edit
-with open("test_spacing.html", "r", encoding="utf-8") as f:
-    html_content = f.read()
+from check_text_spacing_cropping import check_text_spacing_cropping
 
-incidences = check_text_spacing_cropping(html_content, "test_spacing.html")
-for inc in incidences:
-    print(inc)
-HTML de Prueba con Error
+html_content = """
+<html>
+    <head>
+        <style>
+            .text-box { height: 50px; overflow: hidden; }
+        </style>
+    </head>
+    <body>
+        <div class="text-box">This text might be cropped.</div>
+    </body>
+</html>
+"""
+
+issues = check_text_spacing_cropping(html_content, "https://example.com")
+print(issues)
+🔍 Example Output
+json
+Copy
+Edit
+[
+    {
+        "title": "Content may be cropped with text spacing adjustments",
+        "type": "Zoom",
+        "severity": "High",
+        "description": "`overflow: hidden;` (or a variation -x/-y) was detected in a text container. This may cause content to be cut off when text spacing is increased.",
+        "remediation": "Avoid using `overflow: hidden;` in text containers when applying additional spacing. Use `overflow: visible;` or allow dynamic expansion.",
+        "wcag_reference": "1.4.12",
+        "impact": "Users who need extra spacing may not see the full content.",
+        "page_url": "https://example.com",
+        "resolution": "check_text_spacing_cropping.md"
+    },
+    {
+        "title": "Fixed height detected, may crop text",
+        "type": "Zoom",
+        "severity": "High",
+        "description": "A fixed height in pixels (`height: XXXpx;`) was detected in a text container. This may prevent text from adjusting when extra spacing is applied.",
+        "remediation": "Use `min-height: auto;` instead of fixed heights to allow dynamic expansion.",
+        "wcag_reference": "1.4.12",
+        "impact": "Text may be cut off when users increase spacing.",
+        "page_url": "https://example.com",
+        "resolution": "check_text_spacing_cropping.md"
+    }
+]
+📂 How It Works
+1️⃣ Parses the HTML using BeautifulSoup.
+2️⃣ Extracts all elements with inline styles that contain overflow: hidden;, overflow-x: hidden;, or overflow-y: hidden;.
+3️⃣ Checks for fixed-height values (height: Xpx;) that may cause text cropping.
+4️⃣ If an issue is found, it is flagged with severity, impact, and remediation.
+5️⃣ Exports the results to Excel (issue_report.xlsx) for further analysis.
+
+🛠️ Fixing the Issue
+❌ Incorrect:
+
 html
 Copy
 Edit
-<div style="OVERFLOW-x: hidden; height: 100px;">
-  <p>Este texto podría cortarse cuando se aplique un mayor espaciado de líneas, letras o palabras.</p>
-</div>
-Resultado esperado: Se reportará una incidencia por overflow: hidden; y height: 100px;.
+<div style="height: 50px; overflow: hidden;">This text might be cropped.</div>
+css
+Copy
+Edit
+.text-box { height: 60px; overflow: hidden; }
+✅ Corrected:
 
-Solución Recomendada
-Evitar overflow: hidden; en contenedores de texto crítico.
-Usar height: auto; o min-height: auto; en lugar de valores fijos en píxeles.
-Permitir que el contenedor se ajuste al aumentar line-height, letter-spacing, word-spacing, etc.
-Verificar que no se oculte el contenido mediante overflow-x: hidden; o overflow-y: hidden;.
-Referencias
-WCAG 1.4.12 (Text Spacing):
-https://www.w3.org/WAI/WCAG21/Understanding/text-spacing.html
-Mejorando Accesibilidad con Espaciados:
-https://www.w3.org/WAI/tutorials/page-structure/styling/
-Este tester garantiza que al personalizar el espaciado de texto, el contenido siga completamente visible y sin recortes, cumpliendo con WCAG 1.4.12.
+html
+Copy
+Edit
+<div style="min-height: auto; overflow: visible;">This text adjusts dynamically.</div>
+css
+Copy
+Edit
+.text-box { min-height: auto; overflow: visible; }
+📚 WCAG Reference
+Success Criterion 1.4.12 - Text Spacing
+→ Ensure that text remains visible and readable when spacing adjustments are applied.
+
+📊 Report Generation
+This script automatically exports results to Excel (issue_report.xlsx), making it easy to review and track accessibility issues.
+
+📢 Contributing
+Found a bug? Open an issue or create a pull request.
+Suggestions? Feel free to contribute to improve this tester!
+
+🔗 References
+🌍 WCAG 2.2 Guidelines
+📖 HTML Specification
+🏗 BeautifulSoup Documentation

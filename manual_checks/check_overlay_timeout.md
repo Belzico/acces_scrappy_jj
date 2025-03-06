@@ -1,94 +1,102 @@
-README - Check Overlay Timeout
-Descripción
-El tester check_overlay_timeout.py detecta si los overlays (ventanas emergentes, modales o popups) desaparecen demasiado rápido, antes de que el usuario pueda leer o interactuar con ellos. Esto es un problema de accesibilidad, ya que algunos usuarios pueden necesitar más tiempo para procesar la información o completar acciones dentro del overlay.
+# 🏷️ Check for Overlay Timeout Accessibility  
 
-Este problema está cubierto por la WCAG 2.2.1 - Tiempo Ajustable, que establece que los usuarios deben tener control sobre los límites de tiempo o la posibilidad de extenderlos.
-🔗 WCAG 2.2.1 - Understanding Time Adjustable
+## 📌 Overview  
+This script detects accessibility issues related to **overlays that disappear too quickly** in an HTML document. It ensures that overlays remain visible long enough for users to read and interact with their content, in accordance with WCAG guidelines.  
 
-🛠️ Cómo Funciona
-El tester realiza las siguientes acciones:
+## ✅ What It Does  
+This tester scans an HTML document and identifies issues with:  
+- **Overlays (`<div>`, `<dialog>`, `popup`, `modal`)** that disappear too quickly after being triggered.  
+- **Buttons (`<button>`, `<a onclick>`, `<div onclick>`)** that activate overlays.  
+- **Checks if overlays disappear in less than a specified duration (`min_duration`, default: 5 seconds).**  
+- **Exports the findings to Excel (`issue_report.xlsx`).**  
 
-Busca botones o enlaces que abran overlays:
-Elementos <button>, <a> con onclick, <div> con onclick
-Elementos con la clase .button
-Detecta overlays o modales en la página:
-Elementos <div> o <dialog> con clases como overlay, popup, modal
-Verifica si los overlays desaparecen automáticamente:
-Si el overlay desaparece en menos de min_duration segundos (valor por defecto: 5s), se genera una incidencia.
-🚨 Problema Detectado
-Si un overlay desaparece antes de que el usuario tenga suficiente tiempo para leerlo o interactuar con él, el tester lo reportará con la siguiente información:
+## 🚀 Installation  
+Make sure you have the required dependencies installed:  
 
-Título: "Overlay disappears too quickly"
-Severidad: Alta (High)
-Impacto: Usuarios con discapacidades visuales, motoras o cognitivas pueden no tener suficiente tiempo para interactuar con el contenido.
-Sugerencia de solución: Mantener el overlay visible hasta que el usuario lo cierre manualmente o permitir que el tiempo sea configurable.
-📌 Ejemplo de Error en HTML
-El siguiente código HTML representa un problema de accesibilidad donde los overlays desaparecen automáticamente después de 3 segundos.
+```sh
+pip install beautifulsoup4 openpyxl
+🖥️ Usage
+To run the script, provide an HTML string and a page URL:
 
-html
+python
 Copy
 Edit
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overlay Timeout Test</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        .button { padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; }
-        .overlay {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 300px; padding: 20px; background: rgba(0, 0, 0, 0.8); color: white; border-radius: 8px;
-            z-index: 1000;
-        }
-    </style>
-</head>
-<body>
+from check_overlay_timeout import check_overlay_timeout
 
-    <h1>Prueba de Overlay con Timeout</h1>
-    <button class="button" onclick="showOverlay('overlay1')">Abrir Overlay 1</button>
-    <button class="button" onclick="showOverlay('overlay2')">Abrir Overlay 2</button>
-
-    <div id="overlay1" class="overlay">Overlay 1 - Desaparece en 3s</div>
-    <div id="overlay2" class="overlay">Overlay 2 - Desaparece en 3s</div>
-
-    <script>
-        function showOverlay(id) {
-            let overlay = document.getElementById(id);
-            overlay.style.display = "block";
-
-            // ❌ Error: el overlay desaparece automáticamente después de 3 segundos
-            setTimeout(() => {
-                overlay.style.display = "none";
-            }, 3000);
-        }
-    </script>
-
-</body>
+html_content = """
+<html>
+    <body>
+        <button onclick="openOverlay()">Open Modal</button>
+        <div id="example-overlay" class="modal" style="display: none;"></div>
+    </body>
 </html>
-✅ Solución Recomendada
-Para corregir el problema, el overlay debe permanecer en pantalla hasta que el usuario lo cierre manualmente. En lugar de usar setTimeout, se puede agregar un botón de cierre explícito:
+"""
+
+issues = check_overlay_timeout(html_content, "https://example.com")
+print(issues)
+🔍 Example Output
+json
+Copy
+Edit
+[
+    {
+        "title": "Overlay disappears too quickly",
+        "type": "Other A11y",
+        "severity": "High",
+        "description": "The overlay 'example-overlay' automatically disappears in 3 seconds after clicking the button 'Open Modal'. This may prevent some users from properly interacting with it.",
+        "remediation": "Ensure that the overlay remains visible until the user manually closes it, or provide an option in the settings to adjust the timing.",
+        "wcag_reference": "2.2.1",
+        "impact": "Users with visual, motor, or cognitive disabilities may not have enough time to read or interact with the overlay content before it disappears.",
+        "page_url": "https://example.com",
+        "resolution": "check_overlay_timeout.md"
+    }
+]
+📂 How It Works
+1️⃣ Parses the HTML using BeautifulSoup.
+2️⃣ Extracts all buttons (<button>, <a onclick>, <div onclick>) that trigger overlays.
+3️⃣ Identifies overlays (<div>, <dialog>, .overlay, .popup, .modal).
+4️⃣ Checks if overlays disappear in less than the specified min_duration (default: 5s).
+5️⃣ If an overlay disappears too quickly, an issue is flagged.
+6️⃣ Exports the results to Excel (issue_report.xlsx) for further analysis.
+
+🛠️ Fixing the Issue
+❌ Incorrect:
 
 html
 Copy
 Edit
-<button onclick="closeOverlay('overlay1')">Cerrar</button>
-javascript
+<button onclick="openOverlay()">Open Modal</button>
+<div id="example-overlay" class="modal" style="display: none;"></div>
+<script>
+    setTimeout(() => { document.getElementById('example-overlay').style.display = 'none'; }, 3000);
+</script>
+✅ Corrected:
+
+html
 Copy
 Edit
-function closeOverlay(id) {
-    document.getElementById(id).style.display = "none";
-}
-📌 Conclusión
-Este tester ayuda a identificar problemas de tiempo en overlays.
-Los overlays deben permanecer en pantalla hasta que el usuario decida cerrarlos.
-No deben desaparecer automáticamente en menos de 5 segundos sin opción de ajuste.
-Este tester ahora se puede integrar con global_tester.py para ejecutar la verificación en múltiples páginas automáticamente. 🚀
+<button onclick="openOverlay()">Open Modal</button>
+<div id="example-overlay" class="modal">
+    <p>Overlay content</p>
+    <button onclick="closeOverlay()">Close</button>
+</div>
+<script>
+    function closeOverlay() {
+        document.getElementById('example-overlay').style.display = 'none';
+    }
+</script>
+📚 WCAG Reference
+Success Criterion 2.2.1 - Timing Adjustable
+→ Ensure that users have enough time to interact with time-sensitive content.
 
+📊 Report Generation
+This script automatically exports results to Excel (issue_report.xlsx), making it easy to review and track accessibility issues.
 
+📢 Contributing
+Found a bug? Open an issue or create a pull request.
+Suggestions? Feel free to contribute to improve this tester!
 
-
-
-
-
+🔗 References
+🌍 WCAG 2.2 Guidelines
+📖 HTML Specification
+🏗 BeautifulSoup Documentation

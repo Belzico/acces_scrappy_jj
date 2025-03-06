@@ -1,46 +1,58 @@
 from bs4 import BeautifulSoup
+from transform_json_to_excel import transform_json_to_excel  
 
-def check_accordion_aria_expanded(html_content, page_url):
+def get_element_info(element):
+    """Retrieves useful information about an HTML element to facilitate issue identification."""
+    return {
+        "tag": element.name,
+        "text": element.get_text(strip=True)[:50],  # First 50 characters of the text
+        "id": element.get("id", "N/A"),
+        "class": " ".join(element.get("class", [])) if element.has_attr("class") else "N/A",
+        "line_number": element.sourceline if hasattr(element, 'sourceline') else "N/A"  # Gets line number if available
+    }
+
+def check_accordion_aria_expanded(html_content, page_url, excel="issue_report.xlsx"):
     """
-    Verifica si los botones de acordeón tienen el atributo aria-expanded correctamente configurado.
+    Checks whether accordion buttons have the `aria-expanded` attribute properly configured.
     
-    - Busca todos los acordeones (botones con `aria-expanded` o `role="button"`).
-    - Si algún botón no tiene `aria-expanded="true"` o `aria-expanded="false"`, se genera una incidencia.
+    - Identifies all accordions (buttons with `aria-expanded` or `role="button"`).
+    - If any button lacks `aria-expanded="true"` or `aria-expanded="false"`, an issue is reported.
     """
 
-    # 1) Parsear el HTML
+    # 1️⃣ Parse the HTML
     soup = BeautifulSoup(html_content, "html.parser")
 
-    # 2) Buscar todos los posibles botones de acordeón
-    accordion_buttons = soup.find_all("button", class_="accordion-toggle")  # Botones estándar
-    accordion_buttons += soup.find_all(attrs={"role": "button", "class": "accordion-toggle"})  # Elementos con role="button"
-    accordion_buttons += soup.find_all("a", class_="accordion-toggle")  # Opcionalmente, enlaces
+    # 2️⃣ Find all potential accordion buttons
+    accordion_buttons = soup.find_all("button", class_="accordion-toggle")  # Standard buttons
+    accordion_buttons += soup.find_all(attrs={"role": "button", "class": "accordion-toggle"})  # Elements with role="button"
+    accordion_buttons += soup.find_all("a", class_="accordion-toggle")  # Optionally, links
 
     if not accordion_buttons:
-        return []  # No hay acordeones, no se genera incidencia
+        return []  # No accordions found, no issue generated
 
     incorrect_buttons = [
         btn for btn in accordion_buttons if btn.get("aria-expanded") not in ["true", "false"]
     ]
 
-    # 3) Si hay botones sin aria-expanded, generamos incidencia
-    incidencias = []
+    incidences = []
     if incorrect_buttons:
-        incidencias.append({
-            "title": "Accordion items don’t announce state",
-            "type": "Screen Reader",
-            "severity": "Medium",
-            "description": (
-                "Uno o más botones de acordeón no tienen el atributo `aria-expanded`. "
-                "Esto significa que los usuarios con lectores de pantalla no sabrán si el acordeón está expandido o colapsado."
-            ),
-            "remediation": (
-                "Añadir `aria-expanded=\"true\"` o `aria-expanded=\"false\"` al botón de acordeón. "
-                "Ejemplo: `<button aria-expanded=\"false\">Sección 1</button>`."
-            ),
-            "wcag_reference": "4.1.2",
-            "impact": "Los usuarios con lectores de pantalla podrían no saber que hay contenido expandible en la página.",
-            "page_url": page_url,
-        })
+        for btn in incorrect_buttons:
+            incidences.append({
+                "title": "Accordion items do not announce their state",
+                "type": "Screen Reader",
+                "severity": "Medium",
+                "description": "One or more accordion buttons are missing the `aria-expanded` attribute. "
+                               "This prevents screen reader users from knowing whether the accordion is expanded or collapsed.",
+                "remediation": "Add `aria-expanded=\"true\"` or `aria-expanded=\"false\"` to the accordion button. "
+                               "Example: `<button aria-expanded=\"false\">Section 1</button>`.",
+                "wcag_reference": "4.1.2",
+                "impact": "Screen reader users may not be aware of expandable content on the page.",
+                "page_url": page_url,
+                "resolution": "check_accordion_aria_expanded.md",
+                "element_info": get_element_info(btn)
+            })
 
-    return incidencias
+    # Convert incidences directly to Excel before returning
+    transform_json_to_excel(incidences, excel)
+
+    return incidences

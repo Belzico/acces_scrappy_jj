@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
+from transform_json_to_excel import transform_json_to_excel  
 
-def check_button_aria_expanded(html_content, page_url):
+def check_button_aria_expanded(html_content, page_url, excel="issue_report.xlsx"):
     """
     Verifica si los botones con estados expandibles tienen `aria-expanded` correctamente configurado.
     
@@ -9,10 +10,10 @@ def check_button_aria_expanded(html_content, page_url):
     - Si falta `aria-expanded`, se genera una incidencia.
     """
 
-    # 1) Parsear el HTML
+    # 1️⃣ Parsear el HTML
     soup = BeautifulSoup(html_content, "html.parser")
 
-    # 2) Buscar botones de control expandible
+    # 2️⃣ Buscar botones de control expandible
     expandable_buttons = []
 
     # a) Botones estándar <button>
@@ -31,24 +32,24 @@ def check_button_aria_expanded(html_content, page_url):
         btn for btn in expandable_buttons if btn.get("aria-expanded") not in ["true", "false"]
     ]
 
-    # 3) Si hay botones sin aria-expanded, generamos incidencia
-    incidencias = []
-    if incorrect_buttons:
-        incidencias.append({
-            "title": "Expanded/Collapsed state is not announced in the button",
+    # 3️⃣ Si hay botones sin aria-expanded, generamos incidencias
+    incidences = []
+    for btn in incorrect_buttons:
+        incidences.append({
+            "title": "Expandable button missing aria-expanded",
             "type": "Screen Reader",
             "severity": "Medium",
-            "description": (
-                "Uno o más botones que expanden o colapsan contenido no tienen el atributo `aria-expanded`. "
-                "Esto significa que los usuarios con lectores de pantalla no sabrán si el botón está expandido o colapsado."
-            ),
-            "remediation": (
-                "Añadir `aria-expanded=\"true\"` o `aria-expanded=\"false\"` al botón expandible. "
-                "Ejemplo: `<button aria-expanded=\"false\">Categories</button>`."
-            ),
+            "description": "One or more expandable buttons do not have the `aria-expanded` attribute. "
+                           "This means screen reader users will not know whether the button is expanded or collapsed.",
+            "remediation": "Ensure that expandable buttons include `aria-expanded=\"true\"` or `aria-expanded=\"false\"`. "
+                           "Example: `<button aria-expanded=\"false\">Categories</button>`.",
             "wcag_reference": "4.1.2",
-            "impact": "Los usuarios con lectores de pantalla no recibirán información sobre el estado del botón.",
+            "impact": "Screen reader users may not receive correct information about the button state.",
             "page_url": page_url,
+            "element_info": [str(btn)]  # Lista los botones con errores
         })
 
-    return incidencias
+    # Convertir incidencias a Excel antes de retornar
+    transform_json_to_excel(incidences, excel)
+
+    return incidences

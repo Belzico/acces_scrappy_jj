@@ -1,55 +1,68 @@
 from bs4 import BeautifulSoup
+from transform_json_to_excel import transform_json_to_excel  
 
-def check_mobile_button_aria_expanded(html_content, page_url):
+def check_mobile_button_aria_expanded(html_content, page_url, excel="issue_report.xlsx"):
     """
-    Verifica si los botones con estados expandibles tienen `aria-expanded` correctamente configurado.
-    
-    - Busca botones (`<button>`, elementos con `role="button"`, o cualquier otro con `aria-expanded`).
-    - Verifica si tienen `aria-expanded="true"` o `aria-expanded="false"`.
-    - Si falta `aria-expanded`, se genera una incidencia.
+    Checks if expandable buttons have `aria-expanded` properly set.
+
+    - Finds buttons (`<button>`, elements with `role="button"`, or any element with `aria-expanded`).
+    - Verifies if they have `aria-expanded="true"` or `aria-expanded="false"`.
+    - If `aria-expanded` is missing, an issue is reported.
+
+    Args:
+        html_content (str): HTML content of the page.
+        page_url (str): URL of the analyzed page.
+        excel (str): Path to save the issue report in Excel format.
+
+    Returns:
+        list[dict]: List of detected issues.
     """
 
-    # 1) Parsear el HTML
+    # 1) Parse the HTML
     soup = BeautifulSoup(html_content, "html.parser")
 
-    # 2) Buscar botones de control expandible
+    # 2) Find expandable control buttons
     expandable_buttons = []
 
-    # a) Botones estándar <button>
+    # a) Standard <button> elements
     expandable_buttons += soup.find_all("button")
 
-    # b) Elementos con role="button"
+    # b) Elements with role="button"
     expandable_buttons += soup.find_all(attrs={"role": "button"})
 
-    # c) Cualquier otro elemento que tenga aria-expanded (en caso de estructuras poco convencionales)
+    # c) Any other element that has aria-expanded (for non-conventional structures)
     expandable_buttons += soup.find_all(attrs={"aria-expanded": True})
 
     if not expandable_buttons:
-        return []  # No hay botones con estados expandibles, no se genera incidencia
+        return []  # No expandable buttons found, no issue detected
 
     incorrect_buttons = [
         btn for btn in expandable_buttons if btn.get("aria-expanded") not in ["true", "false"]
     ]
 
-    # 3) Si hay botones sin aria-expanded, generamos incidencia
-    incidencias = []
+    # 3) If buttons without aria-expanded exist, generate an issue
+    incidences = []
     if incorrect_buttons:
-        incidencias.append({
+        incidences.append({
             "title": "Button has no expanded/collapsed state announced on mobile",
             "type": "Screen Readers",
             "severity": "Medium",
             "description": (
-                "Uno o más botones con estados expandibles no tienen el atributo `aria-expanded`. "
-                "Esto significa que los usuarios con lectores de pantalla en dispositivos móviles "
-                "no sabrán si el botón está expandido o colapsado."
+                "One or more expandable buttons are missing the `aria-expanded` attribute. "
+                "This means that screen reader users on mobile devices "
+                "will not know whether the button is expanded or collapsed."
             ),
             "remediation": (
-                "Añadir `aria-expanded=\"true\"` o `aria-expanded=\"false\"` al botón expandible. "
-                "Ejemplo: `<button aria-expanded=\"false\">Ver más</button>`."
+                "Add `aria-expanded=\"true\"` or `aria-expanded=\"false\"` to the expandable button. "
+                "Example: `<button aria-expanded=\"false\">See more</button>`."
             ),
             "wcag_reference": "4.1.2",
-            "impact": "Los usuarios con lectores de pantalla en dispositivos móviles no recibirán información sobre el estado del botón.",
+            "impact": "Screen reader users on mobile devices will not receive information about the button's state.",
             "page_url": page_url,
+            "resolution": "check_mobile_button_aria_expanded.md"
         })
 
-    return incidencias
+    # Convert incidences directly to Excel before returning
+    transform_json_to_excel(incidences, excel)
+
+    return incidences

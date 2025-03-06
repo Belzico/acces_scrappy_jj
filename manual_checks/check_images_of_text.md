@@ -1,106 +1,97 @@
-check_images_of_text.py - Verificación de imágenes de texto con OCR
-🔍 Descripción
-Este script analiza imágenes en un documento HTML para detectar si contienen texto incrustado y verifica si dicho texto tiene una alternativa textual adecuada en el contenido HTML.
+# 🏷️ Check for Images of Text Accessibility  
 
-¿Cómo funciona?
+## 📌 Overview  
+This script detects accessibility issues related to **images containing text** in an HTML document. It ensures that images with embedded text have an equivalent real text representation nearby, improving accessibility for screen readers and zoom users.  
 
-Extrae todas las imágenes (<img>) del HTML.
-Verifica si la imagen existe en la carpeta downloaded_images.
-Ejecuta OCR con pytesseract para extraer el texto contenido en la imagen.
-Compara el texto extraído con el alt de la imagen y el contenido cercano en el HTML.
-Genera incidencias si el texto en la imagen no tiene una versión textual adecuada en la página.
-Este análisis sigue las pautas de WCAG 2.1 y la técnica C30 de W3C para imágenes de texto:
-🔗 WCAG 1.4.5 - Imágenes de Texto
-🔗 Técnica C30 - Uso de CSS en lugar de imágenes de texto
+## ✅ What It Does  
+This tester scans an HTML document and identifies issues with:  
+- **Images (`<img>`) that contain text** but lack an equivalent text alternative in the HTML.  
+- **OCR (Optical Character Recognition) comparison** to check if the extracted text appears in the image’s `alt` attribute or nearby text.  
+- **Exports the findings to Excel (`issue_report.xlsx`).**  
 
-🛠️ Requisitos
-Antes de ejecutar este script, asegúrate de tener instalados los siguientes paquetes:
+## 🚀 Installation  
+Make sure you have the required dependencies installed:  
 
-bash
-Copy
-Edit
-pip install beautifulsoup4 pillow pytesseract
-Además, debes tener Tesseract OCR instalado en tu sistema:
-🔗 Tesseract OCR - Descarga
+```sh
+pip install beautifulsoup4 pytesseract pillow openpyxl
+🔧 Additional Setup
+You need to install Tesseract OCR to enable text extraction from images:
 
-⚠️ IMPORTANTE: En Windows, configura la ruta de tesseract.exe en tu código:
+Windows: Download and install from Tesseract OCR.
+Linux/macOS: Install via package manager (sudo apt install tesseract-ocr or brew install tesseract).
+After installation, update the script’s pytesseract.pytesseract.tesseract_cmd path if necessary.
 
-python
-Copy
-Edit
-pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
-📄 Cómo probar este tester
-1️⃣ Generar una imagen con texto
-Si deseas probar el OCR, genera una imagen con texto usando este código:
+🖥️ Usage
+To run the script, provide an HTML string and a page URL:
 
 python
 Copy
 Edit
-from PIL import Image, ImageDraw, ImageFont
+from check_images_of_text import check_images_of_text
 
-def create_text_image(text, filename="downloaded_images/sample_image.png"):
-    image_size = (400, 100)  
-    image = Image.new("RGB", image_size, "white")
-    draw = ImageDraw.Draw(image)
-    font = ImageFont.load_default()
-    
-    text_position = (10, 40)
-    draw.text(text_position, text, fill="black", font=font)
+html_content = """
+<html>
+    <body>
+        <img src="text-image.png" alt="">
+        <p>This is a caption.</p>
+    </body>
+</html>
+"""
 
-    image.save(filename)
-    print(f"✅ Imagen guardada en: {filename}")
+issues = check_images_of_text(html_content, "https://example.com")
+print(issues)
+🔍 Example Output
+json
+Copy
+Edit
+[
+    {
+        "title": "Image of Text Possibly Used",
+        "type": "Screen Reader",
+        "severity": "High",
+        "description": "The image 'text-image.png' contains text (OCR detected): 'Warning: Slippery floor...' but there is no equivalent textual content in the HTML. This suggests an image of text without a real text alternative.",
+        "remediation": "Use real HTML text instead of an image when possible. If an image is necessary, provide an alternative text version (Technique C30).",
+        "wcag_reference": "1.4.5",
+        "impact": "Users who rely on screen readers or zoom may struggle to access the text.",
+        "page_url": "https://example.com",
+        "resolution": "check_images_of_text.md"
+    }
+]
+📂 How It Works
+1️⃣ Parses the HTML using BeautifulSoup.
+2️⃣ Extracts all <img> elements and checks for a src attribute.
+3️⃣ If the image file exists locally in downloaded_images/, it performs OCR to extract text from the image.
+4️⃣ Compares the extracted text with the alt attribute and nearby text content to check if an alternative exists.
+5️⃣ If no matching textual content is found, an issue is flagged.
+6️⃣ Exports the results to Excel (issue_report.xlsx) for further analysis.
 
-create_text_image("Oferta especial")
-2️⃣ Crear un HTML de prueba
-Guarda este HTML como test.html en la misma carpeta:
+🛠️ Fixing the Issue
+❌ Incorrect:
 
 html
 Copy
 Edit
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba de Imagen de Texto</title>
-</head>
-<body>
-    <h1>Oferta especial</h1>
-    <p>Aprovecha nuestra gran promoción.</p>
-    <img src="downloaded_images/sample_image.png" alt="Descuento increíble">
-</body>
-</html>
-3️⃣ Ejecutar el tester
-Carga el contenido HTML y ejecuta el script:
+<img src="warning.png" alt="">
+✅ Corrected:
 
-python
+html
 Copy
 Edit
-import os
+<img src="warning.png" alt="Warning: Slippery floor.">
+<p>Warning: Slippery floor.</p>
+📚 WCAG Reference
+Success Criterion 1.4.5 - Images of Text
+→ Avoid using images of text unless essential. Provide a text-based alternative when possible.
 
-# Leer el HTML de prueba
-with open("test.html", "r", encoding="utf-8") as f:
-    html_content = f.read()
+📊 Report Generation
+This script automatically exports results to Excel (issue_report.xlsx), making it easy to review and track accessibility issues.
 
-# URL ficticia
-page_url = "file://test.html"
+📢 Contributing
+Found a bug? Open an issue or create a pull request.
+Suggestions? Feel free to contribute to improve this tester!
 
-# Ejecutar la prueba
-results = check_images_of_text(html_content, page_url)
-
-# Mostrar resultados
-for result in results:
-    print(f"🔴 {result['title']}: {result['description']}")
-🚨 Posibles errores detectados
-Error	Descripción
-Imagen con texto sin alternativa	La imagen contiene texto (detectado por OCR), pero no hay una versión textual equivalente en el HTML.
-Texto en imagen y alt incorrecto	El texto en la imagen no coincide con el alt proporcionado.
-OCR falló	No se pudo extraer el texto de la imagen (posible problema con Tesseract).
-📚 Referencias
-🔗 WCAG 1.4.5 - Imágenes de Texto
-🔗 Técnica C30 - Uso de CSS en lugar de imágenes de texto
-🔗 Tesseract OCR
-✅ Conclusión
-Este tester ayuda a detectar imágenes que contienen texto y alerta si no hay una alternativa textual adecuada en el HTML. Esto mejora la accesibilidad y asegura el cumplimiento de WCAG 2.1.
-
-Si el análisis detecta problemas, considera reemplazar la imagen con texto real en HTML o implementar la Técnica C30 para permitir la conmutación entre imágenes y texto. 🚀
+🔗 References
+🌍 WCAG 2.2 Guidelines
+📖 HTML Specification
+🏗 BeautifulSoup Documentation
+📖 Tesseract OCR Documentation

@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import re
+from transform_json_to_excel import transform_json_to_excel  
 
 # Función para calcular la luminancia relativa de un color
 def luminance(color):
@@ -13,7 +14,7 @@ def contrast_ratio(color1, color2):
     return (max(lum1, lum2) + 0.05) / (min(lum1, lum2) + 0.05)
 
 # Función principal para detectar problemas de contraste en dropdowns
-def check_dropdown_contrast(html_content, page_url):
+def check_dropdown_contrast(html_content, page_url, excel="issue_report.xlsx"):
     """
     Verifica si las opciones seleccionadas en los dropdowns tienen suficiente contraste con el fondo.
     
@@ -28,7 +29,7 @@ def check_dropdown_contrast(html_content, page_url):
     # Buscar todos los <select> en la página
     dropdowns = soup.find_all("select")
 
-    incidencias = []
+    incidences = []
     for dropdown in dropdowns:
         # Obtener la opción seleccionada
         selected_option = dropdown.find("option", selected=True) or dropdown.find("option")
@@ -46,22 +47,26 @@ def check_dropdown_contrast(html_content, page_url):
             contrast = contrast_ratio(text_color, bg_color)
 
             if contrast < 4.5:
-                incidencias.append({
+                incidences.append({
                     "title": "Dropdown selected value fails contrast once expanded",
                     "type": "Color Contrast",
                     "severity": "High",
                     "description": (
-                        f"La opción seleccionada en el dropdown tiene un contraste de {contrast:.2f}:1, "
-                        "lo que no cumple con el mínimo de 4.5:1 recomendado para texto pequeño."
+                        f"The selected option in the dropdown has a contrast ratio of {contrast:.2f}:1, "
+                        "which does not meet the minimum recommended contrast ratio of 4.5:1 for small text."
                     ),
                     "remediation": (
-                        "Usar un color más oscuro para el texto o cambiar el fondo a un color con mayor contraste. "
-                        "Ejemplo: `color: #2C3E50;` en lugar de `color: #BAC7CB;`."
+                        "Use a darker text color or change the background to increase contrast. "
+                        "Example: `color: #2C3E50;` instead of `color: #BAC7CB;`."
                     ),
                     "wcag_reference": "1.4.3",
-                    "impact": "Los usuarios con baja visión no podrán leer el texto de la opción seleccionada.",
+                    "impact": "Users with low vision may not be able to read the selected dropdown text.",
                     "page_url": page_url,
-                    "affected_element": str(selected_option)
+                    "resolution": "check_dropdown_contrast.md",
+                    "element_info": str(selected_option)
                 })
 
-    return incidencias
+    # Exportar incidencias a Excel antes de retornar
+    transform_json_to_excel(incidences, excel)
+
+    return incidences

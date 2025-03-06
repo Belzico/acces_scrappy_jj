@@ -1,29 +1,31 @@
 from bs4 import BeautifulSoup
+from transform_json_to_excel import transform_json_to_excel  
 
-def check_menu_text_spacing(html_content, page_url):
+def check_menu_text_spacing(html_content, page_url, excel="issue_report.xlsx"):
     """
-    Detecta si los elementos del menú se desbordan o quedan cortados cuando se ajusta el espaciado del texto.
+    Detects if menu items overflow or get cut off when text spacing adjustments are applied.
 
-    🔹 Basado en WCAG 1.4.12: Text Spacing.
-    🔹 Busca problemas de `overflow: hidden;`, `white-space: nowrap;` y `max-height` en menús.
-    🔹 Identifica si el texto de los elementos de menú se sale del contenedor o es ilegible.
+    🔹 Based on WCAG 1.4.12: Text Spacing.
+    🔹 Identifies issues with `overflow: hidden;`, `white-space: nowrap;`, and `max-height` in menus.
+    🔹 Checks if menu text overflows or becomes unreadable.
 
     Args:
-        html_content (str): Contenido HTML de la página.
-        page_url (str): URL de la página analizada.
+        html_content (str): HTML content of the page.
+        page_url (str): URL of the analyzed page.
+        excel (str): Path to save the issue report in Excel format.
 
     Returns:
-        list[dict]: Lista de incidencias detectadas.
+        list[dict]: List of detected issues.
     """
 
     incidences = []
     soup = BeautifulSoup(html_content, "html.parser")
 
-    # 🔍 Buscar todos los elementos de navegación que puedan contener menús
+    # 🔍 Find all navigation elements that may contain menus
     menus = soup.find_all(["nav", "ul", "div"], class_=["menu", "navigation", "navbar"])
 
     for menu in menus:
-        # 🔍 Revisar estilos que podrían causar problemas con espaciado
+        # 🔍 Check styles that could cause spacing issues
         for item in menu.find_all(["li", "a", "span", "div"]):
             style = item.get("style", "").lower()
 
@@ -33,16 +35,17 @@ def check_menu_text_spacing(html_content, page_url):
                     "type": "Zoom",
                     "severity": "High",
                     "description": (
-                        "Se detectó `overflow: hidden;` en un elemento del menú. "
-                        "Esto puede hacer que el contenido se recorte al aumentar el espaciado de texto."
+                        "`overflow: hidden;` was detected in a menu item. "
+                        "This may cause content to be cut off when text spacing is increased."
                     ),
                     "remediation": (
-                        "Evitar `overflow: hidden;` en elementos de menú. "
-                        "Permitir que el contenido se expanda correctamente."
+                        "Avoid using `overflow: hidden;` in menu items. "
+                        "Ensure that content expands properly."
                     ),
                     "wcag_reference": "1.4.12",
-                    "impact": "Usuarios que necesiten espaciado adicional podrían no ver todo el contenido.",
+                    "impact": "Users who need additional spacing may not see the full content.",
                     "page_url": page_url,
+                    "resolution": "check_menu_text_spacing.md"
                 })
 
             if "white-space: nowrap" in style:
@@ -51,15 +54,16 @@ def check_menu_text_spacing(html_content, page_url):
                     "type": "Zoom",
                     "severity": "High",
                     "description": (
-                        "Se detectó `white-space: nowrap;`, lo que impide que el texto se ajuste correctamente "
-                        "al aumentar el espaciado de texto."
+                        "`white-space: nowrap;` was detected, preventing text from wrapping properly "
+                        "when text spacing is increased."
                     ),
                     "remediation": (
-                        "Evitar `white-space: nowrap;` en menús para que el texto pueda ajustarse correctamente."
+                        "Avoid using `white-space: nowrap;` in menus to allow text to adjust correctly."
                     ),
                     "wcag_reference": "1.4.12",
-                    "impact": "Los elementos del menú podrían salirse de su contenedor.",
+                    "impact": "Menu items may overflow from their container.",
                     "page_url": page_url,
+                    "resolution": "check_menu_text_spacing.md"
                 })
 
             if "max-height" in style and "px" in style:
@@ -68,15 +72,19 @@ def check_menu_text_spacing(html_content, page_url):
                     "type": "Zoom",
                     "severity": "High",
                     "description": (
-                        "Se detectó `max-height` en píxeles en un menú, lo que puede hacer que los elementos "
-                        "se recorten cuando el espaciado del texto aumente."
+                        "`max-height` in pixels was detected in a menu, which may cause items "
+                        "to be cropped when text spacing increases."
                     ),
                     "remediation": (
-                        "Usar `min-height: auto;` en lugar de valores fijos para permitir ajuste dinámico."
+                        "Use `min-height: auto;` instead of fixed values to allow dynamic adjustment."
                     ),
                     "wcag_reference": "1.4.12",
-                    "impact": "El usuario podría no ver todo el contenido del menú.",
+                    "impact": "Users may not see the full content of the menu.",
                     "page_url": page_url,
+                    "resolution": "check_menu_text_spacing.md"
                 })
+
+    # Convert incidences directly to Excel before returning
+    transform_json_to_excel(incidences, excel)
 
     return incidences

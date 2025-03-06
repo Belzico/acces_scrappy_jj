@@ -1,160 +1,98 @@
-# 🏷️ `check_images_decorative.py` - Evaluador de Imágenes y Elementos Decorativos
+# 🏷️ Check for Decorative Images Accessibility  
 
-## 📌 Descripción
+## 📌 Overview  
+This script detects accessibility issues with decorative images and elements in an HTML document. It ensures that purely decorative images are correctly hidden from screen readers and keyboard focus, and that they do not have misleading attributes.  
 
-Este script analiza un documento HTML en busca de **imágenes y elementos decorativos** mal configurados que puedan afectar la accesibilidad.  
-Verifica si las imágenes están correctamente marcadas como decorativas (`alt=""`), si los separadores (`<hr>`, `<svg>`) están ocultos y si las imágenes innecesariamente reciben foco o son anunciadas por los lectores de pantalla.
+## ✅ What It Does  
+This tester scans an HTML document and identifies issues with:  
+- **Images (`<img>`)** missing an `alt` attribute.  
+- **Decorative images** that are still announced to screen readers.  
+- **Decorative images with incorrect `alt` text** instead of an empty `alt=""`.  
+- **Decorative elements (`<hr>`, `<svg>`)** that are incorrectly focusable or announced.  
 
-📚 **Referencias oficiales**:
-- **WCAG 2.1 - 1.1.1:** [Non-text Content](https://www.w3.org/WAI/WCAG21/quickref/#non-text-content)
-- **W3C Decorative Images Guide:** [https://www.w3.org/WAI/tutorials/images/decorative/](https://www.w3.org/WAI/tutorials/images/decorative/)
+It generates a detailed report listing:  
+- The affected element and its attributes.  
+- The severity of the issue.  
+- The WCAG reference for accessibility compliance.  
+- Suggested remediation steps.  
+- **Exports the findings to Excel (`issue_report.xlsx`).**  
 
----
+## 🚀 Installation  
+Make sure you have the required dependencies installed:  
 
-## 🔍 **Errores detectados**
-
-### **1️⃣ Imágenes sin `alt` (Error crítico)**
-🔴 **Problema:**  
-Las imágenes sin `alt` son inaccesibles para los lectores de pantalla, lo que afecta la usabilidad.
-
-✅ **Solución:**  
-- Si la imagen es decorativa, **usar `alt=""` y `aria-hidden="true"`**.
-- Si la imagen es informativa, **describir su contenido en el `alt`**.
-
-📌 **Ejemplo incorrecto:**
-```html
-<img src="banner.jpg">
-📌 Ejemplo corregido:
-
-html
-Copy
-Edit
-<img src="banner.jpg" alt="">
-2️⃣ Imágenes decorativas que reciben foco o son anunciadas
-🔴 Problema:
-Las imágenes marcadas como decorativas (alt="") no deben ser anunciadas ni recibir foco en el teclado.
-
-✅ Solución:
-
-Agregar aria-hidden="true" o role="presentation" para ocultarlas a tecnologías asistivas.
-Evitar que sean seleccionables con el teclado (tabindex="-1").
-📌 Ejemplo incorrecto:
-
-html
-Copy
-Edit
-<img src="background.jpg" alt="" tabindex="0">
-📌 Ejemplo corregido:
-
-html
-Copy
-Edit
-<img src="background.jpg" alt="" aria-hidden="true" tabindex="-1">
-3️⃣ Imágenes decorativas con alt incorrecto
-🔴 Problema:
-Si una imagen es puramente decorativa, no debe tener un texto en el alt.
-
-✅ Solución:
-
-Usar alt="" para indicar que la imagen no es informativa.
-📌 Ejemplo incorrecto:
-
-html
-Copy
-Edit
-<img src="decorative-pattern.jpg" alt="Decorative background pattern">
-📌 Ejemplo corregido:
-
-html
-Copy
-Edit
-<img src="decorative-pattern.jpg" alt="">
-4️⃣ Separadores (<hr>, <svg>) visibles para lectores de pantalla
-🔴 Problema:
-Los elementos decorativos como <hr> y <svg> no deben ser anunciados ni recibir foco.
-
-✅ Solución:
-
-Agregar aria-hidden="true" o role="presentation".
-📌 Ejemplo incorrecto:
-
-html
-Copy
-Edit
-<hr>
-<svg><circle cx="50" cy="50" r="40"></circle></svg>
-📌 Ejemplo corregido:
-
-html
-Copy
-Edit
-<hr aria-hidden="true">
-<svg aria-hidden="true"><circle cx="50" cy="50" r="40"></circle></svg>
-⚙️ Instalación
-Este script requiere Python 3.7+ y BeautifulSoup4:
-
-bash
-Copy
-Edit
-pip install beautifulsoup4
-🚀 Cómo usar este tester
-Ejecuta el script pasando un documento HTML como entrada:
+```sh
+pip install beautifulsoup4 openpyxl
+🖥️ Usage
+To run the script, provide an HTML string and a page URL:
 
 python
 Copy
 Edit
-from manual_checks.check_images_decorative import check_images_decorative
+from check_images_decorative import check_images_decorative
 
-html_test = """
-<!DOCTYPE html>
+html_content = """
 <html>
-<body>
-    <h1>Ejemplo de imágenes decorativas</h1>
-    
-    <!-- Imagen sin alt -->
-    <img src="missing-alt.jpg">
-    
-    <!-- Imagen decorativa con alt incorrecto -->
-    <img src="decorative-pattern.jpg" alt="Decorative background pattern">
-    
-    <!-- Imagen decorativa que recibe foco -->
-    <img src="background.jpg" alt="" tabindex="0">
-    
-    <!-- Separador sin aria-hidden -->
-    <hr>
-</body>
+    <body>
+        <img src="decorative.png">
+        <img src="decorative.png" alt="">
+        <hr>
+    </body>
 </html>
 """
 
-errors = check_images_decorative(html_test, "https://example.com")
-
-for err in errors:
-    print(f"🔴 {err['title']}")
-    print(f"📌 {err['description']}")
-    print(f"🛠 Solución sugerida: {err['remediation']}\n")
-🛠 Salida esperada en consola
-pgsql
+issues = check_images_decorative(html_content, "https://example.com")
+print(issues)
+🔍 Example Output
+json
 Copy
 Edit
-🔴 Missing alt attribute
-📌 The image 'missing-alt.jpg' does not have an 'alt' attribute.
-🛠 Solución sugerida: Use alt="" for decorative images or provide a meaningful description.
+[
+    {
+        "title": "Missing alt attribute",
+        "type": "Screen Reader",
+        "severity": "High",
+        "description": "The image 'decorative.png' does not have an 'alt' attribute. All images must have an 'alt' attribute, either empty (alt=\"\") for decorative images or descriptive for informative images.",
+        "remediation": "Ensure that all images have an 'alt' attribute. Use alt=\"\" for purely decorative images or provide a meaningful description.",
+        "wcag_reference": "1.1.1",
+        "impact": "Screen readers will announce 'image' without any description, confusing users.",
+        "page_url": "https://example.com",
+        "resolution": "check_images_decorative.md"
+    }
+]
+📂 How It Works
+1️⃣ Parses the HTML using BeautifulSoup.
+2️⃣ Scans for elements that should be hidden but are incorrectly exposed to screen readers.
+3️⃣ Identifies missing alt attributes, incorrectly focusable decorative elements, and incorrect alt text usage.
+4️⃣ Creates a structured report with severity, impact, and remediation.
+5️⃣ Exports the results to Excel (issue_report.xlsx) for further analysis.
 
-🔴 Decorative image has incorrect alt
-📌 The image 'decorative-pattern.jpg' is likely decorative but has an alt text.
-🛠 Solución sugerida: Use alt="" to indicate that this image is purely decorative.
+🛠️ Fixing the Issue
+❌ Incorrect:
 
-🔴 Decorative image is focused and announced
-📌 The image 'background.jpg' is decorative but is focusable.
-🛠 Solución sugerida: Add aria-hidden="true" or role="presentation" and set tabindex="-1".
+html
+Copy
+Edit
+<img src="decorative.png">
+<hr>
+✅ Corrected:
 
-🔴 Decorative separator is focused and announced
-📌 A decorative element ('hr') is visible to screen readers but should be hidden.
-🛠 Solución sugerida: Add aria-hidden="true" or role="presentation" to this element.
-📌 Resumen
-✅ Este tester evalúa accesibilidad en imágenes y elementos decorativos en HTML:
+html
+Copy
+Edit
+<img src="decorative.png" alt="">
+<hr aria-hidden="true">
+📚 WCAG Reference
+Success Criterion 1.1.1 - Non-text Content
+→ Ensure that all decorative images are correctly hidden from assistive technologies.
 
-🚨 Errores críticos: alt faltante o mal usado en imágenes decorativas.
-🛠 Revisión de separadores: <hr> y <svg> sin aria-hidden="true".
-📖 Cumple con WCAG 2.1: Mejora la navegación con lectores de pantalla.
-🔥 Ideal para garantizar una experiencia accesible en la web! 🚀
+📊 Report Generation
+This script automatically exports results to Excel (issue_report.xlsx), making it easy to review and track accessibility issues.
+
+📢 Contributing
+Found a bug? Open an issue or create a pull request.
+Suggestions? Feel free to contribute to improve this tester!
+
+🔗 References
+🌍 WCAG 2.2 Guidelines
+📖 HTML Specification
+🏗 BeautifulSoup Documentation

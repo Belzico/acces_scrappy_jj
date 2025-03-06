@@ -15,7 +15,7 @@ from manual_checks.global_tester import (
     report_incidences_to_file
 )
 
-FILTER_BY_CLASS = True  # Filtrar por clase específica
+FILTER_BY_CLASS = False  # Filtrar por clase específica
 TARGET_CLASS = "web-inherited-reference"
 
 async def main():

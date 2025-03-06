@@ -1,86 +1,101 @@
-📌 README.md
-md
-Copy
-Edit
-# 🔍 Aria-label Misuse Detector - `check_aria_label_in_div.py`
+# 🔍 ARIA Label Misuse in `<div>` Elements - `check_aria_label_in_div.py`
 
-Este script detecta **uso incorrecto del atributo `aria-label` en elementos `<div>` sin un `role` definido**.  
-Si **un `<div>` tiene `aria-label` pero no tiene un `role` apropiado**, puede causar problemas en validadores HTML y tecnologías asistivas.
+This tester detects **`<div>` elements that use `aria-label` without a valid `role` attribute**.  
+ARIA attributes should only be used in elements that support them.  
+If a `<div>` has an `aria-label` but lacks a `role`, it might cause **accessibility issues** for screen readers.
 
-## 📌 ¿Por qué es importante?
-El atributo **`aria-label` solo debe usarse en elementos compatibles con ARIA**, como `<button>`, `<input>`, `<span>` o `<div>` con `role`.  
-Cuando un `<div>` usa `aria-label` sin un `role`, puede causar:
+## 📌 Why is this important?
 
-- ❌ **Errores en validadores HTML**.
-- ❌ **Dificultades para tecnologías asistivas y lectores de pantalla**.
-- ❌ **Problemas de compatibilidad futura en navegadores**.
+The **WCAG 4.1.2 (Name, Role, Value)** guideline states that elements **must have appropriate roles and attributes** for assistive technologies to understand them properly.  
 
----
-
-## ⚠️ **Problema Detectado**
-El script busca `<div>` con `aria-label` que **no tienen un `role` definido**.  
-Ejemplo de código problemático:
-
-### ❌ **Ejemplo Incorrecto (Con Error)**
+### ❌ **Incorrect Example**
 ```html
-<div aria-label="Destino 1">Destino 1</div>
-<div aria-label="Destino 2">Destino 2</div>
-✅ Ejemplo Correcto (Solucionado)
+<div aria-label="Main Menu">
+    <ul>
+        <li>Home</li>
+        <li>About</li>
+    </ul>
+</div>
+✅ Corrected Version
+
 html
 Copy
 Edit
-<div role="option" aria-label="Destino 1">Destino 1</div>
-<div role="option" aria-label="Destino 2">Destino 2</div>
-🚀 Cómo Usar el Tester
-📌 Instalación
-Asegúrate de tener BeautifulSoup instalado:
+<nav aria-label="Main Menu">
+    <ul>
+        <li>Home</li>
+        <li>About</li>
+    </ul>
+</nav>
+Or:
 
-bash
+html
 Copy
 Edit
-pip install beautifulsoup4
-📌 Ejecutar el Tester en un Archivo HTML
+<div role="navigation" aria-label="Main Menu">
+    <ul>
+        <li>Home</li>
+        <li>About</li>
+    </ul>
+</div>
+⚠️ Problem Detected
+This script identifies <div> elements with an aria-label but missing a valid role.
+
+📄 Example of a Reported Issue
+json
+Copy
+Edit
+{
+    "title": "ARIA label used in <div> without a role",
+    "type": "HTML Validator",
+    "severity": "Low",
+    "description": "The `aria-label` attribute should only be used on elements that support it. "
+                   "Currently, it is applied to a `<div>` without a defined `role`, which is not valid.",
+    "remediation": "Ensure that `<div>` elements with `aria-label` have an appropriate `role`, such as `role=\"button\"`, `role=\"option\"`, etc. "
+                   "If `aria-label` is not necessary, consider using a `<span>` or `<button>` instead.",
+    "wcag_reference": "4.1.2",
+    "impact": "No immediate impact, but it may cause issues in validators and assistive technologies.",
+    "page_url": "https://example.com",
+    "resolution": "check_aria_label_in_div.md",
+    "element_info": {
+        "tag": "div",
+        "text": "Main Menu",
+        "id": "N/A",
+        "class": "menu-container",
+        "line_number": 45
+    }
+}
+🚀 How to Use the Tester
+📌 Installation
+Ensure you have the required dependencies installed:
+
+sh
+Copy
+Edit
+pip install beautifulsoup4 pandas
+📌 Run the Tester
+Import and execute the function in a Python script:
+
 python
 Copy
 Edit
 from check_aria_label_in_div import check_aria_label_in_div
 
-with open("test_aria_label_in_div_error.html", "r", encoding="utf-8") as f:
+with open("test_page.html", "r", encoding="utf-8") as f:
     html_content = f.read()
 
-page_url = "file:///ruta/del/archivo/test_aria_label_in_div_error.html"
-incidencias = check_aria_label_in_div(html_content, page_url)
+page_url = "https://example.com"
+incidences = check_aria_label_in_div(html_content, page_url)
 
-for inc in incidencias:
+for inc in incidences:
     print(inc)
-📄 Ejemplo de Incidencia Detectada
-Si hay <div> con aria-label sin role, el tester reportará:
+📂 Saving Results to Excel
+This tester automatically saves results to an Excel file called issue_report.xlsx.
 
-json
-Copy
-Edit
-{
-    "title": "Aria-label attribute incorrectly used in div elements",
-    "type": "HTML Validator",
-    "severity": "Low",
-    "description": "El atributo `aria-label` solo debe usarse en elementos que lo soporten. Actualmente se encuentra en `<div>` sin un `role` definido, lo que no es válido.",
-    "remediation": "Asegurar que los `<div>` con `aria-label` tengan un `role` apropiado, como `role=\"button\"`, `role=\"option\"`, etc. Si el `aria-label` no es necesario, usar un `<span>` o `<button>` en su lugar.",
-    "wcag_reference": "4.1.2",
-    "impact": "No hay impacto inmediato, pero puede causar problemas en validadores y tecnologías asistivas.",
-    "page_url": "file:///ruta/del/archivo/test_aria_label_in_div_error.html",
-    "affected_elements": [
-        "<div aria-label=\"Destino 1\">Destino 1</div>",
-        "<div aria-label=\"Destino 2\">Destino 2</div>"
-    ]
-}
-✅ Beneficios del Tester
-✔ Detecta <div> con aria-label sin role.
-✔ Muestra qué elementos <div> están afectados.
-✔ Mejora la compatibilidad con tecnologías asistivas y validadores HTML.
-✔ Fácil integración en global_tester.py.
+✅ Benefits of this Tester
+✔ Detects ARIA misuse in <div> elements.
+✔ Suggests role replacements for better accessibility.
+✔ Generates structured reports for accessibility validation.
+✔ Helps ensure compliance with WCAG 4.1.2 guidelines.
 
-💡 ¡Con este tester garantizamos que aria-label se use correctamente en los elementos soportados! 🚀
-
-yaml
-Copy
-Edit
+💡 By using this tester, you improve accessibility and assistive technology compatibility. 🚀
