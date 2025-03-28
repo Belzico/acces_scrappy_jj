@@ -1,59 +1,74 @@
-# 🚀 Web Accessibility Analyzer
+🚀 Web Accessibility Analyzer
+Este proyecto realiza un análisis automático y manual de accesibilidad web utilizando Pyppeteer, axe-core, Lighthouse y una serie de testers personalizados alineados con WCAG 2.2.
+Detecta errores de accesibilidad, justifica los CPs sin incidencias y genera reportes completos en JSON y Excel.
 
-Este proyecto realiza un **análisis automático y manual de accesibilidad web** utilizando Pyppeteer, axe-core, Lighthouse y una serie de pruebas manuales adicionales. Detecta errores de accesibilidad y genera reportes detallados para mejorar la conformidad con WCAG 2.2.
+📜 Índice
+📌 Introducción
 
-## 📜 Índice
-1. [📌 Introducción](#-introducción)
-2. [🔧 Instalación](#-instalación)
-3. [🖥️ Uso](#️-uso)
-4. [📂 Estructura del Proyecto](#-estructura-del-proyecto)
-5. [🔍 Scraper](#-scraper)
-6. [🧪 Axe Checker](#-axe-checker)
-7. [🚦 Lighthouse Analyzer](#-lighthouse-analyzer)
-8. [🛠️ Global Tester](#-global-tester)
-9. [📖 Documentación de Testers](#-documentación-de-testers)
-10. [📚 Referencias](#-referencias)
+🔧 Instalación
 
----
+🖥️ Uso
 
-## 📌 Introducción
-Este proyecto permite **analizar la accesibilidad de páginas web** mediante un **scraper**, pruebas automáticas con **axe-core** y **Lighthouse**, además de validaciones manuales mediante **testers personalizados**.
+📂 Estructura del Proyecto
 
-Se generan reportes detallados con **incidencias detectadas y soluciones recomendadas**.
+🔍 Scraper
 
----
+🧪 Axe Checker
 
-## 🔧 Instalación
+🚦 Lighthouse Analyzer
 
-1. Clona el repositorio:
-   ```sh
-   git clone https://github.com/tu_usuario/tu_repositorio.git
-   cd tu_repositorio
+🛠️ Global Tester (Manual Checks)
+
+📖 Documentación de Testers
+
+📊 Reportes Generados
+
+📚 Referencias
+
+🤝 Contribuye
+
+📌 Introducción
+Este sistema permite analizar páginas web y archivos HTML locales en busca de errores de accesibilidad.
+Utiliza herramientas automáticas (axe-core, Lighthouse), un scraper personalizado, y una batería de testers manuales agrupados por criterios WCAG.
+
+Los resultados se exportan en formatos estandarizados.
+🔹 Si no se detectan incidencias, se documenta una justificación por CP.
+
+🔧 Instalación
+Clona el repositorio:
+
+bash
+Copy
+Edit
+git clone https://github.com/tu_usuario/tu_repositorio.git
+cd tu_repositorio
 Instala las dependencias:
 
-sh
+bash
 Copy
 Edit
 pip install -r requirements.txt
-Copia la carpeta chrome-win en la raíz del proyecto (necesario para Pyppeteer).
+Copia la carpeta chrome-win en la raíz del proyecto.
 
-Si no tienes chrome-win, descárgalo y colócalo en la carpeta del proyecto.
-Configura tu API Key de OpenAI para análisis semántico (opcional):
+⚠️ Este paso es obligatorio para que Pyppeteer funcione correctamente.
+Si no tienes la carpeta, descárgala desde este enlace oficial de Chromium o desde una instalación existente.
 
-sh
+(Opcional) Configura tu API Key de OpenAI para análisis semántico:
+
+bash
 Copy
 Edit
 export OPENAI_API_KEY="tu-clave-api"
 🖥️ Uso
-Para ejecutar el análisis de accesibilidad en una página web:
+Para analizar una URL:
 
-sh
+bash
 Copy
 Edit
 python main.py
-Para analizar archivos locales dentro de la carpeta html_samples:
+Para analizar archivos locales:
 
-sh
+bash
 Copy
 Edit
 python main.py --local html_samples
@@ -62,85 +77,95 @@ bash
 Copy
 Edit
 📁 acces_scrappy_jj
-│── 📁 accessibility_checker    # Análisis de accesibilidad con axe-core y Lighthouse
-│── 📁 scraper                 # Scraper para extraer HTML de URLs
-│── 📁 manual_checks           # Testers manuales de accesibilidad
-│── 📁 reports                 # Generación de reportes
-│── 📁 chrome-win              # Binario de Chromium necesario para Pyppeteer
-│── main.py                    # Punto de entrada del proyecto
-│── requirements.txt            # Dependencias del proyecto
-│── README.md                   # Documentación
+├── 📁 accessibility_checker     # axe-core y Lighthouse
+├── 📁 scraper                   # Extracción de HTML con Pyppeteer
+├── 📁 manual_checks             # Testers manuales organizados por criterios WCAG
+├── 📁 reports                   # Reportes generados (JSON + Excel)
+├── 📁 chrome-win                # Chromium portátil para Pyppeteer
+├── main.py                     # Script principal
+├── requirements.txt            # Dependencias
+└── README.md                   # Este archivo
 🔍 Scraper
-Ubicado en scraper/scraper.py, este módulo extrae contenido HTML de páginas web utilizando Pyppeteer.
+Ubicado en scraper/scraper.py, permite navegar páginas web y extraer su contenido HTML:
 
-Utiliza un navegador sin interfaz (headless) para cargar la página.
-Espera hasta que el DOM esté completamente cargado.
-Extrae el contenido HTML para su posterior análisis.
+Usa Pyppeteer (modo headless).
+
+Espera a la carga completa del DOM.
+
+Retorna el HTML para su análisis.
+
 🧪 Axe Checker
-Ubicado en accessibility_checker/axe_checker.py, este módulo ejecuta pruebas automáticas de accesibilidad con axe-core.
+Ubicado en accessibility_checker/axe_checker.py:
 
-Inyecta axe-core en la página cargada con Pyppeteer.
-Ejecuta axe.run() para detectar violaciones WCAG.
-Guarda los resultados en accessibility_results.json.
-📌 Referencia oficial: Axe-Core Docs
+Inyecta axe-core en la página cargada.
+
+Ejecuta axe.run() y detecta violaciones WCAG.
+
+Exporta los resultados a accessibility_results.json.
+
+📌 Referencia: Axe-Core Docs
 
 🚦 Lighthouse Analyzer
-Ubicado en accessibility_checker/lighthouse_checker.py, este módulo ejecuta auditorías de accesibilidad usando Google Lighthouse.
+Ubicado en accessibility_checker/lighthouse_checker.py:
 
-Analiza accesibilidad, rendimiento y SEO.
-Extrae solo los errores detectados para su análisis.
-Guarda los resultados en lighthouse_errors.json.
-📌 Referencia oficial: Lighthouse Docs
+Ejecuta auditoría con Google Lighthouse.
 
-🛠️ Global Tester
-Ubicado en manual_checks/global_tester.py, este módulo ejecuta pruebas manuales personalizadas.
+Filtra las incidencias de accesibilidad.
 
-Carga y ejecuta testers definidos en manual_checks/.
-Guarda los errores detectados en manual_incidences.json.
-📌 Cómo agregar un nuevo tester:
+Exporta a lighthouse_errors.json.
 
-Crea un archivo en manual_checks/, por ejemplo: check_new_test.py.
-Define una función que reciba html_content y page_url y retorne una lista de incidencias.
-Agrega tu tester a la lista en global_tester.py.
-Ejemplo de un tester:
+📌 Referencia: Lighthouse Docs
 
-python
+🛠️ Global Tester (Manual Checks)
+Ubicado en manual_checks/global_tester.py:
+
+Ejecuta todos los testers definidos por criterios WCAG.
+
+Genera resultados en manual_incidences.json.
+
+Si no hay incidencias, justifica con:
+
+perl
 Copy
 Edit
-from bs4 import BeautifulSoup
+Justificación de los CPs asignados que no generen issues
+📌 Puedes añadir nuevos testers dentro de manual_checks/ según el criterio WCAG correspondiente.
 
-def check_missing_alt(html_content, page_url):
-    """Detecta imágenes sin atributo 'alt'."""
-    soup = BeautifulSoup(html_content, "html.parser")
-    incidences = []
-    for img in soup.find_all("img"):
-        if not img.get("alt"):
-            incidences.append({
-                "title": "Image missing alt attribute",
-                "page_url": page_url,
-                "element": str(img),
-                "description": "This image lacks an alternative text description.",
-                "remediation": "Add a meaningful alt attribute."
-            })
-    return incidences
 📖 Documentación de Testers
-Cada tester detecta problemas específicos y sigue las reglas WCAG:
-
 Tester	Descripción	WCAG
-check_alt_distinction.py	Detecta imágenes sin alt o con alt redundante	1.1.1
-check_images_decorative.py	Detecta imágenes decorativas mal configuradas	1.1.1
-check_links_with_no_text.py	Detecta enlaces/botones sin texto accesible	2.4.4
-check_keyboard_accessibility.py	Detecta elementos sin soporte para teclado	2.1.1
-check_focus_visible.py	Detecta elementos sin indicador de foco visible	2.4.7
-📌 Referencias oficiales:
-
-Guía de imágenes decorativas (W3C)
-Pautas WCAG 2.1
+testers_1_1_1.py	Imágenes sin alt, decorativas mal configuradas	1.1.1
+testers_1_4_3.py	Contraste de texto (placeholders y dropdowns)	1.4.3
+testers_1_4_4.py	Texto que se corta al hacer zoom al 200%	1.4.4
+testers_1_4_5.py	Imágenes con texto no equivalente (OCR)	1.4.5
+testers_1_4_10.py	Problemas de reflow a 320px (scroll horizontal, fixed width)	1.4.10
+testers_1_4_11.py	Contraste de opciones seleccionadas en dropdown	1.4.11
+testers_1_4_12.py	Recorte de contenido por espacio de texto (text spacing)	1.4.12
+testers_2_1_1.py	Interacciones con mouse sin soporte de teclado	2.1.1
+testers_2_4_3.py	Orden de foco incorrecto (tabindex, modales sin open, etc.)	2.4.3
+testers_2_4_4.py	Enlaces y botones sin texto accesible	2.4.4
+testers_2_4_7.py	Indicadores de foco visibles ausentes	2.4.7
+testers_3_3_1.py	Formularios sin mensajes de error visibles	3.3.1
+testers_4_1_1.py	IDs duplicados y estructuras HTML mal anidadas	4.1.1
+testers_4_1_2.py	Name, Role y Value de elementos interactivos	4.1.2
+📊 Reportes Generados
+Archivo	Contenido
+accessibility_results.json	Resultado del análisis con axe-core
+lighthouse_errors.json	Errores de Lighthouse (accesibilidad únicamente)
+manual_incidences.json	Incidencias detectadas por testers manuales
+report.xlsx	Reporte consolidado (incluye justificaciones si no hay errores)
 📚 Referencias
-🏗 Pyppeteer: https://github.com/pyppeteer/pyppeteer
-🏗 Axe-Core: https://github.com/dequelabs/axe-core
-🏗 Lighthouse: https://developers.google.com/web/tools/lighthouse
-🏗 WCAG 2.1: https://www.w3.org/TR/WCAG21/
-🏗 Sentence Transformers: https://www.sbert.net/
-🏗 OpenAI Embeddings: https://platform.openai.com/docs/guides/embeddings
-📢 ¡Contribuye! Si encuentras errores o quieres mejorar la herramienta, envía un Pull Request o abre un Issue en el repositorio. 🚀
+🧪 Pyppeteer
+
+🧪 Axe-Core
+
+🧪 Lighthouse
+
+📘 WCAG 2.2
+
+🧠 Sentence Transformers
+
+🧠 OpenAI Embeddings
+
+🤝 Contribuye
+¿Tienes ideas, encontraste un bug o quieres colaborar?
+¡Envíanos un Pull Request o abre un Issue! 💬🚀

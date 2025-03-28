@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>2.4.11 - Focus Not Obscured Test</title>
+  <style>
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 120px; /* Más de 100px */
+      background: black;
+      z-index: 500;
+      color: white;
+      padding: 10px;
+    }
+
+    main {
+      margin-top: 200px; /* Para que el contenido quede detrás al hacer scroll */
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Simplified Large Header</h1>
+    <p>Potentially obscures focus if it doesn't use scroll-padding or partial coverage.</p>
+  </header>
+
+  <main>
+    <p>Some content below the header.</p>
+    <button>Focus me — could be hidden behind the header</button>
+  </main>
+</body>
+</html>

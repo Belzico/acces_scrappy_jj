@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Trap Example</title>
+</head>
+<body>
+
+  <div role="dialog" aria-modal="true" id="myModal">
+    <h2>My Modal</h2>
+    <p>This modal has no close button, you might get stuck if the script captures Tab.</p>
+    <input type="text" onkeydown="if (event.keyCode==9) { event.preventDefault(); }" />
+  </div>
+
+  <div tabindex="3">Element with tab 3</div>
+  <button tabindex="3">Another element with tab 3</button>
+  <a href="#" tabindex="3">Link also with tab 3</a>
+
+</body>
+</html>

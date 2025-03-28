@@ -1,4 +1,1 @@
-url,impact,description,help_url
-https://www.barcelo.com/en-us/,critical,Ensures ARIA attributes are allowed for an element's role,https://dequeuniversity.com/rules/axe/4.4/aria-allowed-attr?application=axeAPI
-https://www.barcelo.com/en-us/,serious,Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds,https://dequeuniversity.com/rules/axe/4.4/color-contrast?application=axeAPI
-https://www.barcelo.com/en-us/,minor,Ensures every id attribute value is unique,https://dequeuniversity.com/rules/axe/4.4/duplicate-id?application=axeAPI
+
