@@ -7,6 +7,7 @@ from datetime import datetime
 from manual_tester_full.check__1_1_1 import run_all___1_1_1
 from manual_tester_full.check__1_3_1 import run_all___1_3_1
 from manual_tester_full.check__1_3_2 import run_all___1_3_2
+from manual_tester_full.check__1_3_5 import run_all___1_3_5
 from manual_tester_full.check__1_4_1 import run_all___1_4_1
 from manual_tester_full.check__1_4_3 import run_all___1_4_3
 from manual_tester_full.check__1_4_4 import run_all___1_4_4
@@ -69,26 +70,27 @@ from manual_tester_full.check__4_1_2 import run_all___4_1_2
 
 # Lista de testers manuales disponibles
 TESTERS = [
-    #run_all___1_1_1,
-    #run_all___1_3_1,
-    #run_all___1_3_2,
-    #run_all___1_4_1,
-    #run_all___1_4_3,
-    #run_all___1_4_4,
-    #run_all___1_4_5,
-    #run_all___1_4_10,
-    #run_all___1_4_11,
-    #run_all___1_4_12,
-    run_all___1_4_13,
-    #run_all___2_1_1,
-    #run_all___2_1_2,
-    #run_all___2_4_2,
-    #run_all___2_4_3,
-    #run_all___2_4_7,
-    #run_all___2_4_11,
-    #run_all___3_3_1,
-    #run_all___4_1_1,
-    #run_all___4_1_2,
+    # run_all___1_1_1,
+    # run_all___1_3_1,
+    # run_all___1_3_2,
+    run_all___1_3_5,
+    # run_all___1_4_1,
+    # run_all___1_4_3,
+    # run_all___1_4_4,
+    # run_all___1_4_5,
+    # run_all___1_4_10,
+    # run_all___1_4_11,
+    # run_all___1_4_12,
+    # run_all___1_4_13,
+    # run_all___2_1_1,
+    # run_all___2_1_2,
+    # run_all___2_4_2,
+    # run_all___2_4_3,
+    # run_all___2_4_7,
+    # run_all___2_4_11,
+    # run_all___3_3_1,
+    # run_all___4_1_1,
+    # run_all___4_1_2,
     
     
     

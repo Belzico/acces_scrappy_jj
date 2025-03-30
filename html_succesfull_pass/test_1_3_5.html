@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tester HTML Error Example</title>
+</head>
+<body>
+
+<form>
+    <!-- 1) Falta autocomplete -->
+    <label for="name">Nombre:</label>
+    <input id="name" type="text" name="name" placeholder="Tu nombre">
+
+    <!-- 2) autocomplete inválido -->
+    <label for="lastname">Apellido:</label>
+    <input id="lastname" type="text" name="lastname" placeholder="Tu apellido"
+           autocomplete="family_name_wrong">
+
+    <!-- 3) autocomplete inválido -->
+    <label for="email">Email:</label>
+    <input id="email" type="email" name="email" placeholder="Tu correo"
+           autocomplete="mail">
+
+    <!-- 4) autocomplete inválido -->
+    <label for="phone">Teléfono:</label>
+    <input id="phone" type="tel" name="phone" placeholder="Tu número telefónico"
+           autocomplete="tel-local-wrong">
+
+    <!-- 5) autocomplete correcto => NO error -->
+    <label for="postalcode">Código postal:</label>
+    <input id="postalcode" type="text" name="zip_code" placeholder="tu zip-code"
+           autocomplete="postal-code">
+
+    <!-- 6) Input irrelevante (oculto) => NO se reporta nada -->
+    <label for="token">Security token:</label>
+    <input id="token" type="hidden" name="csrf-token" value="abc123">
+
+    <button type="submit">Enviar</button>
+</form>
+
+</body>
+</html>

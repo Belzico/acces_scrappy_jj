@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test WCAG 1.4.13 - Content on Hover or Focus</title>
+  <style>
+    .custom-tooltip {
+      position: absolute;
+      background: #222;
+      color: #fff;
+      padding: 8px;
+      border-radius: 5px;
+      display: none;
+      z-index: 1000;
+      max-width: 200px;
+      font-size: 14px;
+      /* simulación de autocierre */
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .show-tooltip:hover + .custom-tooltip,
+    .show-tooltip:focus + .custom-tooltip {
+      display: block;
+    }
+
+    /* Problema: no se puede mantener el hover sobre el tooltip */
+    .custom-tooltip:hover {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>WCAG 1.4.13 Test</h1>
+
+  <p>
+    <button class="show-tooltip" aria-describedby="tip1">
+      Hover or focus me
+    </button>
+    <div class="custom-tooltip" id="tip1" role="tooltip">
+      ⚠️ Esta es una ayuda emergente que se oculta si intentas pasar el mouse por encima.
+    </div>
+  </p>
+
+</body>
+</html>

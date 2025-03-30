@@ -9,7 +9,13 @@ from accessibility_checker.lighthouse_checker import analyze_lighthouse  # 🔥 
 
 from reports.generate_report import generate_report
 
-from manual_checks.global_tester import (
+# from manual_checks.global_tester import (
+#     run_all_testers,
+#     run_all_testers_in_folder,
+#     report_incidences_to_file
+# )
+
+from manual_tester_full.global_tester import (
     run_all_testers,
     run_all_testers_in_folder,
     report_incidences_to_file
