@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test SC 2.5.3 - Label in Name (Errors)</title>
+</head>
+<body>
+
+  <!-- 1) Button con aria-label que NO incluye su texto visible -->
+  <button aria-label="Proceed action">Next</button>
+  <!-- Se espera: 'Next' esté incluido en "Proceed action" o no usar aria-label -->
+
+  <!-- 2) Input de tipo 'submit' sin value, sin aria-label => no hay texto visible -->
+  <form>
+    <input type="submit" />
+  </form>
+
+  <!-- 3) Input type="image", alt difiere de aria-label -->
+  <input type="image" src="search.png" alt="Search" aria-label="Magnifying glass icon"/>
+
+  <!-- 4) Label con text 'Password', input con aria-label = 'Secret' (no coincide) -->
+  <label for="passField">Password</label>
+  <input id="passField" type="password" aria-label="Secret code" />
+
+  <!-- Caso correcto: Button con aria-label que sí incluye su texto visible -->
+  <button aria-label="Save changes">Save</button>
+
+</body>
+</html>

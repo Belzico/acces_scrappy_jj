@@ -7,6 +7,7 @@ from datetime import datetime
 from manual_tester_full.check__1_1_1 import run_all___1_1_1
 from manual_tester_full.check__1_3_1 import run_all___1_3_1
 from manual_tester_full.check__1_3_2 import run_all___1_3_2
+from manual_tester_full.check__1_3_3 import run_all___1_3_3
 from manual_tester_full.check__1_3_5 import run_all___1_3_5
 from manual_tester_full.check__1_4_1 import run_all___1_4_1
 from manual_tester_full.check__1_4_3 import run_all___1_4_3
@@ -18,13 +19,29 @@ from manual_tester_full.check__1_4_12 import run_all___1_4_12
 from manual_tester_full.check__1_4_13 import run_all___1_4_13
 from manual_tester_full.check__2_1_1 import run_all___2_1_1
 from manual_tester_full.check__2_1_2 import run_all___2_1_2
+from manual_tester_full.check__2_2_1 import run_all___2_2_1
+from manual_tester_full.check__2_2_2 import run_all___2_2_2
+from manual_tester_full.check__2_4_1 import run_all___2_4_1
 from manual_tester_full.check__2_4_2 import run_all___2_4_2
 from manual_tester_full.check__2_4_3 import run_all___2_4_3
+from manual_tester_full.check__2_4_4 import run_all___2_4_4
+from manual_tester_full.check__2_4_6 import run_all___2_4_6
 from manual_tester_full.check__2_4_7 import run_all___2_4_7
+from manual_tester_full.check__2_5_3 import run_all___2_5_3
+from manual_tester_full.check__2_5_7 import run_all___2_5_7
+from manual_tester_full.check__2_5_8 import run_all___2_5_8
 from manual_tester_full.check__2_4_11 import run_all___2_4_11
+from manual_tester_full.check__3_1_1 import run_all___3_1_1
+from manual_tester_full.check__3_1_2 import run_all___3_1_2
+from manual_tester_full.check__3_2_1 import run_all___3_2_1
+from manual_tester_full.check__3_2_2 import run_all___3_2_2
 from manual_tester_full.check__3_3_1 import run_all___3_3_1
+from manual_tester_full.check__3_3_2 import run_all___3_3_2
+from manual_tester_full.check__3_3_3 import run_all___3_3_3
+from manual_tester_full.check__3_3_4 import run_all___3_3_4
 from manual_tester_full.check__4_1_1 import run_all___4_1_1
 from manual_tester_full.check__4_1_2 import run_all___4_1_2
+from manual_tester_full.check__4_1_3 import run_all___4_1_3
 
 
 
@@ -73,7 +90,8 @@ TESTERS = [
     # run_all___1_1_1,
     # run_all___1_3_1,
     # run_all___1_3_2,
-    run_all___1_3_5,
+    # run_all___1_3_3,
+    # run_all___1_3_5,
     # run_all___1_4_1,
     # run_all___1_4_3,
     # run_all___1_4_4,
@@ -84,13 +102,29 @@ TESTERS = [
     # run_all___1_4_13,
     # run_all___2_1_1,
     # run_all___2_1_2,
+    run_all___2_2_1,
+    # run_all___2_2_2,
+    # run_all___2_4_1,
     # run_all___2_4_2,
     # run_all___2_4_3,
+    # run_all___2_4_4,
+    # run_all___2_4_6,
     # run_all___2_4_7,
     # run_all___2_4_11,
+    # run_all___2_5_3,
+    # run_all___2_5_7,
+    # run_all___2_5_8,
+    # run_all___3_1_1,
+    # run_all___3_1_2,
+    # run_all___3_2_1,
+    # run_all___3_2_2,
     # run_all___3_3_1,
+    # run_all___3_3_2,
+    # run_all___3_3_3,
+    # run_all___3_3_4,
     # run_all___4_1_1,
     # run_all___4_1_2,
+    # run_all___4_1_3,
     
     
     

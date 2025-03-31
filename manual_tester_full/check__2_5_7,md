@@ -1,0 +1,64 @@
+# ✅ WCAG 2.5.7 - Dragging Movements: Verificador de Necesidad de Alternativas
+
+Este script automatizado en **Python** analiza el contenido HTML en busca de elementos que sugieran que se requiere **arrastrar (drag & drop)** para realizar una acción, según el **Criterio WCAG 2.5.7 (Nivel AA)**.
+
+## 🧪 Objetivo
+Detectar problemas potenciales donde:
+- Una interfaz use `draggable="true"`, `ondragstart`, `ondrop`, etc.
+- No haya un método **alternativo de un solo puntero** (clic/tap) para lograr la misma función.
+
+## 📦 Checker incluido
+Este archivo ejecuta un verificador para identificar elementos con funcionalidades de arrastre:
+
+| Función           | Descripción                                                                                                                     |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| `run_all___2_5_7` | Busca atributos relacionados a drag & drop y reporta la necesidad de un método alternativo que no requiera arrastrar.           |
+
+## 🧰 Uso de la función general
+
+```python
+from wcag_2_5_7_tester import run_all___2_5_7
+
+issues = run_all___2_5_7(html_content, page_url, excel="issue_report.xlsx")
+El archivo Excel generado incluirá una fila por cada incidencia detectada. Si no se detectan problemas, se incluirá una fila con la justificación positiva: "Justificación de los CPs asignados que no generen issues".
+
+📤 Formato de salida
+El reporte Excel incluye las siguientes columnas:
+
+Title
+
+Steps
+
+Bug Type
+
+Priority
+
+Expected Result
+
+Actual Result
+
+Suggested resolution(s)
+
+Failed checkpoint
+
+User Impact
+
+Evidence [SS or Video]
+
+📌 Requisitos
+Python 3.8+
+
+Librerías necesarias:
+
+beautifulsoup4
+
+openpyxl (usada por transform_json_to_excel)
+
+transform_json_to_excel (módulo personalizado de exportación)
+
+📚 Referencia
+WCAG 2.1 / 2.2 - Criterio 2.5.7: Dragging Movements
+
+Understanding Success Criterion 2.5.7
+
+Uso de alternativas a arrastrar para usuarios con movilidad reducida

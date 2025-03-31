@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test SC 3.3.2</title>
+</head>
+<body>
+
+  <form>
+
+    <!-- 1) OK: label correcto -->
+    <label for="fName">First Name:</label>
+    <input id="fName" name="fName" type="text">
+
+    <!-- 2) OK: aria-label -->
+    <input type="email" aria-label="Your email address">
+
+    <!-- 3) OK: placeholder como pista -->
+    <input type="number" placeholder="Enter age" name="edad">
+
+    <!-- 4) ERROR: no label, no placeholder, no aria-label -->
+    <input type="text" name="mysteriousField">
+
+    <!-- 5) ERROR: select sin label ni placeholder ni aria-... -->
+    <select>
+      <option value="1">One</option>
+      <option value="2">Two</option>
+    </select>
+
+    <!-- 6) OK: label for=theArea -->
+    <label for="theArea">Comments:</label>
+    <textarea id="theArea" name="comments"></textarea>
+
+  </form>
+
+</body>
+</html>

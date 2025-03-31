@@ -25,7 +25,7 @@ FILTER_BY_CLASS = False  # Filtrar por clase específica
 TARGET_CLASS = "web-inherited-reference"
 
 async def main():
-    start_url = "https://www.barcelo.com/en-us/"
+    start_url = "https://www.barc//elo.com/en-us/"
 
     print("🔍 Scrapeando el sitio web...")
     scraper = WebScraper(start_url)
@@ -40,14 +40,14 @@ async def main():
         page_url = page["url"]
         print(f"Procesando página: {page_url}")
 
-        # 1️⃣ Análisis con axe-core
-        accessibility_result = await analyze_accessibility(page_url)
-        axe_results.append(accessibility_result)
+        # # 1️⃣ Análisis con axe-core
+        # accessibility_result = await analyze_accessibility(page_url)
+        # axe_results.append(accessibility_result)
 
-        # 2️⃣ Análisis con Lighthouse (solo errores)
-        lighthouse_result = analyze_lighthouse(page_url)  # 🔥 NUEVO
-        if lighthouse_result:
-            lighthouse_errors.extend(lighthouse_result)  # Guardamos solo errores
+        # # 2️⃣ Análisis con Lighthouse (solo errores)
+        # lighthouse_result = analyze_lighthouse(page_url)  # 🔥 NUEVO
+        # if lighthouse_result:
+        #     lighthouse_errors.extend(lighthouse_result)  # Guardamos solo errores
 
         # 3️⃣ Chequeo manual
         html_content = page.get("content", "")

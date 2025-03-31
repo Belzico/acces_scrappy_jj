@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Test 3.3.3 - Error Suggestion</title>
+</head>
+<body>
+
+  <form>
+    <label for="campo1">Edad:</label>
+    <input id="campo1" name="campo1" type="text">
+    <!-- ❌ Mensaje de error, sin sugerencia concreta -->
+    <div class="error">Error: valor inválido</div>
+
+    <br><br>
+
+    <label for="campo2">Email:</label>
+    <input id="campo2" name="campo2" type="text">
+    <!-- ✅ Mensaje de error con sugerencia -->
+    <p class="error">Error: correo incorrecto, por favor ingrese un formato válido (user@domain)</p>
+
+    <br><br>
+
+    <!-- ❌ Mensaje solo con "error" pero nada de sugerencia -->
+    <span class="error">Error: wrong input</span>
+
+    <!-- ✅ Mensaje con hint en inglés -->
+    <div class="error">
+      Invalid phone number, please enter only digits
+    </div>
+
+  </form>
+
+</body>
+</html>

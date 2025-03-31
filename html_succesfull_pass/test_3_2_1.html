@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test SC 3.2.1 On Focus</title>
+</head>
+<body>
+
+  <h1>3.2.1 On Focus Test</h1>
+
+  <!-- 1) Ejemplo erróneo: abre nueva ventana al enfocar -->
+  <input type="text" onfocus="window.open('http://example.com', '_blank');">
+
+  <!-- 2) Ejemplo erróneo: redirección al enfocar -->
+  <select onfocus="location.href='http://evil.com';">
+    <option>Pick me</option>
+    <option>Or me</option>
+  </select>
+
+  <!-- 3) Ejemplo OK: onfocus con algo inofensivo (no new context) -->
+  <button onfocus="console.log('Got focus');">
+    Just logs focus
+  </button>
+
+  <!-- 4) Ejemplo erróneo: submite form en onfocus -->
+  <textarea onfocus="this.form.submit()">Auto-submits on focus</textarea>
+
+  <!-- 5) Ejemplo OK: sin onfocus -->
+  <input type="text" placeholder="No onfocus code here">
+
+</body>
+</html>

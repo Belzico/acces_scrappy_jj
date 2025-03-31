@@ -1,0 +1,29 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <title>Test SC 2.5.7 - Dragging Movements</title>
+    </head>
+    <body>
+
+    <h1>Simple Drag & Drop Example</h1>
+
+    <!-- 1) Dragging: No se ve una alternativa de un clic o menú -->
+    <div draggable="true" style="width:100px; height:100px; background-color: #ccc;">
+        Drag me anywhere
+    </div>
+
+    <!-- 2) Escucha ondragstart, ondrop sin mostrar aparente alternativa -->
+    <div ondragstart="handleDragStart(event);" ondrop="handleDrop(event);">
+        <p>Drop Zone: Arrastra el cuadrado aquí</p>
+    </div>
+
+    <!-- 3) Ejemplo correcto (o supuestamente correcto): hay un drag,
+        pero tb un botón "Move item" que hace lo mismo sin arrastrar -->
+    <div draggable="true" style="width:50px; height:50px; background-color:#f00;">
+        Or drag me
+    </div>
+    <button onclick="moveItemWithoutDragging()">Move item here (alternative)</button>
+
+    </body>
+    </html>

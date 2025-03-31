@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test SC 4.1.3 - Status Messages</title>
+</head>
+<body>
+
+  <div>
+    <p>Search completed. 5 results returned.</p> 
+    <!-- ❌ No role="status" ni aria-live en el p/ancestro -->
+  </div>
+
+  <div id="cart-updates">
+    <span>2 items in cart</span> 
+    <!-- ❌ "items in cart" sugiere estado, sin role= ni aria-live -->
+  </div>
+
+  <div>
+    <p>Loading...</p>
+    <!-- ❌ Typical "Loading..." message, no ARIA role or aria-live. -->
+  </div>
+
+  <!-- ✅ Correct example: "role=status" or "aria-live=polite" -->
+  <div role="status">
+    <p>Form submitted successfully</p>
+  </div>
+
+  <!-- ✅ Another correct example: parent with aria-live -->
+  <section aria-live="polite">
+    <p>Error: Invalid entry in zip code</p>  
+  </section>
+
+</body>
+</html>

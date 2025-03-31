@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test 3.3.4 - Error Prevention</title>
+</head>
+<body>
+
+  <!-- Ejemplo 1: Form con compra de producto, sin confirmación ni cancel => Error -->
+  <form action="/checkout">
+    <h2>Complete your purchase</h2>
+    <label>Credit Card:</label>
+    <input type="text" name="ccnum">
+    <button type="submit">Pay now</button>
+  </form>
+
+  <!-- Ejemplo 2: Borrar cuenta sin "are you sure", "undo", etc. => Error -->
+  <form action="/deleteAccount">
+    <h2>Delete Account</h2>
+    <input type="submit" value="Remove account"/>
+  </form>
+
+  <!-- Ejemplo 3: Muestra confirm => NO error -->
+  <form action="/checkout">
+    <h2>Order details</h2>
+    <label>Shipping address</label>
+    <input type="text" name="address">
+    <button type="submit">Confirm order</button>
+    <p class="note">You will have a chance to review and cancel on the next step.</p>
+  </form>
+
+  <!-- Ejemplo 4: Data deletion con "Are you sure?" => NO error -->
+  <button>Delete record</button>
+  <p>Are you sure? You can undo within 24 hours.</p>
+
+</body>
+</html>

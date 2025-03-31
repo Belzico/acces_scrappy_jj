@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test SC 3.2.2 - On Input</title>
+</head>
+<body>
+
+<h1>3.2.2 On Input Test</h1>
+
+<!-- 1) Ejemplo con onchange redirección => ERROR -->
+<select onchange="location.href='http://example.com/somewhere'">
+  <option>Choose a page</option>
+  <option value="page1">Page 1</option>
+  <option value="page2">Page 2</option>
+</select>
+
+<!-- 2) Ejemplo con radio => ERROR -->
+<input type="radio" name="myRadio" onclick="window.open('http://example.com', '_blank');"> Open new tab
+
+<!-- 3) Ejemplo con checkbox => OK (no context change) -->
+<input type="checkbox" name="optIn" onchange="console.log('Just logs something, no context change');">
+<label>Enable optional feature</label>
+
+<!-- 4) Ejemplo con select y 'warn' => No error? 
+     Suponiendo que hay un note next to it "Selecting an option will reload the page." -->
+<p>Selecting an option will reload the page.</p>
+<select onchange="location.href='http://example.com/warned';">
+  <option>Pick</option>
+  <option value="warned">Warned flow</option>
+</select>
+
+</body>
+</html>
