@@ -24,19 +24,53 @@ TEXTUAL_REFERENCES = [
     r"con texto", r"llamad", r"identificad", r"caption", r"aria-"
 ]
 
-def get_element_info(element):
+def get_html_lines(html_content):
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    snippet_str = "\n".join(
+        f"{i+1}: {snippet[i - start]}"
+        for i in range(start, end)
+    )
+    return snippet_str
+
+def get_element_info(element, html_lines=None):
+    tag = element.name
+    text = element.get_text(strip=True)[:150]
+    line_number = element.sourceline if hasattr(element, "sourceline") else "N/A"
+    evidence = str(element)[:300]
+
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            line_int = int(line_number)
+            snippet_str = get_line_snippet(html_lines, line_int, context=2)
+        except ValueError:
+            pass
+
     return {
-        "tag": element.name,
-        "text": element.get_text(strip=True)[:150],  # hasta 150 chars
-        "evidence": str(element)[:300]               # recorte
+        "tag": tag,
+        "text": text,
+        "line_number": line_number,
+        "evidence": evidence,
+        "fragment_html": snippet_str
     }
 
 def format_incidence(inc):
+    element_info = inc.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
+
     return {
         "Title": inc.get("title"),
         "Steps": (
             f"1. Open the page: {inc.get('page_url')}\n"
-            f"2. Review the instruction text: \"{inc.get('element_info', {}).get('text')}\"."
+            f"2. Review the instruction text: \"{element_info.get('text')}\".\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": inc.get("type"),
         "Priority": inc.get("severity"),
@@ -45,7 +79,7 @@ def format_incidence(inc):
         "Suggested resolution(s)": inc.get("remediation"),
         "Failed checkpoint": inc.get("wcag_reference"),
         "User Impact": inc.get("impact"),
-        "Evidence [SS or Video]": inc.get("element_info", {}).get("evidence")
+        "Evidence [SS or Video]": element_info.get("evidence")
     }
 
 def run_all___1_3_3(html_content, page_url, excel="issue_report.xlsx"):
@@ -55,39 +89,29 @@ def run_all___1_3_3(html_content, page_url, excel="issue_report.xlsx"):
     sin incluir alguna referencia textual reconocible.
     """
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
-    # Buscamos en los elementos que normalmente contienen instrucciones.
-    # Podrías ampliarlo a otros: h2, h3, strong, etc. si lo ves necesario.
     instruction_tags = soup.find_all(["p", "span", "li", "div", "label", "strong"])
-
-    # Compilemos regex para textual references (mejora de performance).
     textual_ref_regex = re.compile("|".join(TEXTUAL_REFERENCES), re.IGNORECASE)
 
     for element in instruction_tags:
         full_text = element.get_text(separator=" ", strip=True)
         text_lower = full_text.lower()
 
-        # 1) Verificar si se utilizan palabras sensoriales
         uses_shape = any(word in text_lower for word in SHAPE_WORDS)
         uses_color = any(word in text_lower for word in COLOR_WORDS)
         uses_location = any(word in text_lower for word in LOCATION_WORDS)
         has_sensory_cue = (uses_shape or uses_color or uses_location)
 
         if not has_sensory_cue:
-            # Si ni siquiera hay palabras clave sensoriales, no nos interesa.
             continue
 
-        # 2) Verificar si hay alguna referencia textual en la misma frase
-        #    p. ej., "botón etiquetado como 'Continuar'", "named 'Save'", etc.
-        #    o la presencia de comillas ("..." o '...') que sugieran un identificador textual.
         mention_textual_ref = bool(textual_ref_regex.search(full_text))
         mention_in_quotes = bool(re.search(r"(['\"])(.*?)\1", full_text))
 
-        # Heurística: si hay keywords sensoriales,
-        # pero no hay referencia textual NI algo en comillas => posible error
-        # (Si hay comillas, presumimos que es un identificador textual).
         if has_sensory_cue and not (mention_textual_ref or mention_in_quotes):
+            info = get_element_info(element, html_lines=lines)
             raw_incidences.append({
                 "title": "Instruction relies on sensory characteristics only",
                 "type": "Instruction Text",
@@ -109,10 +133,9 @@ def run_all___1_3_3(html_content, page_url, excel="issue_report.xlsx"):
                     "how to interact with the interface."
                 ),
                 "page_url": page_url,
-                "element_info": get_element_info(element)
+                "element_info": info
             })
 
-    # Si no se encontraron incidencias, agregamos una fila de justificación
     formatted = [format_incidence(i) for i in raw_incidences]
     if not formatted:
         formatted.append({
@@ -128,6 +151,5 @@ def run_all___1_3_3(html_content, page_url, excel="issue_report.xlsx"):
             "Evidence [SS or Video]": "N/A"
         })
 
-    # Exportamos a Excel y retornamos
     transform_json_to_excel(formatted, excel)
     return formatted

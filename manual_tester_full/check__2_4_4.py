@@ -1,17 +1,39 @@
 from bs4 import BeautifulSoup
 from transform_json_to_excel import transform_json_to_excel
 
-# Texto de enlace ambiguo o demasiado genérico
 AMBIGUOUS_LINK_TEXT = [
     "click here", "here", "more", "read more", "read more...", "learn more",
     "ver más", "hacer clic aquí", "pulsa aquí", "aquí", "ver más..."
 ]
 
-def get_element_info(element):
+def get_html_lines(html_content):
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    return "\n".join(f"{i+1}: {snippet[i - start]}" for i in range(start, end))
+
+def get_element_info(element, html_lines=None):
+    tag = element.name
+    text = element.get_text(strip=True)
+    line_number = element.sourceline if hasattr(element, "sourceline") else "N/A"
+
+    snippet = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            snippet = get_line_snippet(html_lines, int(line_number))
+        except Exception:
+            pass
+
     return {
-        "tag": element.name,
-        "text": element.get_text(strip=True),
-        "evidence": str(element)[:300]
+        "tag": tag,
+        "text": text,
+        "line_number": line_number,
+        "evidence": str(element)[:300],
+        "fragment_html": snippet
     }
 
 def format_incidence(inc):
@@ -19,7 +41,9 @@ def format_incidence(inc):
         "Title": inc.get("title"),
         "Steps": (
             f"1. Open the page: {inc.get('page_url')}\n"
-            f"2. Inspect the link with text: \"{inc.get('element_info', {}).get('text')}\"."
+            f"2. Inspect the link with text: \"{inc.get('element_info', {}).get('text')}\".\n"
+            f"HTML snippet (around line {inc.get('element_info', {}).get('line_number', 'N/A')}):\n"
+            f"{inc.get('element_info', {}).get('fragment_html', '')}"
         ),
         "Bug Type": inc.get("type"),
         "Priority": inc.get("severity"),
@@ -32,23 +56,16 @@ def format_incidence(inc):
     }
 
 def run_all___2_4_4(html_content, page_url, excel="issue_report.xlsx"):
-    """
-    Verifica que el texto de los enlaces sea lo suficientemente descriptivo.
-    Identifica como incidencias:
-      - Enlaces con texto vacío
-      - Enlaces con texto ambiguo ("click here", "read more", etc.)
-    """
     soup = BeautifulSoup(html_content, "html.parser")
     raw_incidences = []
+    lines = get_html_lines(html_content)
 
-    # Encontrar todos los enlaces
     all_links = soup.find_all("a")
-    
+
     for link in all_links:
         link_text = link.get_text(strip=True)
         lower_text = link_text.lower()
 
-        # 1) Si un <a> no tiene texto ni contenido alt => Error
         if not link_text:
             raw_incidences.append({
                 "title": "Link text is empty",
@@ -58,15 +75,12 @@ def run_all___2_4_4(html_content, page_url, excel="issue_report.xlsx"):
                 "actual_result": "Found a link (<a>) with no link text.",
                 "remediation": "Add descriptive text between <a>...</a> or use aria-label/title if it's an icon link.",
                 "wcag_reference": "2.4.4",
-                "impact": (
-                    "Screen reader or keyboard-only users cannot determine the purpose of the link."
-                ),
+                "impact": "Screen reader or keyboard-only users cannot determine the purpose of the link.",
                 "page_url": page_url,
-                "element_info": get_element_info(link)
+                "element_info": get_element_info(link, html_lines=lines)
             })
             continue
 
-        # 2) Si el texto está en la lista de ambiguos => Error
         if lower_text in AMBIGUOUS_LINK_TEXT:
             raw_incidences.append({
                 "title": "Ambiguous or generic link text",
@@ -84,10 +98,9 @@ def run_all___2_4_4(html_content, page_url, excel="issue_report.xlsx"):
                     "cannot discern the purpose of the link."
                 ),
                 "page_url": page_url,
-                "element_info": get_element_info(link)
+                "element_info": get_element_info(link, html_lines=lines)
             })
 
-    # Si no encontramos incidencias, añadimos la justificación
     formatted = [format_incidence(i) for i in raw_incidences]
     if not formatted:
         formatted.append({

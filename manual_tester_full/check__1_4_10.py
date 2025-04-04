@@ -3,7 +3,18 @@ import re
 from transform_json_to_excel import transform_json_to_excel
 
 
-def get_element_info(element):
+def get_html_lines(html_content):
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    return "\n".join(f"{i+1}: {snippet[i - start]}" for i in range(start, end))
+
+
+def get_element_info(element, html_lines=None):
     tag = element.name
     element_id = element.get("id", "")
     classes = " ".join(element.get("class", [])) if element.has_attr("class") else ""
@@ -19,23 +30,37 @@ def get_element_info(element):
 
     evidence = f"{tag}[{', '.join(evidence_parts)}]" if evidence_parts else tag
 
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            line_int = int(line_number)
+            snippet_str = get_line_snippet(html_lines, line_int, context=2)
+        except ValueError:
+            pass
+
     return {
         "tag": tag,
         "text": element.get_text(strip=True)[:50],
         "id": element_id or "N/A",
         "class": classes or "N/A",
         "line_number": line_number,
-        "evidence": evidence
+        "evidence": evidence,
+        "fragment_html": snippet_str
     }
 
 
 def format_incidence(issue):
+    element_info = issue.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
+
     return {
         "Title": issue.get("title"),
         "Steps": (
             f"1. Open the page: {issue.get('page_url')}\n"
-            f"2. Inspect the element: {issue.get('element_info', {}).get('tag', 'N/A')}\n"
-            f"3. Review its styles affecting width and reflow at 320px."
+            f"2. Inspect the element: {element_info.get('tag', 'N/A')}\n"
+            f"3. Review its styles affecting width and reflow at 320px.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": issue.get("type"),
         "Priority": issue.get("severity"),
@@ -44,7 +69,7 @@ def format_incidence(issue):
         "Suggested resolution(s)": issue.get("remediation"),
         "Failed checkpoint": issue.get("wcag_reference"),
         "User Impact": issue.get("impact", "N/A"),
-        "Evidence [SS or Video]": issue.get("element_info", {}).get("evidence", "N/A")
+        "Evidence [SS or Video]": element_info.get("evidence", "N/A")
     }
 
 
@@ -56,6 +81,7 @@ def run_all___1_4_10(html_content, page_url, excel="issue_report.xlsx"):
     - Estilos embebidos con `width: Xpx` sin `max-width`.
     """
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
     # 1️⃣ Elementos con `style="width: XXXpx"` sin `max-width`
@@ -72,15 +98,15 @@ def run_all___1_4_10(html_content, page_url, excel="issue_report.xlsx"):
                 "wcag_reference": "1.4.10",
                 "impact": "Users will need to scroll horizontally to read content.",
                 "page_url": page_url,
-                "element_info": get_element_info(tag)
+                "element_info": get_element_info(tag, html_lines=lines)
             })
 
     # 2️⃣ Estilos embebidos en <style> con `width: XXXpx` sin `max-width`
     for style_tag in soup.find_all("style"):
         css_text = style_tag.get_text()
-        lines = css_text.split(";")
+        lines_style = css_text.split(";")
 
-        for rule in lines:
+        for rule in lines_style:
             if re.search(r"width\s*:\s*\d+px", rule) and "max-width" not in rule:
                 raw_incidences.append({
                     "title": "Fixed width detected in embedded CSS",
@@ -92,7 +118,7 @@ def run_all___1_4_10(html_content, page_url, excel="issue_report.xlsx"):
                     "wcag_reference": "1.4.10",
                     "impact": "Content may overflow on small viewports like 320px.",
                     "page_url": page_url,
-                    "element_info": get_element_info(style_tag)
+                    "element_info": get_element_info(style_tag, html_lines=lines)
                 })
 
     # 3️⃣ Estilos con `overflow-x: auto` o `scroll`
@@ -109,7 +135,7 @@ def run_all___1_4_10(html_content, page_url, excel="issue_report.xlsx"):
                 "wcag_reference": "1.4.10",
                 "impact": "Navigation becomes difficult on small screens.",
                 "page_url": page_url,
-                "element_info": get_element_info(tag)
+                "element_info": get_element_info(tag, html_lines=lines)
             })
 
     formatted = [format_incidence(inc) for inc in raw_incidences]

@@ -2,7 +2,22 @@ from bs4 import BeautifulSoup
 from transform_json_to_excel import transform_json_to_excel  
 
 
-def get_element_info(element):
+def get_html_lines(html_content):
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    snippet_str = "\n".join(
+        f"{i+1}: {snippet[i - start]}"
+        for i in range(start, end)
+    )
+    return snippet_str
+
+
+def get_element_info(element, html_lines=None):
     """
     Retrieves useful information about an HTML element to facilitate issue identification,
     and builds a unique Evidence field.
@@ -24,13 +39,22 @@ def get_element_info(element):
     evidence_str = ", ".join(evidence_parts)
     evidence = f"{tag}[{evidence_str}]" if evidence_str else tag
 
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            line_int = int(line_number)
+            snippet_str = get_line_snippet(html_lines, line_int, context=2)
+        except ValueError:
+            pass
+
     return {
         "tag": tag,
         "text": element.get_text(strip=True)[:50],
         "id": element_id or "N/A",
         "class": classes or "N/A",
         "line_number": line_number,
-        "evidence": evidence
+        "evidence": evidence,
+        "fragment_html": snippet_str
     }
 
 
@@ -39,12 +63,17 @@ def format_incidence(old):
     Transforms an incidence into the desired output format.
     'expected_result' and 'actual_result' must be clearly defined in each incidence.
     """
+    element_info = old.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
+
     return {
         "Title": old.get("title"),
         "Steps": (
             f"1. Open the page: {old.get('page_url')}\n"
-            f"2. Inspect the element: {old.get('element_info', {}).get('tag', 'N/A')}\n"
-            "3. Check the element’s visual styles and cues."
+            f"2. Inspect the element: {element_info.get('tag', 'N/A')}\n"
+            "3. Check the element’s visual styles and cues.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": old.get("type"),
         "Priority": old.get("severity"),
@@ -53,12 +82,13 @@ def format_incidence(old):
         "Suggested resolution(s)": old.get("Suggested resolution(s)"),
         "Failed checkpoint": old.get("wcag_reference"),
         "User Impact": old.get("impact", "N/A"),
-        "Evidence [SS or Video]": old.get("element_info", {}).get("evidence", "N/A")
+        "Evidence [SS or Video]": element_info.get("evidence", "N/A")
     }
 
 
 def run_all___1_4_1(html_content, page_url, excel="issue_report.xlsx"):
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
     # 🔹 CHECK 1: Buttons/Links that rely only on color
@@ -93,7 +123,7 @@ def run_all___1_4_1(html_content, page_url, excel="issue_report.xlsx"):
                 ),
                 "page_url": page_url,
                 "resolution": "check_buttons_only_by_color.md",
-                "element_info": get_element_info(element)
+                "element_info": get_element_info(element, html_lines=lines)
             })
 
     formatted_incidences = [format_incidence(inc) for inc in raw_incidences]

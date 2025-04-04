@@ -1,21 +1,58 @@
+import re
 from bs4 import BeautifulSoup
 from transform_json_to_excel import transform_json_to_excel
 
-def get_element_info(element):
-    """Extrae algunos metadatos del elemento."""
+def get_html_lines(html_content):
+    """Convierte el contenido HTML en lista de líneas para extraer fragmentos de contexto."""
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    """
+    Extrae un snippet de 'context' líneas antes y después de line_number (base 1),
+    y devuelve el texto con line numbering para depuración.
+    """
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    snippet_str = "\n".join(f"{i+1}: {lines[i]}" for i in range(start, end))
+    return snippet_str
+
+def get_element_info(element, html_lines=None):
+    """
+    Extrae metadatos del elemento y un snippet de HTML alrededor
+    de la línea en la que se encuentra.
+    """
+    tag = element.name
+    attrs = dict(element.attrs)
+    snippet_html = str(element)[:300]
+    line_number = element.sourceline if hasattr(element, 'sourceline') else "N/A"
+
+    fragment_html = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            fragment_html = get_line_snippet(html_lines, int(line_number), context=2)
+        except ValueError:
+            pass
+
     return {
-        "tag": element.name,
-        "attrs": dict(element.attrs),
-        "snippet": str(element)[:300]
+        "tag": tag,
+        "attrs": attrs,
+        "snippet": snippet_html,
+        "line_number": line_number,
+        "fragment_html": fragment_html
     }
 
 def format_incidence(inc):
-    """Formatea la incidencia para exportar a Excel."""
+    element_info = inc.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
     return {
         "Title": inc.get("title"),
         "Steps": (
             f"1. Open the page: {inc.get('page_url')}\n"
-            "2. Check the form field identified below. There's no label or instruction."
+            "2. Check the form field identified below. There's no label or instruction.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": inc.get("type"),
         "Priority": inc.get("severity"),
@@ -24,7 +61,7 @@ def format_incidence(inc):
         "Suggested resolution(s)": inc.get("remediation"),
         "Failed checkpoint": inc.get("wcag_reference"),
         "User Impact": inc.get("impact"),
-        "Evidence [SS or Video]": inc.get("element_info", {}).get("snippet", "")
+        "Evidence [SS or Video]": element_info.get("snippet", "")
     }
 
 def run_all___3_3_2(html_content, page_url, excel="issue_report.xlsx"):
@@ -35,55 +72,44 @@ def run_all___3_3_2(html_content, page_url, excel="issue_report.xlsx"):
     - Si no => error: Falta label/instrucción
     """
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
-    # Tipos de input que normalmente requieren un label
     valid_input_types = [
         "text", "password", "email", "number", "search", "tel", "url", "date",
         "datetime-local", "month", "time", "week", "radio", "checkbox"
     ]
 
-    # Hallar todos los campos relevantes
     form_fields = []
-
-    # 1) <input> con type en valid_input_types
     inputs = soup.find_all("input")
     for inp in inputs:
         t = (inp.get("type") or "text").lower()
         if t in valid_input_types:
             form_fields.append(inp)
 
-    # 2) <select>
     selects = soup.find_all("select")
     form_fields.extend(selects)
 
-    # 3) <textarea>
     textareas = soup.find_all("textarea")
     form_fields.extend(textareas)
 
-    # Buscar si hay <label for> que coincida o aria-label, aria-labelledby, placeholder
     for field in form_fields:
         field_id = field.get("id", "")
         has_label = False
 
-        # Revisa <label for="field_id">
+        # Revisar <label for="field_id">
         if field_id:
             label = soup.find("label", {"for": field_id})
             if label and label.get_text(strip=True):
                 has_label = True
 
-        # Revisa aria-label o aria-labelledby
         aria_label = field.get("aria-label", "")
         aria_labelledby = field.get("aria-labelledby", "")
-
         if aria_label.strip():
             has_label = True
         if aria_labelledby.strip():
-            # Podríamos buscar el texto en el elemento con ese id, pero
-            # con que exista es buena pista
             has_label = True
 
-        # Revisa placeholder (al menos una pista)
         placeholder = field.get("placeholder", "")
         if placeholder.strip():
             has_label = True
@@ -108,10 +134,9 @@ def run_all___3_3_2(html_content, page_url, excel="issue_report.xlsx"):
                     "Users, especially with cognitive disabilities, won't know what data is expected here."
                 ),
                 "page_url": page_url,
-                "element_info": get_element_info(field)
+                "element_info": get_element_info(field, html_lines=lines)
             })
 
-    # Si no se encontró incidencia
     formatted = [format_incidence(i) for i in raw_incidences]
     if not formatted:
         formatted.append({

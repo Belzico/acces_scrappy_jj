@@ -2,8 +2,37 @@ import re
 from bs4 import BeautifulSoup
 from transform_json_to_excel import transform_json_to_excel
 
-def get_element_info(element):
-    """Construye info básica (tag, id, class, line, etc.) para evidencia."""
+def get_html_lines(html_content):
+    """
+    Dado el HTML como string, lo dividimos por líneas.
+    Útil para luego extraer un snippet alrededor de line_number.
+    """
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    """
+    lines: lista de líneas del HTML (output de get_html_lines)
+    line_number: número de línea (base 1) donde se encontró el elemento
+    context: cuántas líneas antes y después extraer
+
+    Retorna un string con el fragmento de HTML alrededor de esa línea.
+    """
+    idx = line_number - 1  # ajustamos a base 0
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+
+    snippet_str = "\n".join(
+        f"{i+1}: {snippet[i - start]}"
+        for i in range(start, end)
+    )
+    return snippet_str
+
+def get_element_info(element, html_lines=None):
+    """
+    Construye info básica (tag, id, class, line, etc.) para evidencia,
+    e incluye un fragmento HTML alrededor de esa línea.
+    """
     tag = element.name
     element_id = element.get("id", "")
     classes = " ".join(element.get("class", [])) if element.has_attr("class") else ""
@@ -20,22 +49,40 @@ def get_element_info(element):
     evidence_str = ", ".join(parts)
     evidence = f"{tag}[{evidence_str}]" if evidence_str else tag
 
+    # Extraemos el snippet del HTML si hay una línea válida y tenemos lines
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            line_int = int(line_number)
+            snippet_str = get_line_snippet(html_lines, line_int, context=2)
+        except ValueError:
+            pass
+
     return {
         "tag": tag,
         "id": element_id or "N/A",
         "class": classes or "N/A",
         "line_number": line_number,
-        "evidence": evidence
+        "evidence": evidence,
+        "fragment_html": snippet_str
     }
 
 def format_incidence(raw_inc):
-    """Convierte un dict en incidencia formateada para Excel."""
+    """
+    Convierte un dict en incidencia formateada para Excel,
+    incluyendo el snippet HTML.
+    """
+    element_info = raw_inc.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
+
     return {
         "Title": raw_inc.get("title"),
         "Steps": (
             f"1. Open the page: {raw_inc.get('page_url')}\n"
-            f"2. Inspect the element: {raw_inc.get('element_info', {}).get('tag', 'N/A')}\n"
-            f"3. Verify the focus isn't completely hidden by fixed/sticky overlays."
+            f"2. Inspect the element: {element_info.get('tag', 'N/A')}\n"
+            f"3. Verify the focus isn't completely hidden by fixed/sticky overlays.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": raw_inc.get("type"),
         "Priority": raw_inc.get("severity"),
@@ -44,7 +91,7 @@ def format_incidence(raw_inc):
         "Suggested resolution(s)": raw_inc.get("remediation", "N/A"),
         "Failed checkpoint": raw_inc.get("wcag_reference", "2.4.11"),
         "User Impact": raw_inc.get("impact", "N/A"),
-        "Evidence [SS or Video]": raw_inc.get("element_info", {}).get("evidence", "N/A")
+        "Evidence [SS or Video]": element_info.get("evidence", "N/A")
     }
 
 def parse_style_blocks_for_selectors(soup):
@@ -107,10 +154,8 @@ def parse_style_blocks_for_selectors(soup):
                 indicators.add(f"heightPX={hpx.group(1)}")
 
             if not indicators:
-                # No hallamos algo relevante
                 continue
 
-            # Dividimos los selectores. Ej: .sticky-header, #promoOverlay
             raw_selectors = selectors_part.split(",")
             for sel in raw_selectors:
                 sel = sel.strip()
@@ -138,7 +183,6 @@ def match_selectors_to_elements(soup, css_findings):
             fe = soup.find(id=id_name)
             found = [fe] if fe else []
         else:
-            # Nombre de etiqueta
             found = soup.find_all(selector)
 
         for el in found:
@@ -152,6 +196,8 @@ def match_selectors_to_elements(soup, css_findings):
 
 def run_all___2_4_11(html_content, page_url, excel="issue_report.xlsx"):
     soup = BeautifulSoup(html_content, "html.parser")
+    # Preparamos las líneas para snippet
+    lines = html_content.splitlines()
 
     # 1) Parse <style> y extrae indicadores
     css_findings = parse_style_blocks_for_selectors(soup)
@@ -195,7 +241,7 @@ def run_all___2_4_11(html_content, page_url, excel="issue_report.xlsx"):
     # 4) Heurísticas finales
     incidences = []
     for el, indicators in matched_selectors.items():
-        info = get_element_info(el)
+        info = get_element_info(el, html_lines=lines)
 
         # a) full overlay => height=100% or width=100% + covers-edge=0
         if (("height=100%" in indicators) or ("width=100%" in indicators)) and ("covers-edge=0" in indicators):
@@ -238,7 +284,6 @@ def run_all___2_4_11(html_content, page_url, excel="issue_report.xlsx"):
         # c) fixed + large header => position=fixed + top=0 + heightPX>=100
         pos_fixed = any(s == "position=fixed" for s in indicators)
         top0 = ("covers-edge=0" in indicators)  # sign of top or left or bottom or right=0
-        # Ver si tenemos "heightPX=###" y >= 100
         height_px = next((x for x in indicators if x.startswith("heightPX=")), None)
         if pos_fixed and top0 and height_px:
             val = int(height_px.split("=")[1])

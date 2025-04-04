@@ -1,20 +1,46 @@
 from bs4 import BeautifulSoup
 from transform_json_to_excel import transform_json_to_excel
 
-def get_element_info(element):
+def get_html_lines(html_content):
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    return "\n".join(f"{i+1}: {snippet[i - start]}" for i in range(start, end))
+
+def get_element_info(element, html_lines=None):
+    tag = element.name
+    attrs = dict(element.attrs)
+    line_number = element.sourceline if hasattr(element, 'sourceline') else "N/A"
+
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            snippet_str = get_line_snippet(html_lines, int(line_number))
+        except ValueError:
+            pass
+
     return {
-        "tag": element.name,
-        "attrs": dict(element.attrs),
-        "snippet": str(element)[:300]
+        "tag": tag,
+        "attrs": attrs,
+        "snippet": str(element)[:300],
+        "line_number": line_number,
+        "fragment_html": snippet_str
     }
 
 def format_incidence(inc):
+    element_info = inc.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
     return {
         "Title": inc.get("title"),
         "Steps": (
             f"1. Open the page: {inc.get('page_url')}\n"
             "2. Check if there is a time limit (e.g., via meta refresh or script).\n"
-            "3. Verify if there are controls/options to turn off, adjust, or extend the time limit."
+            "3. Verify if there are controls/options to turn off, adjust, or extend the time limit.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n{snippet}"
         ),
         "Bug Type": inc.get("type"),
         "Priority": inc.get("severity"),
@@ -23,31 +49,25 @@ def format_incidence(inc):
         "Suggested resolution(s)": inc.get("remediation"),
         "Failed checkpoint": inc.get("wcag_reference"),
         "User Impact": inc.get("impact"),
-        "Evidence [SS or Video]": inc.get("element_info", {}).get("snippet", "")
+        "Evidence [SS or Video]": element_info.get("snippet", "")
     }
 
 def run_all___2_2_1(html_content, page_url, excel="issue_report.xlsx"):
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
-    # Busca meta refresh que imponga un límite de tiempo
     meta_refresh_tags = soup.find_all(
         "meta",
         attrs={"http-equiv": lambda x: x and x.lower() == "refresh"}
     )
 
-    # Definimos palabras clave para un posible control que permita
-    # desactivar, extender o ajustar el límite de tiempo
     keywords_for_controls = ["disable", "turn off", "extend", "adjust", "alargar", "desactivar", "extender"]
 
     for elem in meta_refresh_tags:
         content_attr = elem.get("content", "").lower()
 
-        # Comprobamos si la meta refresh realmente apunta a una URL con tiempo
-        # (p. ej. content="10; url=http://example.com")
-        # En caso de que el content contenga algo como "10;" interpretamos que es un tiempo
         if ";" in content_attr or "url=" in content_attr:
-            # Verifica si hay algún "control" para deshabilitar, ampliar o ajustar el tiempo
             has_control = soup.find(
                 lambda t: (
                     t.name in ["button", "a"] and
@@ -76,13 +96,11 @@ def run_all___2_2_1(html_content, page_url, excel="issue_report.xlsx"):
                         "unable to complete tasks before timeout."
                     ),
                     "page_url": page_url,
-                    "element_info": get_element_info(elem)
+                    "element_info": get_element_info(elem, html_lines=lines)
                 })
 
-    # Formatea las incidencias
     formatted = [format_incidence(i) for i in raw_incidences]
 
-    # Si no hay incidencias, se añade una fila de justificación
     if not formatted:
         formatted.append({
             "Title": "Justificación de los CPs asignados que no generen issues",
@@ -97,6 +115,5 @@ def run_all___2_2_1(html_content, page_url, excel="issue_report.xlsx"):
             "Evidence [SS or Video]": "N/A"
         })
 
-    # Exporta los resultados a Excel
     transform_json_to_excel(formatted, excel)
     return formatted

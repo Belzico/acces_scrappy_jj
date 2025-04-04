@@ -2,10 +2,19 @@ from bs4 import BeautifulSoup
 import re
 from transform_json_to_excel import transform_json_to_excel
 
-def get_element_info(element):
-    """
-    Devuelve información detallada de un elemento HTML para el reporte.
-    """
+
+def get_html_lines(html_content):
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    return "\n".join(f"{i+1}: {snippet[i - start]}" for i in range(start, end))
+
+
+def get_element_info(element, html_lines=None):
     tag = element.name
     element_id = element.get("id", "")
     classes = " ".join(element.get("class", [])) if element.has_attr("class") else ""
@@ -19,8 +28,14 @@ def get_element_info(element):
     if line_number != "N/A":
         evidence_parts.append(f"line={line_number}")
 
-    evidence_str = ", ".join(evidence_parts)
-    evidence = f"{tag}[{evidence_str}]" if evidence_str else tag
+    evidence = f"{tag}[{', '.join(evidence_parts)}]" if evidence_parts else tag
+
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            snippet_str = get_line_snippet(html_lines, int(line_number))
+        except ValueError:
+            pass
 
     return {
         "tag": tag,
@@ -28,19 +43,22 @@ def get_element_info(element):
         "id": element_id or "N/A",
         "class": classes or "N/A",
         "line_number": line_number,
-        "evidence": evidence
+        "evidence": evidence,
+        "fragment_html": snippet_str
     }
 
+
 def format_incidence(inc):
-    """
-    Estructura estandarizada para reportar incidencias.
-    """
+    element_info = inc.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
     return {
         "Title": inc.get("title"),
         "Steps": (
             f"1. Open the page: {inc.get('page_url')}\n"
-            f"2. Inspect the element: {inc.get('element_info', {}).get('tag', 'N/A')}.\n"
-            f"3. Verify if the user can tab away using only keyboard."
+            f"2. Inspect the element: {element_info.get('tag', 'N/A')}.\n"
+            f"3. Verify if the user can tab away using only keyboard.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": inc.get("type"),
         "Priority": inc.get("severity"),
@@ -49,27 +67,20 @@ def format_incidence(inc):
         "Suggested resolution(s)": inc.get("remediation", "N/A"),
         "Failed checkpoint": inc.get("wcag_reference", "2.1.2"),
         "User Impact": inc.get("impact", "N/A"),
-        "Evidence [SS or Video]": inc.get("element_info", {}).get("evidence", "N/A")
+        "Evidence [SS or Video]": element_info.get("evidence", "N/A")
     }
 
+
 def run_all___2_1_2(html_content, page_url, excel="issue_report.xlsx"):
-    """
-    Verifica patrones comunes que podrían indicar un atrapamiento de teclado.
-      1) Contenedores modales sin botón o sin instructions para salir
-      2) Elementos con tabindex > 0 repetidos
-      3) Bloques con onkeydown u onkeypress que puedan capturar tab sin onkeyup
-      4) Pistas de un "dialog" (role="dialog", aria-modal="true") sin un control para cerrar/escapar
-    """
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
-    # 1️⃣ Revisar contenedores con role="dialog" o aria-modal="true" (posible modal)
-    #    que NO tengan un botón/cerrar
+    # 1️⃣ Role="dialog" o aria-modal sin botón de cierre
     dialogs = soup.find_all(lambda el:
         (el.has_attr("role") and el["role"] in ["dialog", "alertdialog"]) or
         (el.has_attr("aria-modal") and el["aria-modal"].lower() == "true"))
     for dlg in dialogs:
-        # No hay un botón "close" ni "x" ni aria-label ~ "close" => posible trampa
         close_btn = dlg.find(lambda x:
             x.name in ["button", "a"] and
             (
@@ -79,7 +90,7 @@ def run_all___2_1_2(html_content, page_url, excel="issue_report.xlsx"):
             )
         )
         if not close_btn:
-            info = get_element_info(dlg)
+            info = get_element_info(dlg, html_lines=lines)
             raw_incidences.append({
                 "title": "Dialog or modal without an apparent close mechanism",
                 "type": "No Keyboard Trap",
@@ -93,7 +104,7 @@ def run_all___2_1_2(html_content, page_url, excel="issue_report.xlsx"):
                 "element_info": info
             })
 
-    # 2️⃣ Revisar tabindex > 0 repetidos, que pueden crear orden de tab complejo o cíclico
+    # 2️⃣ tabindex > 0 repetidos
     elements_with_tabindex = soup.find_all(lambda el: el.has_attr("tabindex"))
     tabindex_map = {}
     for el in elements_with_tabindex:
@@ -104,8 +115,8 @@ def run_all___2_1_2(html_content, page_url, excel="issue_report.xlsx"):
                 tabindex_map.setdefault(tb_val, []).append(el)
 
     for tb_val, els in tabindex_map.items():
-        if len(els) > 2:  # muchos con tabindex>0 => posible caos
-            info = get_element_info(els[0])
+        if len(els) > 2:
+            info = get_element_info(els[0], html_lines=lines)
             raw_incidences.append({
                 "title": f"Multiple elements with tabindex={tb_val} (potential trap or unusual order)",
                 "type": "No Keyboard Trap",
@@ -119,17 +130,15 @@ def run_all___2_1_2(html_content, page_url, excel="issue_report.xlsx"):
                 "element_info": info
             })
 
-    # 3️⃣ Revisar scripts inline (ej: onkeydown) que capturen TAB sin dejar salir
-    #    Ej: 'event.preventDefault()' con keyCode=9. Es un heurístico.
+    # 3️⃣ Script inline atrapando Tab
     script_attrs = ["onkeydown", "onkeypress"]
     for el in soup.find_all(lambda x: any(a in x.attrs for a in script_attrs)):
         for attr in script_attrs:
             if attr in el.attrs:
                 code = el.attrs[attr].lower()
-                # Heurística: si menciona keyCode=9 || event.key=== 'Tab', y hace preventDefault
                 if ("keycode" in code and "9" in code and "preventdefault" in code) or \
                    ("tab" in code and "preventdefault" in code):
-                    info = get_element_info(el)
+                    info = get_element_info(el, html_lines=lines)
                     raw_incidences.append({
                         "title": "Element may trap Tab key",
                         "type": "No Keyboard Trap",
@@ -142,10 +151,6 @@ def run_all___2_1_2(html_content, page_url, excel="issue_report.xlsx"):
                         "page_url": page_url,
                         "element_info": info
                     })
-
-    # 4️⃣ Revisar si un dialog anidado no ofrece info. Podríamos buscar si dentro del dialog hay un mention de 'Esc' key
-    #    Esto es un plus, no estricto. 
-    #    Se omitirá por simplicidad, pero si lo deseas, se puede parsear el texto dentro.
 
     formatted = [format_incidence(i) for i in raw_incidences]
     if formatted:

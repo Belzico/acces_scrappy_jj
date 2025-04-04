@@ -1,9 +1,29 @@
+import re
 from bs4 import BeautifulSoup
 from collections import defaultdict
 from transform_json_to_excel import transform_json_to_excel
 
-def get_element_info(element):
-    """Recupera información útil del elemento HTML, incluyendo evidencia rastreable."""
+def get_html_lines(html_content):
+    """Convierte el contenido HTML en una lista de líneas para extraer fragmentos contextualizados."""
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    """
+    Extrae un snippet con 'context' líneas antes y después de line_number (base 1).
+    Devuelve un string con numeración para cada línea, facilitando la depuración.
+    """
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    snippet_str = "\n".join(f"{i+1}: {lines[i]}" for i in range(start, end))
+    return snippet_str
+
+def get_element_info(element, html_lines=None):
+    """
+    Recupera información útil del elemento HTML para el reporte y extrae
+    un snippet HTML alrededor de la línea line_number (si existe).
+    """
     tag = element.name
     element_id = element.get("id", "")
     classes = " ".join(element.get("class", [])) if element.has_attr("class") else ""
@@ -20,25 +40,41 @@ def get_element_info(element):
     evidence_str = ", ".join(evidence_parts)
     evidence = f"{tag}[{evidence_str}]" if evidence_str else tag
 
+    # Extraer snippet contextual (2 líneas antes y después de line_number)
+    fragment_html = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            snippet_str = get_line_snippet(html_lines, int(line_number), context=2)
+        except ValueError:
+            snippet_str = ""
+        fragment_html = snippet_str
+
     return {
         "tag": tag,
         "text": element.get_text(strip=True)[:50],
         "id": element_id or "N/A",
         "class": classes or "N/A",
         "line_number": line_number,
-        "evidence": evidence
+        "evidence": evidence,
+        "fragment_html": fragment_html
     }
 
 def format_incidence(old):
     """
-    Transforma una incidencia al formato estandarizado de Excel.
+    Transforma una incidencia al formato estandarizado de Excel,
+    incluyendo un snippet HTML contextual.
     """
+    element_info = old.get("element_info", {})
+    snippet_context = element_info.get("fragment_html", "")
+
     return {
         "Title": old.get("title"),
         "Steps": (
             f"1. Open the page: {old.get('page_url')}\n"
-            f"2. Inspect the element: {old.get('element_info', {}).get('tag', 'N/A')}\n"
-            "3. Check the relevant ARIA attributes or HTML structure."
+            f"2. Inspect the element: {element_info.get('tag', 'N/A')}\n"
+            "3. Check the relevant ARIA attributes or HTML structure.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet_context}"
         ),
         "Bug Type": old.get("type"),
         "Priority": old.get("severity"),
@@ -47,7 +83,7 @@ def format_incidence(old):
         "Suggested resolution(s)": old.get("remediation"),
         "Failed checkpoint": old.get("wcag_reference"),
         "User Impact": old.get("impact"),
-        "Evidence [SS or Video]": old.get("element_info", {}).get("evidence", "N/A")
+        "Evidence [SS or Video]": element_info.get("evidence", "N/A")
     }
 
 def run_all___4_1_1(html_content, page_url, excel="issue_report.xlsx"):
@@ -55,9 +91,11 @@ def run_all___4_1_1(html_content, page_url, excel="issue_report.xlsx"):
     Evalúa el cumplimiento del criterio WCAG 4.1.1: Uso correcto de IDs y estructura semántica en listas.
     """
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
     # 🔁 Check 1: Duplicate IDs
+    from collections import defaultdict
     id_elements = defaultdict(list)
     for element in soup.find_all(attrs={"id": True}):
         element_id = element["id"]
@@ -79,10 +117,10 @@ def run_all___4_1_1(html_content, page_url, excel="issue_report.xlsx"):
             "wcag_reference": "4.1.1",
             "impact": "Assistive technologies may not correctly associate labels, descriptions, or links.",
             "page_url": page_url,
-            "element_info": get_element_info(elements[0])
+            "element_info": get_element_info(elements[0], html_lines=lines)
         })
 
-    # 🔁 Check 2: <div> directly inside <ul> or <ol>
+    # 🔁 Check 2: <div> directamente dentro de <ul> o <ol>
     list_elements = soup.find_all(["ul", "ol"])
     for lst in list_elements:
         for child in lst.find_all(recursive=False):
@@ -98,7 +136,7 @@ def run_all___4_1_1(html_content, page_url, excel="issue_report.xlsx"):
                     "wcag_reference": "4.1.1",
                     "impact": "May affect semantic interpretation and structure by assistive tech.",
                     "page_url": page_url,
-                    "element_info": get_element_info(child)
+                    "element_info": get_element_info(child, html_lines=lines)
                 })
 
     formatted_incidences = [format_incidence(inc) for inc in raw_incidences]

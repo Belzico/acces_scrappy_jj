@@ -1,3 +1,4 @@
+import re
 from bs4 import BeautifulSoup
 from transform_json_to_excel import transform_json_to_excel
 
@@ -23,21 +24,63 @@ SAFETY_KEYWORDS = [
     "amend", "cancel order", "double-check"
 ]
 
-def get_element_info(element):
-    """Reúne metadatos para el reporte."""
+def get_html_lines(html_content):
+    """
+    Convierte todo el contenido HTML en una lista de líneas
+    para luego extraer fragmentos de contexto.
+    """
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    """
+    Extrae un snippet con 2 líneas antes y 2 después de line_number (base 1).
+    Añade numeración para depurar.
+    """
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    snippet_str = "\n".join(f"{i+1}: {lines[i]}" for i in range(start, end))
+    return snippet_str
+
+def get_element_info(element, html_lines=None):
+    """
+    Reúne metadatos para el reporte, incluyendo un snippet
+    de 2 líneas antes y 2 después del line_number del elemento.
+    """
+    tag = element.name
+    snippet_html = str(element)[:300]
+    line_number = element.sourceline if hasattr(element, 'sourceline') else "N/A"
+
+    fragment_html = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            fragment_html = get_line_snippet(html_lines, int(line_number), context=2)
+        except ValueError:
+            pass
+
     return {
-        "tag": element.name,
-        "snippet": str(element)[:300]
+        "tag": tag,
+        "snippet": snippet_html,
+        "line_number": line_number,
+        "fragment_html": fragment_html
     }
 
 def format_incidence(inc):
-    """Arma el dict final para exportar a Excel."""
+    """
+    Construye el dict final para exportar a Excel,
+    mostrando también el snippet HTML contextual.
+    """
+    element_info = inc.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
     return {
         "Title": inc.get("title"),
         "Steps": (
             f"1. Open the page: {inc.get('page_url')}\n"
             "2. Locate the form or button with potential legal/financial/data-critical action.\n"
-            "3. Check if there's no review/confirmation/cancellation step."
+            "3. Check if there's no review/confirmation/cancellation step.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": inc.get("type"),
         "Priority": inc.get("severity"),
@@ -46,7 +89,7 @@ def format_incidence(inc):
         "Suggested resolution(s)": inc.get("remediation"),
         "Failed checkpoint": inc.get("wcag_reference"),
         "User Impact": inc.get("impact"),
-        "Evidence [SS or Video]": inc.get("element_info", {}).get("snippet", "")
+        "Evidence [SS or Video]": element_info.get("snippet", "")
     }
 
 def run_all___3_3_4(html_content, page_url, excel="issue_report.xlsx"):
@@ -56,15 +99,13 @@ def run_all___3_3_4(html_content, page_url, excel="issue_report.xlsx"):
       - Si no encuentra palabras o elementos que sugieran confirmación, revisión o deshacer => Incidencia.
     """
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
     # Buscamos <form> y <button> (o <input type=submit/button>) con keywords
     forms = soup.find_all("form")
-    buttons = soup.find_all(["button", "input"], {
-        "type": ["submit", "button"]
-    })
+    buttons = soup.find_all(["button", "input"], {"type": ["submit", "button"]})
 
-    # Revisaremos ambos sets (forms y botones) en un array unificado con metadata
     critical_elements = []
 
     # 1) Revisar forms
@@ -75,25 +116,20 @@ def run_all___3_3_4(html_content, page_url, excel="issue_report.xlsx"):
 
     # 2) Revisar botones
     for b in buttons:
-        # Podríamos unir el texto del botón + su parent
         text_button = b.get_text(strip=True).lower() or ""
-        # Considerar "value" si es input type=submit
         val = b.get("value", "").lower()
         parent_text = b.find_parent().get_text(strip=True).lower() if b.find_parent() else ""
-        text_combined = text_button + " " + val + " " + parent_text
+        text_combined = f"{text_button} {val} {parent_text}"
 
         if any(crit in text_combined for crit in CRITICAL_KEYWORDS):
             critical_elements.append(b)
 
-    # Para cada elemento crítico => chequeamos si hay "review / confirm / cancel..."
+    # Revisar si hay confirmación
     for elem in critical_elements:
-        # Ver si en su texto (o el de su padre) hay SAFETY_KEYWORDS
         txt = elem.get_text(strip=True).lower() if hasattr(elem, "get_text") else ""
         parent_txt = elem.find_parent().get_text(strip=True).lower() if elem.find_parent() else ""
-        combined_txt = txt + " " + parent_txt
+        combined_txt = f"{txt} {parent_txt}"
 
-        # Buscar en la vecindad
-        # Heurística: si no está ANY de SAFETY_KEYWORDS => error
         if not any(safe_kw in combined_txt for safe_kw in SAFETY_KEYWORDS):
             raw_incidences.append({
                 "title": "Potential high-stakes action without confirmation/review",
@@ -104,11 +140,11 @@ def run_all___3_3_4(html_content, page_url, excel="issue_report.xlsx"):
                     "reviewing or confirming the action."
                 ),
                 "actual_result": (
-                    "Found keywords suggesting an important transaction or data deletion, but "
-                    "no sign of confirmation or review step."
+                    "Found keywords suggesting an important transaction or data deletion, "
+                    "but no sign of confirmation or review step."
                 ),
                 "remediation": (
-                    "Add a confirmation dialog, review page, or undo option for user to verify/correct."
+                    "Add a confirmation dialog, review page, or undo option for users to verify or correct the action."
                 ),
                 "wcag_reference": "3.3.4",
                 "impact": (
@@ -116,10 +152,9 @@ def run_all___3_3_4(html_content, page_url, excel="issue_report.xlsx"):
                     "without a chance to reverse or correct."
                 ),
                 "page_url": page_url,
-                "element_info": get_element_info(elem)
+                "element_info": get_element_info(elem, html_lines=lines)
             })
 
-    # Si no se encontró incidencia
     formatted = [format_incidence(i) for i in raw_incidences]
     if not formatted:
         formatted.append({

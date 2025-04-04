@@ -3,7 +3,18 @@ import re
 from transform_json_to_excel import transform_json_to_excel
 
 
-def get_element_info(element):
+def get_html_lines(html_content):
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    return "\n".join(f"{i+1}: {snippet[i - start]}" for i in range(start, end))
+
+
+def get_element_info(element, html_lines=None):
     tag = element.name
     element_id = element.get("id", "")
     classes = " ".join(element.get("class", [])) if element.has_attr("class") else ""
@@ -20,23 +31,37 @@ def get_element_info(element):
     evidence_str = ", ".join(evidence_parts)
     evidence = f"{tag}[{evidence_str}]" if evidence_str else tag
 
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            line_int = int(line_number)
+            snippet_str = get_line_snippet(html_lines, line_int, context=2)
+        except ValueError:
+            pass
+
     return {
         "tag": tag,
         "text": element.get_text(strip=True)[:50],
         "id": element_id or "N/A",
         "class": classes or "N/A",
         "line_number": line_number,
-        "evidence": evidence
+        "evidence": evidence,
+        "fragment_html": snippet_str
     }
 
 
 def format_incidence(old):
+    element_info = old.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
+
     return {
         "Title": old.get("title"),
         "Steps": (
             f"1. Open the page: {old.get('page_url')}\n"
-            f"2. Inspect the element: {old.get('element_info', {}).get('tag', 'N/A')}\n"
-            "3. Check if the additional content meets dismissible, hoverable, and persistent requirements."
+            f"2. Inspect the element: {element_info.get('tag', 'N/A')}\n"
+            "3. Check if the additional content meets dismissible, hoverable, and persistent requirements.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": old.get("type"),
         "Priority": old.get("severity"),
@@ -45,12 +70,13 @@ def format_incidence(old):
         "Suggested resolution(s)": old.get("Suggested resolution(s)"),
         "Failed checkpoint": old.get("wcag_reference"),
         "User Impact": old.get("impact", "N/A"),
-        "Evidence [SS or Video]": old.get("element_info", {}).get("evidence", "N/A")
+        "Evidence [SS or Video]": element_info.get("evidence", "N/A")
     }
 
 
 def run_all___1_4_13(html_content, page_url, excel="issue_report.xlsx"):
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
     checked_elements = set()
 
@@ -67,24 +93,21 @@ def run_all___1_4_13(html_content, page_url, excel="issue_report.xlsx"):
             class_check
         )
 
-    # Recolectar elementos directamente candidatos
     tooltip_candidates = [el for el in soup.find_all() if is_candidate(el)]
 
-    # Incluir elementos referenciados por aria-describedby
     for el in soup.find_all(attrs={"aria-describedby": True}):
         ref_id = el.get("aria-describedby")
         referenced = soup.find(id=ref_id)
         if referenced and referenced not in tooltip_candidates:
             tooltip_candidates.append(referenced)
 
-    # Procesar los candidatos
     for element in tooltip_candidates:
         if str(element) in checked_elements:
             continue
         checked_elements.add(str(element))
 
         style = element.get("style", "").lower()
-        info = get_element_info(element)
+        info = get_element_info(element, html_lines=lines)
 
         dismissible = "escape" in style or "dismiss" in style
         hoverable = "pointer-events" in style or "hover" in style

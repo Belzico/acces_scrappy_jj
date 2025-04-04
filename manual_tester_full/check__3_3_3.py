@@ -1,42 +1,74 @@
+import re
 from bs4 import BeautifulSoup
 from transform_json_to_excel import transform_json_to_excel
 
-# 1) Palabras típicas para indicar error (ES/EN)
 ERROR_KEYWORDS = [
     "error", "erróneo", "erroneo", "invalid", "inválido", "incorrect",
     "incorrecto", "fallido", "falló", "fallo", "wrong"
 ]
 
-# 2) Palabras o patrones que indiquen sugerencia de corrección (ES/EN)
-#    Incluye verbos (“ingrese”, “introduce”, “enter”, etc.) y otras frases
-#    (“debe ser”, “should be”, “use the format”, “ejemplo”, “for example” ...)
 SUGGESTION_PATTERNS = [
-    # Español
     "ingrese", "introduce", "por favor", "debe ser", "debes ser", "formato",
     "use", "solo dígitos", "solo letras", "ejemplo", "entre", "rango",
     "puedes", "debes", "mayor que", "menor que",
-
-    # Inglés
     "enter", "insert", "please", "should be", "must be", "expected", 
     "format", "use the", "use a", "only digits", "only letters", "for example",
     "like", "sample", "range", "greater than", "less than"
 ]
 
-def get_element_info(element):
-    """Extrae metadatos del elemento para evidencia."""
+def get_html_lines(html_content):
+    """Convierte el contenido HTML en lista de líneas para extraer fragmentos contextuales."""
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    """
+    Extrae un snippet con `context` líneas antes y después de line_number (base 1).
+    Devuelve un string con numeración para cada línea.
+    """
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    snippet_str = "\n".join(f"{i+1}: {lines[i]}" for i in range(start, end))
+    return snippet_str
+
+def get_element_info(element, html_lines=None):
+    """
+    Extrae metadatos del elemento para evidencia, incluyendo un snippet
+    de HTML alrededor de la línea donde se encuentra (si está disponible).
+    """
+    tag = element.name
+    text = element.get_text(strip=True)[:120]
+    evidence = str(element)[:300]
+    line_number = element.sourceline if hasattr(element, "sourceline") else "N/A"
+    fragment_html = ""
+
+    if line_number != "N/A" and html_lines:
+        try:
+            fragment_html = get_line_snippet(html_lines, int(line_number), context=2)
+        except Exception:
+            pass
+
     return {
-        "tag": element.name,
-        "text": element.get_text(strip=True)[:120],
-        "evidence": str(element)[:300]
+        "tag": tag,
+        "text": text,
+        "evidence": evidence,
+        "line_number": line_number,
+        "fragment_html": fragment_html
     }
 
 def format_incidence(inc):
-    """Formatea la incidencia para exportar a Excel."""
+    """Formatea la incidencia para exportar a Excel, mostrando también el snippet HTML contextual."""
+    element_info = inc.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
+
     return {
         "Title": inc.get("title"),
         "Steps": (
             f"1. Open the page: {inc.get('page_url')}\n"
-            "2. Ubica el mensaje de error y revisa si se ofrece alguna sugerencia de corrección."
+            "2. Ubica el mensaje de error y revisa si se ofrece alguna sugerencia de corrección.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": inc.get("type"),
         "Priority": inc.get("severity"),
@@ -45,29 +77,23 @@ def format_incidence(inc):
         "Suggested resolution(s)": inc.get("remediation"),
         "Failed checkpoint": inc.get("wcag_reference"),
         "User Impact": inc.get("impact"),
-        "Evidence [SS or Video]": inc.get("element_info", {}).get("evidence", "")
+        "Evidence [SS or Video]": element_info.get("evidence", "")
     }
 
 def run_all___3_3_3(html_content, page_url, excel="issue_report.xlsx"):
     """
-    Busca mensajes de error en el DOM (p, span, div, etc.) y determina si:
-      - Tienen palabras clave de 'error'.
-      - NO incluyen palabras que sugieran cómo corregir.
-
-    Si detecta un mensaje con ERROR_KEYWORDS y no halla SUGGESTION_PATTERNS => reporta.
+    Busca mensajes de error en el DOM y determina si incluyen sugerencias de corrección.
     """
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
-    # Candidatos: elementos que podrían mostrar mensajes de error
     candidates = soup.find_all(["p", "span", "div", "label", "li", "strong"])
-
     for element in candidates:
         text_lower = element.get_text(strip=True).lower()
-
         # 1) ¿Hay indicios de error?
         if any(err_kw in text_lower for err_kw in ERROR_KEYWORDS):
-            # 2) ¿Hay al menos una palabra/patrón que indique sugerencia?
+            # 2) ¿Existe sugerencia/pista de corrección?
             if not any(sugg_kw in text_lower for sugg_kw in SUGGESTION_PATTERNS):
                 raw_incidences.append({
                     "title": "Error message without corrective suggestion",
@@ -83,14 +109,12 @@ def run_all___3_3_3(html_content, page_url, excel="issue_report.xlsx"):
                     ),
                     "wcag_reference": "3.3.3",
                     "impact": (
-                        "Usuarios con discapacidad cognitiva o visual podrían "
-                        "no saber cómo corregir el error."
+                        "Usuarios con discapacidad cognitiva o visual podrían no saber cómo corregir el error."
                     ),
                     "page_url": page_url,
-                    "element_info": get_element_info(element)
+                    "element_info": get_element_info(element, html_lines=lines)
                 })
 
-    # Si no hay incidencias, agregar fila de justificación
     formatted = [format_incidence(i) for i in raw_incidences]
     if not formatted:
         formatted.append({

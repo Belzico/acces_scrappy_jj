@@ -3,11 +3,22 @@ import re
 from transform_json_to_excel import transform_json_to_excel
 
 
-def get_element_info(element):
+def get_html_lines(html_content):
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    return "\n".join(f"{i+1}: {snippet[i - start]}" for i in range(start, end))
+
+
+def get_element_info(element, html_lines=None):
     tag = element.name
     element_id = element.get("id", "")
     classes = " ".join(element.get("class", [])) if element.has_attr("class") else ""
-    line_number = element.sourceline if hasattr(element, "sourceline") else "N/A"
+    line_number = element.sourceline if hasattr(element, 'sourceline') else "N/A"
 
     evidence_parts = []
     if classes:
@@ -20,23 +31,37 @@ def get_element_info(element):
     evidence_str = ", ".join(evidence_parts)
     evidence = f"{tag}[{evidence_str}]" if evidence_parts else tag
 
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            line_int = int(line_number)
+            snippet_str = get_line_snippet(html_lines, line_int, context=2)
+        except ValueError:
+            pass
+
     return {
         "tag": tag,
         "text": element.get_text(strip=True)[:50],
         "id": element_id or "N/A",
         "class": classes or "N/A",
         "line_number": line_number,
-        "evidence": evidence
+        "evidence": evidence,
+        "fragment_html": snippet_str
     }
 
 
 def format_incidence(issue):
+    element_info = issue.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
+
     return {
         "Title": issue.get("title"),
         "Steps": (
             f"1. Open the page: {issue.get('page_url')}\n"
-            f"2. Inspect the element: {issue.get('element_info', {}).get('tag', 'N/A')}\n"
-            f"3. Review its inline styles affecting spacing."
+            f"2. Inspect the element: {element_info.get('tag', 'N/A')}\n"
+            f"3. Review its inline styles affecting spacing.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": issue.get("type"),
         "Priority": issue.get("severity"),
@@ -45,12 +70,13 @@ def format_incidence(issue):
         "Suggested resolution(s)": issue.get("remediation"),
         "Failed checkpoint": issue.get("wcag_reference"),
         "User Impact": issue.get("impact"),
-        "Evidence [SS or Video]": issue.get("element_info", {}).get("evidence", "N/A")
+        "Evidence [SS or Video]": element_info.get("evidence", "N/A")
     }
 
 
 def run_all___1_4_12(html_content, page_url, excel="issue_report.xlsx"):
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     incidences = []
 
     # === Check 1: Menús ===
@@ -59,7 +85,7 @@ def run_all___1_4_12(html_content, page_url, excel="issue_report.xlsx"):
     for menu in menus:
         for item in menu.find_all(["li", "a", "span", "div"]):
             style = item.get("style", "").lower()
-            info = get_element_info(item)
+            info = get_element_info(item, html_lines=lines)
 
             if "overflow: hidden" in style:
                 incidences.append(format_incidence({
@@ -110,7 +136,7 @@ def run_all___1_4_12(html_content, page_url, excel="issue_report.xlsx"):
 
     for element in text_containers:
         style_attr = element.get("style", "").lower()
-        info = get_element_info(element)
+        info = get_element_info(element, html_lines=lines)
 
         if overflow_hidden_regex.search(style_attr):
             incidences.append(format_incidence({

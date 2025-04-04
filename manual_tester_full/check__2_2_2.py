@@ -1,20 +1,47 @@
 from bs4 import BeautifulSoup
 from transform_json_to_excel import transform_json_to_excel
 
-def get_element_info(element):
+def get_html_lines(html_content):
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    return "\n".join(f"{i+1}: {snippet[i - start]}" for i in range(start, end))
+
+def get_element_info(element, html_lines=None):
+    tag = element.name
+    attrs = dict(element.attrs)
+    line_number = element.sourceline if hasattr(element, "sourceline") else "N/A"
+
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            snippet_str = get_line_snippet(html_lines, int(line_number))
+        except ValueError:
+            pass
+
     return {
-        "tag": element.name,
-        "attrs": dict(element.attrs),
-        "snippet": str(element)[:300]
+        "tag": tag,
+        "attrs": attrs,
+        "snippet": str(element)[:300],
+        "line_number": line_number,
+        "fragment_html": snippet_str
     }
 
 def format_incidence(inc):
+    element_info = inc.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
     return {
         "Title": inc.get("title"),
         "Steps": (
             f"1. Open the page: {inc.get('page_url')}\n"
             "2. Check if moving, blinking, scrolling or auto-updating content "
-            "has controls to pause, stop or hide it."
+            "has controls to pause, stop or hide it.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": inc.get("type"),
         "Priority": inc.get("severity"),
@@ -23,11 +50,12 @@ def format_incidence(inc):
         "Suggested resolution(s)": inc.get("remediation"),
         "Failed checkpoint": inc.get("wcag_reference"),
         "User Impact": inc.get("impact"),
-        "Evidence [SS or Video]": inc.get("element_info", {}).get("snippet", "")
+        "Evidence [SS or Video]": element_info.get("snippet", "")
     }
 
 def run_all___2_2_2(html_content, page_url, excel="issue_report.xlsx"):
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
     target_elements = soup.find_all(
@@ -41,7 +69,12 @@ def run_all___2_2_2(html_content, page_url, excel="issue_report.xlsx"):
     )
 
     for elem in target_elements:
-        if not soup.find(lambda t: t.name in ["button", "a"] and any(k in t.get_text(strip=True).lower() for k in ["pause", "stop", "hide"])):
+        has_control = soup.find(
+            lambda t: t.name in ["button", "a"] and
+            any(k in t.get_text(strip=True).lower() for k in ["pause", "stop", "hide"])
+        )
+
+        if not has_control:
             raw_incidences.append({
                 "title": "No controls found to pause/stop/hide animated or auto-updated content",
                 "type": "Moving/Blinking/Auto-updating Content",
@@ -63,7 +96,7 @@ def run_all___2_2_2(html_content, page_url, excel="issue_report.xlsx"):
                     "those with cognitive disabilities, from reading or interacting with the page."
                 ),
                 "page_url": page_url,
-                "element_info": get_element_info(elem)
+                "element_info": get_element_info(elem, html_lines=lines)
             })
 
     formatted = [format_incidence(i) for i in raw_incidences]

@@ -2,10 +2,17 @@ from bs4 import BeautifulSoup
 import re
 from transform_json_to_excel import transform_json_to_excel
 
+def get_html_lines(html_content):
+    return html_content.splitlines()
 
-def get_element_info(element):
-    """Devuelve información detallada del elemento HTML para el reporte,
-    incluyendo una evidencia única y rastreable."""
+def get_line_snippet(lines, line_number, context=2):
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    return "\n".join(f"{i+1}: {snippet[i - start]}" for i in range(start, end))
+
+def get_element_info(element, html_lines=None):
     tag = element.name
     element_id = element.get("id", "")
     classes = " ".join(element.get("class", [])) if element.has_attr("class") else ""
@@ -18,9 +25,14 @@ def get_element_info(element):
         evidence_parts.append(f"id={element_id}")
     if line_number != "N/A":
         evidence_parts.append(f"line={line_number}")
+    evidence = f"{tag}[{', '.join(evidence_parts)}]" if evidence_parts else tag
 
-    evidence_str = ", ".join(evidence_parts)
-    evidence = f"{tag}[{evidence_str}]" if evidence_str else tag
+    snippet = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            snippet = get_line_snippet(html_lines, int(line_number))
+        except Exception:
+            pass
 
     return {
         "tag": tag,
@@ -28,9 +40,9 @@ def get_element_info(element):
         "id": element_id or "N/A",
         "class": classes or "N/A",
         "line_number": line_number,
-        "evidence": evidence
+        "evidence": evidence,
+        "fragment_html": snippet
     }
-
 
 def format_incidence(old):
     return {
@@ -38,7 +50,9 @@ def format_incidence(old):
         "Steps": (
             f"1. Open the page: {old.get('page_url')}\n"
             f"2. Inspect the element: {old.get('element_info', {}).get('tag', 'N/A')}\n"
-            f"3. Check the focus behavior and tab order."
+            f"3. Check the focus behavior and tab order.\n\n"
+            f"HTML snippet (around line {old.get('element_info', {}).get('line_number', 'N/A')}):\n"
+            f"{old.get('element_info', {}).get('fragment_html', '')}"
         ),
         "Bug Type": old.get("type"),
         "Priority": old.get("severity"),
@@ -50,14 +64,10 @@ def format_incidence(old):
         "Evidence [SS or Video]": old.get("element_info", {}).get("evidence", "N/A")
     }
 
-
 def run_all___2_4_3(html_content, page_url, excel="issue_report.xlsx"):
-    """
-    Evalúa problemas de orden de foco (focus order) según el criterio WCAG 2.4.3.
-    Incluye tabindex mal usado, enlaces sin href, y modales sin atributo open.
-    """
     incidences = []
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
 
     # 1️⃣ tabindex > 0
     elements_with_tabindex = soup.find_all(lambda tag: tag.has_attr("tabindex"))
@@ -77,10 +87,9 @@ def run_all___2_4_3(html_content, page_url, excel="issue_report.xlsx"):
                     "impact": "The focus order may become unpredictable.",
                     "page_url": page_url,
                     "resolution": "check_focus_order.md",
-                    "element_info": get_element_info(element)
+                    "element_info": get_element_info(element, html_lines=lines)
                 })
 
-        # 2️⃣ tabindex=-1 en elementos interactivos
         if str(tabindex_value) == "-1" and element.name in ["a", "button", "input", "textarea", "select"]:
             incidences.append({
                 "title": "Interactive element with tabindex=-1",
@@ -93,10 +102,10 @@ def run_all___2_4_3(html_content, page_url, excel="issue_report.xlsx"):
                 "impact": "Users cannot access this element using the keyboard.",
                 "page_url": page_url,
                 "resolution": "check_focus_order.md",
-                "element_info": get_element_info(element)
+                "element_info": get_element_info(element, html_lines=lines)
             })
 
-    # 3️⃣ <a> sin href y sin tabindex
+    # 2️⃣ <a> sin href y sin tabindex
     interactive_elements = soup.find_all(["a", "button", "input", "textarea", "select"])
     for element in interactive_elements:
         if not element.has_attr("tabindex") and element.name == "a" and not element.has_attr("href"):
@@ -111,10 +120,10 @@ def run_all___2_4_3(html_content, page_url, excel="issue_report.xlsx"):
                 "impact": "Keyboard users will not be able to access the link.",
                 "page_url": page_url,
                 "resolution": "check_focus_order.md",
-                "element_info": get_element_info(element)
+                "element_info": get_element_info(element, html_lines=lines)
             })
 
-    # 4️⃣ <dialog> sin atributo open
+    # 3️⃣ <dialog> sin atributo open
     dialogs = soup.find_all("dialog")
     for dialog in dialogs:
         if not dialog.has_attr("open"):
@@ -129,7 +138,7 @@ def run_all___2_4_3(html_content, page_url, excel="issue_report.xlsx"):
                 "impact": "Users may not realize that the modal is active.",
                 "page_url": page_url,
                 "resolution": "check_focus_order.md",
-                "element_info": get_element_info(dialog)
+                "element_info": get_element_info(dialog, html_lines=lines)
             })
 
     formatted = [format_incidence(inc) for inc in incidences]

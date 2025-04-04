@@ -4,7 +4,21 @@ import pytesseract
 from PIL import Image
 from transform_json_to_excel import transform_json_to_excel
 
-def get_element_info(element):
+def get_html_lines(html_content):
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    snippet_str = "\n".join(
+        f"{i+1}: {snippet[i - start]}"
+        for i in range(start, end)
+    )
+    return snippet_str
+
+def get_element_info(element, html_lines=None):
     tag = element.name
     element_id = element.get("id", "")
     classes = " ".join(element.get("class", [])) if element.has_attr("class") else ""
@@ -19,7 +33,15 @@ def get_element_info(element):
         evidence_parts.append(f"line={line_number}")
 
     evidence_str = ", ".join(evidence_parts)
-    evidence = f"{tag}[{evidence_parts and evidence_str or 'src'}]"
+    evidence = f"{tag}[{evidence_str}]" if evidence_str else f"{tag}[src]"
+
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            line_int = int(line_number)
+            snippet_str = get_line_snippet(html_lines, line_int, context=2)
+        except ValueError:
+            pass
 
     return {
         "tag": tag,
@@ -27,16 +49,22 @@ def get_element_info(element):
         "id": element_id or "N/A",
         "class": classes or "N/A",
         "line_number": line_number,
-        "evidence": evidence
+        "evidence": evidence,
+        "fragment_html": snippet_str
     }
 
 def format_incidence(raw_inc):
+    element_info = raw_inc.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
+
     return {
         "Title": raw_inc.get("title"),
         "Steps": (
             f"1. Open the page: {raw_inc.get('page_url')}\n"
-            f"2. Inspect the element: {raw_inc.get('element_info', {}).get('tag', 'N/A')}\n"
-            f"3. Compare the OCR text with the <img>'s alt or nearby text."
+            f"2. Inspect the element: {element_info.get('tag', 'N/A')}\n"
+            f"3. Compare the OCR text with the <img>'s alt or nearby text.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": raw_inc.get("type"),
         "Priority": raw_inc.get("severity"),
@@ -45,11 +73,12 @@ def format_incidence(raw_inc):
         "Suggested resolution(s)": raw_inc.get("remediation"),
         "Failed checkpoint": raw_inc.get("wcag_reference"),
         "User Impact": raw_inc.get("impact", "N/A"),
-        "Evidence [SS or Video]": raw_inc.get("element_info", {}).get("evidence", "N/A")
+        "Evidence [SS or Video]": element_info.get("evidence", "N/A")
     }
 
 def run_all___1_4_5(html_content, page_url, images_folder="downloaded_images", excel="issue_report.xlsx"):
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
     for img in soup.find_all("img"):
@@ -66,8 +95,7 @@ def run_all___1_4_5(html_content, page_url, images_folder="downloaded_images", e
         try:
             text_extracted = pytesseract.image_to_string(Image.open(local_path)).strip()
         except Exception:
-            # Si OCR falla, simplemente omitir la imagen
-            continue
+            continue  # Si OCR falla, omitimos la imagen
 
         if text_extracted:
             alt_value = img.get("alt", "")
@@ -79,6 +107,7 @@ def run_all___1_4_5(html_content, page_url, images_folder="downloaded_images", e
             combined_text = (alt_value + sibling_text).lower()
 
             if text_extracted.lower() not in combined_text:
+                info = get_element_info(img, html_lines=lines)
                 raw_incidences.append({
                     "title": "Image of Text Possibly Used",
                     "type": "Screen Reader",
@@ -97,7 +126,7 @@ def run_all___1_4_5(html_content, page_url, images_folder="downloaded_images", e
                     "wcag_reference": "1.4.5",
                     "impact": "Screen reader or zoom users may miss important visual text.",
                     "page_url": page_url,
-                    "element_info": get_element_info(img)
+                    "element_info": info
                 })
 
     formatted_incidences = [format_incidence(inc) for inc in raw_incidences]

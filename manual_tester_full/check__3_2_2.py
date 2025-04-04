@@ -11,22 +11,60 @@ CHANGE_CONTEXT_PATTERNS = [
     r"\.submit\s*\("
 ]
 
-def get_element_info(element):
-    """Reúne metadatos del elemento (tag + snippet)."""
+def get_html_lines(html_content):
+    """Convierte el contenido HTML a una lista de líneas."""
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    """
+    Extrae un fragmento de contexto alrededor de line_number (2 líneas antes/después).
+    Añade numeración para facilitar la depuración.
+    """
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    snippet_str = "\n".join(f"{i+1}: {lines[i]}" for i in range(start, end))
+    return snippet_str
+
+def get_element_info(element, html_lines=None):
+    """
+    Reúne metadatos del elemento (tag + snippet) e incluye un fragmento
+    de HTML alrededor de la línea line_number si está disponible.
+    """
+    tag = element.name
+    attrs = dict(element.attrs)
+    snippet_html = str(element)[:300]
+    line_number = element.sourceline if hasattr(element, "sourceline") else "N/A"
+
+    fragment_html = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            fragment_html = get_line_snippet(html_lines, int(line_number), context=2)
+        except ValueError:
+            pass
+
     return {
-        "tag": element.name,
-        "attrs": dict(element.attrs),
-        "snippet": str(element)[:300]
+        "tag": tag,
+        "attrs": attrs,
+        "snippet": snippet_html,
+        "line_number": line_number,
+        "fragment_html": fragment_html
     }
 
 def format_incidence(inc):
-    """Arma la incidencia para el Excel."""
+    """Arma la incidencia para el Excel, mostrando también el snippet de HTML contextual."""
+    element_info = inc.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
+
     return {
         "Title": inc.get("title"),
         "Steps": (
             f"1. Open the page: {inc.get('page_url')}\n"
             "2. Locate the UI control (e.g. <select> or <input>) with an `onchange` or similar event.\n"
-            "3. Verify if changing the value triggers a context change with no prior warning."
+            "3. Verify if changing the value triggers a context change with no prior warning.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": inc.get("type"),
         "Priority": inc.get("severity"),
@@ -35,7 +73,7 @@ def format_incidence(inc):
         "Suggested resolution(s)": inc.get("remediation"),
         "Failed checkpoint": inc.get("wcag_reference"),
         "User Impact": inc.get("impact"),
-        "Evidence [SS or Video]": inc.get("element_info", {}).get("snippet", "")
+        "Evidence [SS or Video]": element_info.get("snippet", "")
     }
 
 def run_all___3_2_2(html_content, page_url, excel="issue_report.xlsx"):
@@ -46,23 +84,21 @@ def run_all___3_2_2(html_content, page_url, excel="issue_report.xlsx"):
     4. Reporta si no hay aviso previo.
     """
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
     # 1) Buscar selects
     selects = soup.find_all("select")
     for sel in selects:
-        # Mirar eventos: onchange, oninput
         possible_events = []
         if sel.has_attr("onchange"):
             possible_events.append(sel["onchange"])
         if sel.has_attr("oninput"):
             possible_events.append(sel["oninput"])
 
-        # Ver si alguno de esos scripts coincide con un patron
         for script_value in possible_events:
             sv_lower = script_value.lower()
             if any(re.search(pattern, sv_lower) for pattern in CHANGE_CONTEXT_PATTERNS):
-                # Heurística: sin un 'notice' => error
                 raw_incidences.append({
                     "title": "Select changes context on value change without prior warning",
                     "type": "On Input Behavior",
@@ -82,10 +118,10 @@ def run_all___3_2_2(html_content, page_url, excel="issue_report.xlsx"):
                         "as they pick an item from the dropdown."
                     ),
                     "page_url": page_url,
-                    "element_info": get_element_info(sel)
+                    "element_info": get_element_info(sel, lines)
                 })
 
-    # 2) Buscar inputs type=radio/checkbox => Mismo approach
+    # 2) Buscar inputs type=radio/checkbox
     inputs = soup.find_all("input", {"type": ["radio", "checkbox"]})
     for inp in inputs:
         possible_events = []
@@ -94,7 +130,6 @@ def run_all___3_2_2(html_content, page_url, excel="issue_report.xlsx"):
         if inp.has_attr("oninput"):
             possible_events.append(inp["oninput"])
         if inp.has_attr("onclick"):
-            # A veces se usa onclick en vez de onchange para check/radio
             possible_events.append(inp["onclick"])
 
         for script_value in possible_events:
@@ -110,8 +145,8 @@ def run_all___3_2_2(html_content, page_url, excel="issue_report.xlsx"):
                     ),
                     "actual_result": f"Script triggers context change: {script_value}",
                     "remediation": (
-                        "Use a separate button or confirm dialog, or clearly warn user that checking this "
-                        "box/radio triggers new context."
+                        "Use a separate button or confirm dialog, or clearly warn the user that checking "
+                        "this box/radio triggers new context."
                     ),
                     "wcag_reference": "3.2.2",
                     "impact": (
@@ -119,10 +154,9 @@ def run_all___3_2_2(html_content, page_url, excel="issue_report.xlsx"):
                         "or open a new window upon simply checking a box."
                     ),
                     "page_url": page_url,
-                    "element_info": get_element_info(inp)
+                    "element_info": get_element_info(inp, lines)
                 })
 
-    # Si no hay incidencias
     formatted = [format_incidence(i) for i in raw_incidences]
     if not formatted:
         formatted.append({

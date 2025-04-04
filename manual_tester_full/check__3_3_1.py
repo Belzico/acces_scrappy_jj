@@ -1,8 +1,27 @@
+import re
 from bs4 import BeautifulSoup
 from transform_json_to_excel import transform_json_to_excel
 
-def get_element_info(element):
-    """Devuelve información detallada del elemento HTML para el reporte."""
+def get_html_lines(html_content):
+    """Convierte el contenido HTML en una lista de líneas, para extraer fragmentos contextualizados."""
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    """
+    Extrae un fragmento HTML de line_number (base 1) con 2 líneas antes y 2 después.
+    Retorna un string con numeración de líneas para depuración.
+    """
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    snippet_str = "\n".join(f"{i+1}: {lines[i]}" for i in range(start, end))
+    return snippet_str
+
+def get_element_info(element, html_lines=None):
+    """
+    Devuelve información detallada del elemento HTML, incluyendo un snippet de línea alrededor.
+    """
     tag = element.name
     element_id = element.get("id", "")
     element_name = element.get("name", "")
@@ -22,6 +41,14 @@ def get_element_info(element):
     evidence_str = ", ".join(evidence_parts)
     evidence = f"{tag}[{evidence_str}]" if evidence_str else tag
 
+    text_excerpt = element.get_text(strip=True)[:50]  # 50 chars
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            snippet_str = get_line_snippet(html_lines, int(line_number), context=2)
+        except ValueError:
+            pass
+
     return {
         "tag": tag,
         "id": element_id or "N/A",
@@ -29,17 +56,25 @@ def get_element_info(element):
         "class": element_class or "N/A",
         "line_number": line_number,
         "evidence": evidence,
-        "text": element.get_text(strip=True)[:50]
+        "text": text_excerpt,
+        "fragment_html": snippet_str
     }
 
 def format_incidence(old):
-    """Convierte una incidencia cruda al formato estandarizado para el reporte."""
+    """
+    Convierte una incidencia cruda al formato estandarizado para el reporte,
+    incluyendo un snippet HTML contextual.
+    """
+    element_info = old.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
+
     return {
         "Title": old.get("title"),
         "Steps": (
             f"1. Open the page: {old.get('page_url')}\n"
-            f"2. Locate the form field: {old.get('element_info', {}).get('tag', 'N/A')}\n"
-            f"3. Trigger validation and check if error message is present and visible."
+            f"2. Locate the form field: {element_info.get('tag', 'N/A')}\n"
+            f"3. Trigger validation and check if error message is present and visible.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n{snippet}"
         ),
         "Bug Type": old.get("type"),
         "Priority": old.get("severity"),
@@ -48,10 +83,10 @@ def format_incidence(old):
         "Suggested resolution(s)": old.get("remediation"),
         "Failed checkpoint": old.get("wcag_reference"),
         "User Impact": old.get("impact"),
-        "Evidence [SS or Video]": old.get("element_info", {}).get("evidence", "N/A")
+        "Evidence [SS or Video]": element_info.get("evidence", "N/A")
     }
 
-def check_form_error_identification(html_content, page_url):
+def check_form_error_identification(html_content, page_url, html_lines=None):
     """
     Verifica que los campos de formulario con errores muestren mensajes visibles.
     Criterio: WCAG 3.3.1 - Error Identification.
@@ -68,9 +103,9 @@ def check_form_error_identification(html_content, page_url):
     for field in error_fields:
         field_name = field.get("name") or field.get("id") or "Unnamed field"
         error_text = None
-        element_info = get_element_info(field)
+        element_info = get_element_info(field, html_lines=html_lines)
 
-        # 1️⃣ Verificar si hay mensaje de error referenciado con aria-describedby
+        # 1) Verificar si hay mensaje de error referenciado con aria-describedby
         described_by = field.get("aria-describedby")
         if described_by:
             described_error = soup.find(id=described_by)
@@ -78,7 +113,7 @@ def check_form_error_identification(html_content, page_url):
                 if not described_error.has_attr("style") or "display: none" not in described_error["style"]:
                     error_text = described_error.get_text(strip=True)
 
-        # 2️⃣ Buscar mensaje de error adyacente
+        # 2) Buscar mensaje de error adyacente
         if not error_text:
             next_sibling = field.find_next_sibling()
             while next_sibling:
@@ -88,7 +123,7 @@ def check_form_error_identification(html_content, page_url):
                         break
                 next_sibling = next_sibling.find_next_sibling()
 
-        # 3️⃣ Si no hay mensaje visible, registrar incidencia
+        # 3) Si no hay mensaje visible, registrar incidencia
         if not error_text:
             incidences.append({
                 "title": "Form field missing visible error message",
@@ -113,7 +148,8 @@ def run_all___3_3_1(html_content, page_url, excel="issue_report.xlsx"):
     Integrador para WCAG 3.3.1 - Error Identification.
     Ejecuta el checker y genera el Excel de reporte.
     """
-    raw = check_form_error_identification(html_content, page_url)
+    html_lines = get_html_lines(html_content)
+    raw = check_form_error_identification(html_content, page_url, html_lines=html_lines)
     formatted = [format_incidence(inc) for inc in raw]
 
     if formatted:

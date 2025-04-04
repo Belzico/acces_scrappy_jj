@@ -1,19 +1,48 @@
+import re
 from bs4 import BeautifulSoup
 from transform_json_to_excel import transform_json_to_excel
 
-def get_element_info(element):
+def get_html_lines(html_content):
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    snippet_str = "\n".join(f"{i+1}: {lines[i]}" for i in range(start, end))
+    return snippet_str
+
+def get_element_info(element, html_lines=None):
+    tag = element.name
+    text = element.get_text(strip=True)[:80]
+    evidence = str(element)[:300]
+    line_number = element.sourceline if hasattr(element, "sourceline") else "N/A"
+    fragment_html = ""
+
+    if line_number != "N/A" and html_lines:
+        try:
+            fragment_html = get_line_snippet(html_lines, int(line_number), context=2)
+        except Exception:
+            fragment_html = ""
+
     return {
-        "tag": element.name,
-        "text": element.get_text(strip=True)[:80],
-        "evidence": str(element)[:300]
+        "tag": tag,
+        "text": text,
+        "evidence": evidence,
+        "line_number": line_number,
+        "fragment_html": fragment_html
     }
 
 def format_incidence(inc):
+    element_info = inc.get("element_info", {})
     return {
         "Title": inc.get("title"),
         "Steps": (
             f"1. Open the page: {inc.get('page_url')}\n"
-            f"2. Inspect the element \"{inc.get('element_info', {}).get('tag')}\"."
+            f"2. Inspect the element \"{element_info.get('tag')}\".\n"
+            f"3. HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{element_info.get('fragment_html', '')}"
         ),
         "Bug Type": inc.get("type"),
         "Priority": inc.get("severity"),
@@ -22,117 +51,68 @@ def format_incidence(inc):
         "Suggested resolution(s)": inc.get("remediation"),
         "Failed checkpoint": inc.get("wcag_reference"),
         "User Impact": inc.get("impact"),
-        "Evidence [SS or Video]": inc.get("element_info", {}).get("evidence", "")
+        "Evidence [SS or Video]": element_info.get("evidence", "")
     }
 
 def run_all___2_5_3(html_content, page_url, excel="issue_report.xlsx"):
-    """
-    Heurística para verificar que, si un control tiene texto visible,
-    ese texto aparezca (parcialmente) en su accesible name (ej. aria-label).
-    
-    - <button> => Usa text content si no hay aria-label
-    - <input type='button|submit|reset|image'> => Usa value o alt
-    - <label> + <input> => Usa el texto de <label> y revisa aria-label del <input>
-    
-    Si el texto visible no figura en el aria-label / alt / value, se reporta.
-    """
     soup = BeautifulSoup(html_content, "html.parser")
+    html_lines = get_html_lines(html_content)
     raw_incidences = []
 
-    # 1) Revisar <button>
     buttons = soup.find_all("button")
     for btn in buttons:
         visible_text = btn.get_text(strip=True)
         aria_label = btn.get("aria-label", "")
-        # Nombre accesible real: si aria-label existe, se suele imponer.
-        # Si no hay aria-label, el user agent usa el texto interno del <button>.
-        # Reglas simplificadas:
         if aria_label:
-            # Si el visible text no está contenido en aria_label => error
             if visible_text and visible_text.lower() not in aria_label.lower():
                 raw_incidences.append({
                     "title": "Button label mismatch",
                     "type": "Label in Name",
                     "severity": "Medium",
-                    "expected_result": (
-                        "The visible text of the button should be included in the aria-label."
-                    ),
-                    "actual_result": (
-                        f"Visible: '{visible_text}', aria-label: '{aria_label}'"
-                    ),
-                    "remediation": (
-                        "Ensure aria-label includes the visible text or remove aria-label if unneeded."
-                    ),
+                    "expected_result": "The visible text of the button should be included in the aria-label.",
+                    "actual_result": f"Visible: '{visible_text}', aria-label: '{aria_label}'",
+                    "remediation": "Ensure aria-label includes the visible text or remove aria-label if unneeded.",
                     "wcag_reference": "2.5.3",
-                    "impact": (
-                        "Voice users may say the visible text and fail to activate the button."
-                    ),
+                    "impact": "Voice users may say the visible text and fail to activate the button.",
                     "page_url": page_url,
-                    "element_info": get_element_info(btn)
+                    "element_info": get_element_info(btn, html_lines)
                 })
         else:
-            # If there's no aria-label, we rely on visible text => 
-            # if there's no visible text => error
             if not visible_text:
                 raw_incidences.append({
                     "title": "Button has no visible label nor aria-label",
                     "type": "Label in Name",
                     "severity": "High",
-                    "expected_result": (
-                        "Buttons must have a visible text or an aria-label that matches it."
-                    ),
+                    "expected_result": "Buttons must have a visible text or an aria-label that matches it.",
                     "actual_result": "No text and no aria-label found.",
                     "remediation": "Add text inside the button or set an aria-label attribute.",
                     "wcag_reference": "2.5.3",
-                    "impact": (
-                        "Users (especially voice input) cannot identify or activate the button by name."
-                    ),
+                    "impact": "Users cannot identify or activate the button by name.",
                     "page_url": page_url,
-                    "element_info": get_element_info(btn)
+                    "element_info": get_element_info(btn, html_lines)
                 })
 
-    # 2) Revisar <input type="button|submit|reset|image">
     inputs = soup.find_all("input", {"type": ["button", "submit", "reset", "image"]})
     for inp in inputs:
         value_text = inp.get("value", "")
         aria_label = inp.get("aria-label", "")
-        alt_text   = inp.get("alt", "")  # para type="image"
-
-        # Determinar "visible" text heurístico:
-        # - Si type=image, el visible text a menudo es un icono. Su "texto" vendría de alt
-        # - Si type=button|submit|reset, el visible text vendría del "value"
-        #   (lo que aparece como texto del botón, si no, se ve un genérico)
-        if inp.get("type") == "image":
-            # "visible_text" se asume = alt_text
-            # => si aria-label existe, preferirlo => se necesita que alt esté contenido
-            visible_text = alt_text
-        else:
-            visible_text = value_text
-
-        # Nombre accesible preferente: aria-label si existe
-        # Si no => alt (para image) o value (para button/submit).
+        alt_text = inp.get("alt", "")
+        visible_text = alt_text if inp.get("type") == "image" else value_text
         if aria_label:
-            # Chequeo: visible_text debe estar dentro de aria_label
             if visible_text and visible_text.lower() not in aria_label.lower():
                 raw_incidences.append({
                     "title": "Input button label mismatch",
                     "type": "Label in Name",
                     "severity": "Medium",
-                    "expected_result": (
-                        "The visible text of the input should be included in the aria-label."
-                    ),
+                    "expected_result": "The visible text of the input should be included in the aria-label.",
                     "actual_result": f"Visible: '{visible_text}', aria-label: '{aria_label}'",
-                    "remediation": (
-                        "Ensure aria-label includes the visible text or remove aria-label if unneeded."
-                    ),
+                    "remediation": "Ensure aria-label includes the visible text or remove aria-label if unneeded.",
                     "wcag_reference": "2.5.3",
-                    "impact": "Voice input users may say the visible text and fail to activate the control.",
+                    "impact": "Voice input users may fail to activate the control.",
                     "page_url": page_url,
-                    "element_info": get_element_info(inp)
+                    "element_info": get_element_info(inp, html_lines)
                 })
         else:
-            # if no aria-label => we rely on alt (for image) or value
-            # if there's no "visible" text => error
             if not visible_text:
                 raw_incidences.append({
                     "title": "Input button has no visible text nor aria-label",
@@ -140,28 +120,22 @@ def run_all___2_5_3(html_content, page_url, excel="issue_report.xlsx"):
                     "severity": "High",
                     "expected_result": "A button or image input must have a label for users.",
                     "actual_result": "No 'value', no 'alt', and no 'aria-label'.",
-                    "remediation": "Add a 'value' (for type=button,submit,reset), alt text (for type=image), or aria-label.",
+                    "remediation": "Add a 'value', alt text, or aria-label.",
                     "wcag_reference": "2.5.3",
                     "impact": "Users cannot invoke the control by voice command using the visible label.",
                     "page_url": page_url,
-                    "element_info": get_element_info(inp)
+                    "element_info": get_element_info(inp, html_lines)
                 })
 
-    # 3) Revisar si un <label> está asociado a un <input> y si hay aria-label distinto
-    #    Esto es muy simplificado: asume label for=ID => match input id=ID
     labels = soup.find_all("label")
     for lbl in labels:
         label_text = lbl.get_text(strip=True)
         if not label_text:
-            # Un label vacío ya es problema, pero no de este SC (sería 2.4.6)
             continue
-
-        # Hallar el input asociado, si "for" se usa
         for_id = lbl.get("for")
         if for_id:
             input_el = soup.find(id=for_id)
             if input_el:
-                # si input_el tiene aria-label, debe contener label_text
                 aria_label = input_el.get("aria-label", "")
                 if aria_label and label_text.lower() not in aria_label.lower():
                     raw_incidences.append({
@@ -170,16 +144,13 @@ def run_all___2_5_3(html_content, page_url, excel="issue_report.xlsx"):
                         "severity": "Medium",
                         "expected_result": "The visible label text should be included in the aria-label.",
                         "actual_result": f"Label text: '{label_text}', aria-label: '{aria_label}'",
-                        "remediation": (
-                            "Match them (or remove aria-label if the label element is correctly associated)."
-                        ),
+                        "remediation": "Match them or remove aria-label if label element is correctly associated.",
                         "wcag_reference": "2.5.3",
-                        "impact": "Voice users might try to refer to the input as 'label text' but not be recognized.",
+                        "impact": "Voice users might not be recognized when referring to the input.",
                         "page_url": page_url,
-                        "element_info": get_element_info(input_el)
+                        "element_info": get_element_info(input_el, html_lines)
                     })
 
-    # 4) Generar el reporte final
     formatted = [format_incidence(i) for i in raw_incidences]
     if not formatted:
         formatted.append({

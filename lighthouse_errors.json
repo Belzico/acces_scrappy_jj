@@ -1,1 +1,6 @@
-[]
+[
+    {
+        "url": "https://www.prioritypass.com/",
+        "error": "Command '['C:\\\\Users\\\\namic\\\\AppData\\\\Roaming\\\\npm\\\\lighthouse.cmd', 'https://www.prioritypass.com/', '--only-categories=accessibility', '--quiet', '--no-enable-error-reporting', '--output=json', '--output-path=lighthouse_report.json']' returned non-zero exit status 1."
+    }
+]

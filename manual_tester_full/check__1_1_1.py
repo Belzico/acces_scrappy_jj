@@ -5,11 +5,37 @@ from sentence_transformers import SentenceTransformer, util
 # Cargar modelo de embeddings para comparación semántica
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
+def get_html_lines(html_content):
+    """
+    Dado el HTML como string, lo dividimos por líneas.
+    Útil para luego extraer un snippet alrededor de line_number.
+    """
+    return html_content.splitlines()
 
-def get_element_info(element):
+def get_line_snippet(lines, line_number, context=2):
+    """
+    lines: lista de líneas del HTML (output de get_html_lines)
+    line_number: número de línea (base 1) donde se encontró el elemento
+    context: cuántas líneas antes y después extraer
+
+    Retorna un string con el fragmento de HTML alrededor de esa línea.
+    """
+    idx = line_number - 1  # ajustamos a base 0
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+
+    # Para mostrar con numeración
+    snippet_str = "\n".join(
+        f"{i+1}: {snippet[i - start]}"
+        for i in range(start, end)
+    )
+    return snippet_str
+
+def get_element_info(element, html_lines=None):
     """
     Devuelve información del elemento afectado y genera una evidencia única y buscable.
-    Ejemplo de evidencia: img[class=logo, id=main-logo, line=45, src=logo.png]
+    Si se proporciona html_lines, se extrae un snippet alrededor de line_number.
     """
     tag = element.name
     element_id = element.get("id", "")
@@ -35,24 +61,38 @@ def get_element_info(element):
     evidence_str = ", ".join(evidence_parts)
     evidence = f"{tag}[{evidence_str}]"
 
+    # Extraer snippet de HTML alrededor de line_number, si es numérico
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            line_int = int(line_number)
+            snippet_str = get_line_snippet(html_lines, line_int, context=2)
+        except ValueError:
+            pass
+
     return {
         "tag": tag,
         "text": element.get_text(strip=True)[:50],
         "id": element_id or "N/A",
         "class": classes or "N/A",
         "line_number": line_number,
-        "evidence": evidence
+        "evidence": evidence,
+        "fragment_html": snippet_str  # <-- HTML de contexto
     }
-
 
 def format_incidence(old):
     """Formatea una incidencia para el reporte Excel con todos los campos requeridos."""
+    element_info = old.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
+
     return {
         "Title": old.get("title"),
         "Steps": (
             f"1. Open the page: {old.get('page_url')}\n"
-            f"2. Inspect the element: {old.get('element_info', {}).get('tag', 'N/A')}\n"
-            f"3. Review the ARIA or ALT attributes and surrounding context."
+            f"2. Inspect the element: {element_info.get('tag', 'N/A')}\n"
+            f"3. Review the ARIA or ALT attributes and surrounding context.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": old.get("type"),
         "Priority": old.get("severity"),
@@ -61,19 +101,20 @@ def format_incidence(old):
         "Suggested resolution(s)": old.get("remediation"),
         "Failed checkpoint": old.get("wcag_reference"),
         "User Impact": old.get("impact"),
-        "Evidence [SS or Video]": old.get("element_info", {}).get("evidence", "N/A")
+        "Evidence [SS or Video]": element_info.get("evidence", "N/A")
     }
 
 # 1️⃣ check_alt_distinction
 def check_alt_distinction(html_content, page_url):
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)  # Para extraer snippet
     incidences = []
     images = soup.find_all("img")
 
     for img in images:
         alt = img.get("alt", None)
         parent = img.parent
-        info = get_element_info(img)
+        info = get_element_info(img, html_lines=lines)
 
         if alt is None:
             incidences.append(format_incidence({
@@ -90,9 +131,20 @@ def check_alt_distinction(html_content, page_url):
             continue
 
         if alt.strip() == "" and parent and parent.name in ["a", "button"]:
+            # Buscamos si hay al menos un <img> hermano con alt != ""
+            has_descriptive_alt_sibling = False
+            for sibling_img in parent.find_all("img", recursive=False):
+                if sibling_img is not img:  # no es el mismo
+                    if sibling_img.get("alt") and sibling_img["alt"].strip() != "":
+                        has_descriptive_alt_sibling = True
+                        break
+
             link_text = "".join(parent.stripped_strings)
             aria_label = parent.get("aria-label", "")
-            if not link_text and not aria_label:
+
+            # Si NO hay imagen hermana con alt descriptivo,
+            # y no hay texto ni aria-label => error
+            if not has_descriptive_alt_sibling and not link_text and not aria_label:
                 incidences.append(format_incidence({
                     "title": "Link/Button with no accessible text",
                     "type": "Alternative Text",
@@ -102,7 +154,7 @@ def check_alt_distinction(html_content, page_url):
                     "remediation": "Add accessible text or aria-label.",
                     "wcag_reference": "1.1.1",
                     "page_url": page_url,
-                    "element_info": get_element_info(parent)
+                    "element_info": get_element_info(parent, html_lines=lines)
                 }))
             continue
 
@@ -133,16 +185,16 @@ def check_alt_distinction(html_content, page_url):
 
     return incidences
 
-
 # 2️⃣ check_icons_informative
 def check_icons_informative(html_content, page_url):
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     incidences = []
 
     for icon in soup.find_all(["span", "i"], class_=["icon", "fa", "material-icons"]):
         aria_hidden = icon.get("aria-hidden")
         has_text = bool(icon.text.strip())
-        info = get_element_info(icon)
+        info = get_element_info(icon, html_lines=lines)
 
         if aria_hidden is None or aria_hidden.lower() != "true":
             if not has_text:
@@ -160,10 +212,10 @@ def check_icons_informative(html_content, page_url):
 
     return incidences
 
-
 # 3️⃣ check_images_decorative
 def check_images_decorative(html_content, page_url):
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     incidences = []
 
     for img in soup.find_all("img"):
@@ -178,15 +230,15 @@ def check_images_decorative(html_content, page_url):
                 "remediation": "Use alt='' for decorative images or provide descriptive alt if informative.",
                 "wcag_reference": "1.1.1",
                 "page_url": page_url,
-                "element_info": get_element_info(img)
+                "element_info": get_element_info(img, html_lines=lines)
             }))
 
     return incidences
 
-
 # 4️⃣ check_informative_images
 def check_informative_images(html_content, page_url):
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     incidences = []
 
     for img in soup.find_all("img"):
@@ -201,11 +253,10 @@ def check_informative_images(html_content, page_url):
                 "remediation": "Add a short descriptive alt text.",
                 "wcag_reference": "1.1.1",
                 "page_url": page_url,
-                "element_info": get_element_info(img)
+                "element_info": get_element_info(img, html_lines=lines)
             }))
 
     return incidences
-
 
 # 🚀 Integrador principal
 def run_all___1_1_1(html_content, page_url, excel="issue_report.xlsx"):

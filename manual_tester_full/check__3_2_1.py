@@ -2,8 +2,6 @@ import re
 from bs4 import BeautifulSoup
 from transform_json_to_excel import transform_json_to_excel
 
-# Heurística: buscar cadenas que posiblemente causen un cambio de contexto:
-# "window.open", "location.href", "this.form.submit", "form.submit", etc.
 CHANGE_CONTEXT_PATTERNS = [
     r"window\.open",
     r"location\.href",
@@ -11,24 +9,55 @@ CHANGE_CONTEXT_PATTERNS = [
     r"top\.location",
     r"self\.location",
     r"document\.location",
-    # Se pueden añadir más (por ejemplo, "focus()", si cambiara el foco a otro lado).
 ]
 
-def get_element_info(element):
-    """Extrae metadatos del elemento para el reporte."""
+def get_html_lines(html_content):
+    """Divide el HTML en lista de líneas para extraer contexto."""
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    """Devuelve un fragmento con 2 líneas antes/después de line_number, numeradas."""
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    return "\n".join(f"{i+1}: {lines[i]}" for i in range(start, end))
+
+def get_element_info(element, html_lines=None):
+    """
+    Extrae metadatos (tag, snippet, etc.) y un fragmento de HTML
+    alrededor de line_number si está presente.
+    """
+    tag = element.name
+    attrs = dict(element.attrs)
+    snippet_html = str(element)[:300]
+    line_number = element.sourceline if hasattr(element, "sourceline") else "N/A"
+
+    fragment_html = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            fragment_html = get_line_snippet(html_lines, int(line_number), context=2)
+        except Exception:
+            pass
+
     return {
-        "tag": element.name,
-        "attrs": dict(element.attrs),
-        "snippet": str(element)[:300]
+        "tag": tag,
+        "attrs": attrs,
+        "snippet": snippet_html,
+        "line_number": line_number,
+        "fragment_html": fragment_html
     }
 
 def format_incidence(inc):
-    """Formatea la incidencia en el dict final para exportar a Excel."""
+    element_info = inc.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
     return {
         "Title": inc.get("title"),
         "Steps": (
             f"1. Open the page: {inc.get('page_url')}\n"
-            f"2. Inspect the element with 'onfocus'."
+            f"2. Inspect the element with 'onfocus'.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": inc.get("type"),
         "Priority": inc.get("severity"),
@@ -37,28 +66,23 @@ def format_incidence(inc):
         "Suggested resolution(s)": inc.get("remediation"),
         "Failed checkpoint": inc.get("wcag_reference"),
         "User Impact": inc.get("impact"),
-        "Evidence [SS or Video]": inc.get("element_info", {}).get("snippet", "")
+        "Evidence [SS or Video]": element_info.get("snippet", "")
     }
 
 def run_all___3_2_1(html_content, page_url, excel="issue_report.xlsx"):
     """
-    1. Parsea el HTML.
-    2. Busca elementos con 'onfocus'.
-    3. Revisa si el contenido de 'onfocus' coincide con alguno de los patrones
-       que pueden iniciar un cambio de contexto (abrir ventana, redirigir, etc.).
-    4. Si sí => reporta posible incumplimiento de 3.2.1.
+    1. Busca elementos con 'onfocus'.
+    2. Verifica si el contenido de 'onfocus' coincide con alguno de los
+       patrones que puedan iniciar un cambio de contexto.
     """
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
-    # Buscar cualquier elemento con onfocus
     all_tags = soup.find_all(lambda t: t.has_attr("onfocus"))
-
     for elem in all_tags:
         onfocus_value = elem.get("onfocus", "")
         lower_onfocus = onfocus_value.lower()
-
-        # Comprobamos si coincide con alguno de CHANGE_CONTEXT_PATTERNS
         matched = any(re.search(pattern, lower_onfocus) for pattern in CHANGE_CONTEXT_PATTERNS)
         if matched:
             raw_incidences.append({
@@ -71,19 +95,18 @@ def run_all___3_2_1(html_content, page_url, excel="issue_report.xlsx"):
                 ),
                 "actual_result": f"onfocus contains code that likely changes context: {onfocus_value}",
                 "remediation": (
-                    "Remove or modify the onfocus script so that the context does not change "
-                    "until user explicitly activates the element (e.g., on click)."
+                    "Remove or modify the onfocus script so context doesn't change "
+                    "until user explicitly activates it (e.g., on click)."
                 ),
                 "wcag_reference": "3.2.1",
                 "impact": (
-                    "Keyboard or screen reader users might unexpectedly lose context or get redirected "
-                    "as they tab into controls."
+                    "Keyboard or screen reader users might unexpectedly lose context "
+                    "or get redirected while tabbing."
                 ),
                 "page_url": page_url,
-                "element_info": get_element_info(elem)
+                "element_info": get_element_info(elem, html_lines=lines)
             })
 
-    # Si no hay incidencias
     formatted = [format_incidence(i) for i in raw_incidences]
     if not formatted:
         formatted.append({

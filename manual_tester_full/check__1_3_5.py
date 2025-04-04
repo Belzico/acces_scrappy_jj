@@ -13,7 +13,21 @@ VALID_AUTOCOMPLETE_VALUES = {
     "tel-local-suffix", "tel-extension", "email", "impp", "shipping", "billing"
 }
 
-def get_element_info(element):
+def get_html_lines(html_content):
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    snippet_str = "\n".join(
+        f"{i+1}: {snippet[i - start]}"
+        for i in range(start, end)
+    )
+    return snippet_str
+
+def get_element_info(element, html_lines=None):
     """
     Devuelve un diccionario con información contextual
     (tag, id, class, line_number y evidence) de un elemento HTML.
@@ -33,13 +47,22 @@ def get_element_info(element):
 
     evidence = f"{tag}[{', '.join(evidence_parts)}]" if evidence_parts else tag
 
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            line_int = int(line_number)
+            snippet_str = get_line_snippet(html_lines, line_int, context=2)
+        except ValueError:
+            pass
+
     return {
         "tag": tag,
         "text": element.get("value", "")[:50] or element.get("placeholder", "")[:50],
         "id": element_id or "N/A",
         "class": classes or "N/A",
         "line_number": line_number,
-        "evidence": evidence
+        "evidence": evidence,
+        "fragment_html": snippet_str
     }
 
 def format_incidence(inc):
@@ -47,12 +70,17 @@ def format_incidence(inc):
     Formatea la información de la incidencia en un diccionario
     listo para exportar a Excel.
     """
+    element_info = inc.get("element_info", {})
+    snippet = element_info.get("fragment_html", "")
+
     return {
         "Title": inc.get("title"),
         "Steps": (
             f"1. Open the page: {inc.get('page_url')}\n"
-            f"2. Inspect the form element: {inc.get('element_info', {}).get('tag', 'N/A')}.\n"
-            "3. Check whether `autocomplete` is present and has a valid value."
+            f"2. Inspect the form element: {element_info.get('tag', 'N/A')}.\n"
+            "3. Check whether `autocomplete` is present and has a valid value.\n\n"
+            f"HTML snippet (around line {element_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": inc.get("type"),
         "Priority": inc.get("severity"),
@@ -61,7 +89,7 @@ def format_incidence(inc):
         "Suggested resolution(s)": inc.get("remediation"),
         "Failed checkpoint": inc.get("wcag_reference"),
         "User Impact": inc.get("impact"),
-        "Evidence [SS or Video]": inc.get("element_info", {}).get("evidence", "N/A")
+        "Evidence [SS or Video]": element_info.get("evidence", "N/A")
     }
 
 def run_all___1_3_5(html_content, page_url, excel="issue_report.xlsx"):
@@ -74,6 +102,7 @@ def run_all___1_3_5(html_content, page_url, excel="issue_report.xlsx"):
     6. Retorna la lista formateada de incidencias (cada incidencia es un dict).
     """
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
     # Encuentra todos los inputs
@@ -90,16 +119,12 @@ def run_all___1_3_5(html_content, page_url, excel="issue_report.xlsx"):
         autocomplete = element.get("autocomplete")
         name_attr = element.get("name", "").lower()
 
-        info = get_element_info(element)
+        info = get_element_info(element, html_lines=lines)
 
-        # Decide si es un input relevante para 1.3.5
-        # Primero: excluir inputs poco relevantes (ocultos, etc.)
         if input_type in ["hidden", "button", "submit", "reset", "checkbox", "radio", "file"]:
             continue
 
-        # Segundo: comprueba si alguno de los keywords aparece en el name
         if any(keyword in name_attr for keyword in relevant_keywords):
-            # Check: si no tiene autocomplete => error
             if not autocomplete:
                 raw_incidences.append({
                     "title": "Input collecting user data is missing `autocomplete`",
@@ -117,7 +142,6 @@ def run_all___1_3_5(html_content, page_url, excel="issue_report.xlsx"):
                     "element_info": info
                 })
             else:
-                # Si tiene autocomplete, pero no es un valor válido => error
                 if autocomplete not in VALID_AUTOCOMPLETE_VALUES:
                     raw_incidences.append({
                         "title": "Input uses invalid `autocomplete` value",
@@ -141,7 +165,6 @@ def run_all___1_3_5(html_content, page_url, excel="issue_report.xlsx"):
                         "element_info": info
                     })
 
-    # Formateamos y exportamos a Excel
     formatted = [format_incidence(i) for i in raw_incidences]
     if formatted:
         transform_json_to_excel(formatted, excel)

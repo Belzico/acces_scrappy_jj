@@ -1,14 +1,13 @@
+import re
 from bs4 import BeautifulSoup
 from transform_json_to_excel import transform_json_to_excel
 
-# Palabras o frases comunes en mensajes de estado
 POSSIBLE_STATUS_KEYWORDS = [
     "error", "invalid", "fail", "failed", "warning",
     "success", "successfully", "results returned", "added to", "items in cart",
     "loading", "please wait", "no results", "busy", "completed", "submitted"
 ]
 
-# Atributos/roles ARIA que podrían identificar un status message
 VALID_STATUS_ROLES = {
     "status", "alert", "log", "progressbar"
 }
@@ -16,19 +15,66 @@ VALID_LIVE_VALUES = {
     "polite", "assertive"
 }
 
-def get_element_info(element):
+def get_html_lines(html_content):
+    """
+    Convierte el HTML en una lista de líneas,
+    para luego extraer fragmentos alrededor de line_number.
+    """
+    return html_content.splitlines()
+
+def get_line_snippet(lines, line_number, context=2):
+    """
+    lines: lista de líneas del HTML.
+    line_number: número de línea (base 1) donde se encontró el elemento.
+    context: cuántas líneas antes y después se extraen.
+
+    Retorna un string con el fragmento de HTML alrededor de esa línea.
+    """
+    idx = line_number - 1
+    start = max(idx - context, 0)
+    end = min(idx + context + 1, len(lines))
+    snippet = lines[start:end]
+    snippet_str = "\n".join(
+        f"{i+1}: {lines[i]}"
+        for i in range(start, end)
+    )
+    return snippet_str
+
+def get_element_info(element, html_lines=None):
+    """
+    Extrae metadatos del elemento para evidencia, incluyendo un snippet (fragment_html)
+    de 2 líneas antes y 2 después del line_number si está disponible.
+    """
+    tag = element.name
+    text_excerpt = element.get_text(strip=True)[:120]
+    evidence = str(element)[:300]
+    line_number = element.sourceline if hasattr(element, "sourceline") else "N/A"
+
+    snippet_str = ""
+    if line_number != "N/A" and html_lines:
+        try:
+            snippet_str = get_line_snippet(html_lines, int(line_number), context=2)
+        except ValueError:
+            pass
+
     return {
-        "tag": element.name,
-        "text": element.get_text(strip=True)[:120],
-        "evidence": str(element)[:300]
+        "tag": tag,
+        "text": text_excerpt,
+        "evidence": evidence,
+        "line_number": line_number,
+        "fragment_html": snippet_str
     }
 
 def format_incidence(inc):
+    elem_info = inc.get("element_info", {})
+    snippet = elem_info.get("fragment_html", "")
     return {
         "Title": inc.get("title"),
         "Steps": (
             f"1. Open the page: {inc.get('page_url')}\n"
-            "2. Inspect the text that appears to be a status message."
+            "2. Inspect the text that appears to be a status message.\n\n"
+            f"HTML snippet (around line {elem_info.get('line_number', 'N/A')}):\n"
+            f"{snippet}"
         ),
         "Bug Type": inc.get("type"),
         "Priority": inc.get("severity"),
@@ -37,11 +83,14 @@ def format_incidence(inc):
         "Suggested resolution(s)": inc.get("remediation"),
         "Failed checkpoint": inc.get("wcag_reference"),
         "User Impact": inc.get("impact"),
-        "Evidence [SS or Video]": inc.get("element_info", {}).get("evidence", "")
+        "Evidence [SS or Video]": elem_info.get("evidence", "")
     }
 
 def is_status_role(element):
-    """Revisa si el elemento o alguno de sus padres tiene un rol/status ARIA."""
+    """
+    Revisa si el elemento o alguno de sus padres tiene un rol/status ARIA
+    como role="status", role="alert", o aria-live="polite"/"assertive".
+    """
     role_attr = element.get("role", "")
     aria_live = element.get("aria-live", "")
 
@@ -50,7 +99,6 @@ def is_status_role(element):
     if aria_live in VALID_LIVE_VALUES:
         return True
 
-    # Verificar ancestros (subir en el árbol hasta body)
     parent = element.parent
     while parent and parent.name.lower() != "body":
         parent_role = parent.get("role", "")
@@ -63,17 +111,14 @@ def is_status_role(element):
 
 def run_all___4_1_3(html_content, page_url, excel="issue_report.xlsx"):
     """
-    - Busca fragmentos de texto (p, div, span, etc.) que contengan keywords
-      típicas de mensajes de estado (como "error", "success", "loading"...).
-    - Verifica si el elemento (o un ancestro) está marcado con role="status",
-      role="alert", aria-live="polite"/"assertive", etc.
-    - Si no se encuentra nada de eso => Incidencia.
+    Busca fragmentos de texto (p, div, span, etc.) con palabras clave de mensajes de estado.
+    Verifica si el elemento (o ancestro) está marcado con role="status", aria-live, etc.
+    Si no se encuentra => Incidencia.
     """
     soup = BeautifulSoup(html_content, "html.parser")
+    lines = get_html_lines(html_content)
     raw_incidences = []
 
-    # Buscar elementos de texto comunes
-    # Podrías ampliar a h1..h6 o strong, etc. si esperas mensajes ahí también
     possible_text_blocks = soup.find_all(["p", "div", "span", "li", "section"])
 
     for elem in possible_text_blocks:
@@ -81,7 +126,7 @@ def run_all___4_1_3(html_content, page_url, excel="issue_report.xlsx"):
 
         # Verificar si hay keywords
         if any(kw in text_lower for kw in POSSIBLE_STATUS_KEYWORDS):
-            # Chequear si ya está marcado con role= o aria-live=...
+            # Chequear si ya está marcado o ancestro con rol
             if not is_status_role(elem):
                 raw_incidences.append({
                     "title": "Status message is not marked up for assistive technologies",
@@ -101,10 +146,9 @@ def run_all___4_1_3(html_content, page_url, excel="issue_report.xlsx"):
                         "Screen reader users won't know an important status has changed without focusing the element."
                     ),
                     "page_url": page_url,
-                    "element_info": get_element_info(elem)
+                    "element_info": get_element_info(elem, html_lines=lines)
                 })
 
-    # Si no encontró incidencias
     formatted = [format_incidence(i) for i in raw_incidences]
     if not formatted:
         formatted.append({
